@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http'
 import { NgModule } from '@angular/core'
 import { BrowserModule } from '@angular/platform-browser'
 import { EffectsModule } from '@ngrx/effects'
@@ -11,6 +12,7 @@ import { eventFeatureSelector, eventReducer } from './store/event.reducer'
   declarations: [EventListComponent, EventComponent],
   imports: [
     BrowserModule,
+    HttpClientModule,
     StoreModule.forRoot({ [eventFeatureSelector]: eventReducer }),
     EffectsModule.forFeature([EventEffects])
   ],

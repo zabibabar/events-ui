@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { Observable } from 'rxjs'
 import { Group } from '../interfaces/group'
-import { Member } from '../interfaces/member.interface'
+import { Member } from '../interfaces/member'
 
 type GroupCreateDTO = Omit<Group, 'id'>
 type GroupUpdateDTO = Partial<GroupCreateDTO>
@@ -33,8 +33,8 @@ export class GroupApiService {
     return this.httpClient.put<Group>(`/groups/${groupId}`, groupUpdates)
   }
 
-  deleteGroup(groupId: string): Observable<Group> {
-    return this.httpClient.delete<Group>(`/groups/${groupId}`)
+  deleteGroup(groupId: string): Observable<void> {
+    return this.httpClient.delete<void>(`/groups/${groupId}`)
   }
 
   getGroupMembers(groupId: string): Observable<Member[]> {
