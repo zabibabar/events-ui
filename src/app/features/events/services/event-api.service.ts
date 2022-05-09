@@ -33,19 +33,19 @@ export class EventApiService {
     return this.httpClient.put<Event>(`/events/${eventId}`, EventUpdates)
   }
 
-  deleteEvent(eventId: string): Observable<Event> {
-    return this.httpClient.delete<Event>(`/events/${eventId}`)
+  deleteEvent(eventId: string): Observable<void> {
+    return this.httpClient.delete<void>(`/events/${eventId}`)
   }
 
   getEventAttendees(eventId: string): Observable<Attendee[]> {
     return this.httpClient.get<Attendee[]>(`/events/${eventId}/attendees`)
   }
 
-  addEventAttendees(eventId: string, userIds: string[]): Observable<Attendee[]> {
-    return this.httpClient.post<Attendee[]>(`/events/${eventId}/attendees`, userIds)
+  addEventAttendees(eventId: string, attendeeIds: string[]): Observable<Attendee[]> {
+    return this.httpClient.post<Attendee[]>(`/events/${eventId}/attendees`, attendeeIds)
   }
 
-  removeEventAttendee(eventId: string, userId: string): Observable<void> {
-    return this.httpClient.delete<void>(`/events/${eventId}/attendees/${userId}`)
+  removeEventAttendee(eventId: string, attendeeIds: string[]): Observable<void> {
+    return this.httpClient.delete<void>(`/events/${eventId}/attendees`, { body: attendeeIds })
   }
 }
