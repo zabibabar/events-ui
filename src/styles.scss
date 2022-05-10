@@ -1,1 +1,20 @@
-/* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+@use 'styles/theme.scss' as theme;
+@use 'styles/typography.scss' as type;
+
+@include mat.core(type.$typography);
+
+@include mat.all-component-themes(theme.$light-theme);
+
+.dark-theme {
+  @include mat.all-component-themes(theme.$dark-theme);
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: 'Poppins', 'Helvetica Neue', sans-serif;
+}
