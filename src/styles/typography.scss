@@ -3,7 +3,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap');
 
 $heading-font-family: "'Poppins', sans-serif";
-$typography: mat.define-typography-config(
+$typography: mat.define-legacy-typography-config(
   $display-4: mat.define-typography-level(112px, $font-family: $heading-font-family),
   $display-3: mat.define-typography-level(56px, $font-family: $heading-font-family),
   $display-2: mat.define-typography-level(45px, $font-family: $heading-font-family),
