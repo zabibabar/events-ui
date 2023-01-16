@@ -1,13 +1,12 @@
 @use '@angular/material' as mat;
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&display=swap');
-
 $heading-font-family: "'Poppins', sans-serif";
-$typography: mat.define-legacy-typography-config(
-  $display-4: mat.define-typography-level(112px, $font-family: $heading-font-family),
-  $display-3: mat.define-typography-level(56px, $font-family: $heading-font-family),
-  $display-2: mat.define-typography-level(45px, $font-family: $heading-font-family),
-  $display-1: mat.define-typography-level(34px, $font-family: $heading-font-family),
-  $headline: mat.define-typography-level(24px, $font-family: $heading-font-family),
-  $title: mat.define-typography-level(20px, $font-family: $heading-font-family)
+$typography: mat.define-typography-config(
+  $font-family: $heading-font-family,
+  $headline-1: mat.define-typography-level(112px),
+  $headline-2: mat.define-typography-level(56px),
+  $headline-3: mat.define-typography-level(45px),
+  $headline-4: mat.define-typography-level(34px),
+  $headline-5: mat.define-typography-level(24px),
+  $body-1: mat.define-typography-level(20px)
 );
