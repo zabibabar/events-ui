@@ -1,5 +1,5 @@
 <div [class.dark-theme]="isDark">
-  <mat-toolbar [color]="themeColor">
+  <!-- <mat-toolbar [color]="themeColor">
     <span>Events</span>
     <span class="example-spacer"></span>
 
@@ -33,10 +33,22 @@
         Accent
       </button>
     </mat-menu>
-  </mat-toolbar>
+  </mat-toolbar> -->
   <mat-sidenav-container class="example-container">
     <mat-sidenav #sidenav mode="side" opened>
-      <mat-nav-list> </mat-nav-list>
+      <div class="sidebar">
+        <div class="sidebar__header">
+          <mat-icon class="sidebar__header__logo">navigation</mat-icon>
+          <div class="sidebar__header__title">evntz</div>
+        </div>
+
+        <div class="sidebar__nav-list">
+          <a class="sidebar__nav-list__item" *ngFor="let item of navList">
+            <mat-icon class="sidebar__nav-list__item__icon">{{ item.icon }}</mat-icon>
+            <div class="sidebar__nav-list__item__label">{{ item.label }}</div>
+          </a>
+        </div>
+      </div>
     </mat-sidenav>
 
     <mat-sidenav-content>

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core'
 import { OverlayContainer } from '@angular/cdk/overlay'
+import { NavList } from '../../types/nav-List'
 
 @Component({
   selector: 'app-sidenav',
@@ -9,6 +10,13 @@ import { OverlayContainer } from '@angular/cdk/overlay'
 export class SidenavComponent {
   themeColor: 'primary' | 'accent' | 'warn' = 'primary'
   isDark = false
+  navList: NavList[] = [
+    { icon: 'home', label: 'Home' },
+    { icon: 'event', label: 'Events' },
+    { icon: 'groups', label: 'Groups' },
+    { icon: 'chat', label: 'Messages' }
+  ]
+
   constructor(private overlayContainer: OverlayContainer) {}
 
   toggleTheme(): void {
