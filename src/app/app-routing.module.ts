@@ -1,14 +1,24 @@
 import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
+import { HomePageComponent } from './pages/home-page/home-page.component'
 
 const routes: Routes = [
   {
-    path: 'events-page',
+    path: '',
+    component: HomePageComponent
+  },
+  {
+    path: 'groups',
+    loadChildren: () => import('./pages/groups-page/groups-page.module').then((m) => m.GroupsPageModule)
+  },
+  {
+    path: 'events',
     loadChildren: () => import('./pages/events-page/events-page.module').then((m) => m.EventsPageModule)
   },
   {
-    path: 'groups-page',
-    loadChildren: () => import('./pages/groups-page/groups-page.module').then((m) => m.GroupsPageModule)
+    path: '',
+    redirectTo: '',
+    pathMatch: 'full'
   }
 ]
 
