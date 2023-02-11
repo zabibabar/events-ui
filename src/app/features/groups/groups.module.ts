@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core'
-import { BrowserModule } from '@angular/platform-browser'
 
 import { GroupListComponent } from './components/group-list/group-list.component'
 import { GroupComponent } from './components/group/group.component'
@@ -8,15 +7,17 @@ import { StoreModule } from '@ngrx/store'
 import { EffectsModule } from '@ngrx/effects'
 import { GroupEffects } from './store/group.effects'
 import { groupFeatureSelector, groupReducer } from './store/group.reducer'
+import { CommonModule } from '@angular/common'
 
 @NgModule({
   declarations: [GroupListComponent, GroupComponent],
   imports: [
-    BrowserModule,
+    CommonModule,
     HttpClientModule,
-    StoreModule.forRoot({ [groupFeatureSelector]: groupReducer }),
+    StoreModule.forFeature(groupFeatureSelector, groupReducer),
     EffectsModule.forFeature([GroupEffects])
   ],
-  providers: []
+  providers: [],
+  exports: [GroupListComponent]
 })
 export class GroupsModule {}
