@@ -16,9 +16,8 @@ const routes: Routes = [
     loadChildren: () => import('./pages/events-page/events-page.module').then((m) => m.EventsPageModule)
   },
   {
-    path: '',
-    redirectTo: '',
-    pathMatch: 'full'
+    path: '**',
+    redirectTo: ''
   }
 ]
 

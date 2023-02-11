@@ -8,9 +8,9 @@ import { NavList } from '../../types/nav-list'
 })
 export class SidenavComponent {
   navList: NavList[] = [
-    { icon: 'home', label: 'Home' },
-    { icon: 'event', label: 'Events' },
-    { icon: 'groups', label: 'Groups' },
-    { icon: 'chat', label: 'Messages' }
+    { icon: 'home', label: 'Home', link: '/' },
+    { icon: 'event', label: 'Events', link: '/events' },
+    { icon: 'groups', label: 'Groups', link: '/groups' },
+    { icon: 'chat', label: 'Messages', link: '/messages' }
   ]
 }
