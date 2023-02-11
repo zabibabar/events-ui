@@ -8,7 +8,8 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "format-check": "prettier --debug-check",
-    "lint-check": "eslint"
+    "lint-check": "eslint",
+    "lint": "ng lint"
   },
   "lint-staged": {
     "**/*.{js,jsx,ts,tsx}": [
@@ -38,12 +39,18 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^15.1.1",
+    "@angular-eslint/builder": "15.2.1",
+    "@angular-eslint/eslint-plugin": "15.2.1",
+    "@angular-eslint/eslint-plugin-template": "15.2.1",
+    "@angular-eslint/schematics": "15.2.1",
+    "@angular-eslint/template-parser": "15.2.1",
     "@angular/cli": "^15.1.1",
     "@angular/compiler-cli": "^15.1.0",
     "@types/jasmine": "~3.10.0",
     "@types/node": "^12.11.1",
-    "@typescript-eslint/eslint-plugin": "^5.19.0",
-    "eslint": "8.13.0",
+    "@typescript-eslint/eslint-plugin": "5.48.2",
+    "@typescript-eslint/parser": "5.48.2",
+    "eslint": "^8.33.0",
     "eslint-config-next": "12.1.4",
     "eslint-config-prettier": "^8.5.0",
     "husky": "^7.0.0",
