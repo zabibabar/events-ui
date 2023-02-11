@@ -1,5 +1,5 @@
 import { Component } from '@angular/core'
-import { NavList } from '../../types/nav-List'
+import { NavList } from '../../types/nav-list'
 
 @Component({
   selector: 'app-sidenav',
