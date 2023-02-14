@@ -8,6 +8,7 @@ import { CoreModule } from './core/core.module'
 import { HomePageComponent } from './pages/home-page/home-page.component'
 import { EffectsModule } from '@ngrx/effects'
 import { StoreModule } from '@ngrx/store'
+import { StoreDevtoolsModule } from '@ngrx/store-devtools'
 
 @NgModule({
   declarations: [AppComponent, HomePageComponent],
@@ -17,7 +18,8 @@ import { StoreModule } from '@ngrx/store'
     BrowserAnimationsModule,
     CoreModule,
     StoreModule.forRoot(),
-    EffectsModule.forRoot([])
+    EffectsModule.forRoot(),
+    StoreDevtoolsModule.instrument()
   ],
   providers: [],
   bootstrap: [AppComponent]

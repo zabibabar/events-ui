@@ -1,76 +1,96 @@
 import { Injectable } from '@angular/core'
-import { Actions, createEffect, ofType } from '@ngrx/effects'
+import { Router } from '@angular/router'
+import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects'
 import { of } from 'rxjs'
-import { map, exhaustMap, catchError, tap, mergeMap } from 'rxjs/operators'
-import { UserApiService } from '../services/user-api.service'
-import * as UserActions from './user.actions'
+import { catchError, map, switchMap, tap } from 'rxjs/operators'
+import { UserAuthService } from '../services/user-auth.service'
+import { UserAuthActions } from './user.actions'
 
 @Injectable()
-export class UserEffects {
-  constructor(private actions$: Actions, private userApiService: UserApiService) {}
+export class UserAuthEffects implements OnInitEffects {
+  public readonly signIn$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(UserAuthActions.signIn),
+        switchMap((action) => this.userAuthService.loginWithRedirect({ target: action.returnUrl }))
+      ),
+    { dispatch: false }
+  )
 
-  fetchAllUsers$ = createEffect(() =>
+  public readonly signInCompleted$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(UserActions.fetchAllUsers),
-      tap({ next: UserActions.fetchAllUsersLoading }),
-      exhaustMap(() =>
-        this.userApiService.getAllUsers().pipe(
-          map((users) => UserActions.fetchAllUsersSuccess({ users })),
-          catchError((error) => of(UserActions.fetchAllUsersError({ error })))
+      ofType(UserAuthActions.signInCompleted),
+      switchMap(() =>
+        this.userAuthService.getUser().pipe(
+          map((user) => UserAuthActions.signedIn({ user })),
+          catchError((error) => of(UserAuthActions.signInFailed({ error })))
         )
       )
     )
   )
 
-  fetchUser$ = createEffect(() =>
+  public readonly redirect$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(UserAuthActions.signInCompleted),
+        switchMap((action) => this.router.navigateByUrl(action.state.target, { replaceUrl: true }))
+      ),
+    { dispatch: false }
+  )
+
+  public readonly signOut$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(UserActions.fetchUser),
-      tap({ next: UserActions.fetchUserLoading }),
-      exhaustMap(({ userId }) =>
-        this.userApiService.getUser(userId).pipe(
-          map((user) => UserActions.fetchUserSuccess({ user })),
-          catchError((error) => of(UserActions.fetchUserError({ error })))
-        )
-      )
+      ofType(UserAuthActions.signOut),
+      tap(() => {
+        try {
+          this.userAuthService.logout()
+          // eslint-disable-next-line no-empty
+        } catch {}
+      }),
+      map(() => UserAuthActions.signedOut())
     )
   )
 
-  createUser$ = createEffect(() =>
+  public readonly init$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(UserActions.createUser),
-      tap({ next: UserActions.createUserLoading }),
-      exhaustMap(({ user }) =>
-        this.userApiService.createUser(user).pipe(
-          map((user) => UserActions.createUserSuccess({ user })),
-          catchError((error) => of(UserActions.createUserError({ error })))
-        )
-      )
+      ofType(UserAuthActions.init),
+      switchMap(() => {
+        const params = window.location.search
+
+        if (params.includes('code=') && params.includes('state=')) {
+          return this.completeSignIn()
+        } else {
+          return this.userAuthService.isAuthenticated().pipe(
+            switchMap((auth) => this.getAuthResult(auth)),
+            catchError((error) => of(UserAuthActions.signInFailed({ error })))
+          )
+        }
+      })
     )
   )
 
-  updateUser$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(UserActions.updateUser),
-      tap({ next: UserActions.updateUserLoading }),
-      mergeMap(({ userId, user }) =>
-        this.userApiService.updateUser(userId, user).pipe(
-          map((user) => UserActions.updateUserSuccess({ user })),
-          catchError((error) => of(UserActions.updateUserError({ error })))
-        )
-      )
-    )
-  )
+  public constructor(
+    private readonly actions$: Actions,
+    private readonly userAuthService: UserAuthService,
+    private readonly router: Router
+  ) {}
 
-  deleteUser$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(UserActions.deleteUser),
-      tap({ next: UserActions.deleteUserLoading }),
-      mergeMap(({ userId }) =>
-        this.userApiService.deleteUser(userId).pipe(
-          map(() => UserActions.deleteUserSuccess({ userId })),
-          catchError((error) => of(UserActions.deleteUserError({ error })))
-        )
-      )
+  public ngrxOnInitEffects() {
+    return UserAuthActions.init()
+  }
+
+  private getAuthResult(auth: boolean) {
+    if (auth) {
+      return this.userAuthService.getUser().pipe(map((user) => UserAuthActions.signedIn({ user })))
+    } else {
+      return of(UserAuthActions.signedOut())
+    }
+  }
+
+  private completeSignIn() {
+    return this.userAuthService.handleRedirectCallback().pipe(
+      map((state) => UserAuthActions.signInCompleted({ state })),
+      catchError((error) => of(UserAuthActions.signInFailed({ error })))
     )
-  )
+  }
 }

@@ -1,11 +1,13 @@
-import { NgModule } from '@angular/core'
+import { ModuleWithProviders, NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { BrowserModule } from '@angular/platform-browser'
-import { HttpClientModule } from '@angular/common/http'
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { EffectsModule } from '@ngrx/effects'
 import { StoreModule } from '@ngrx/store'
-import { UserEffects } from '../users/store/user.effects'
-import { userFeatureSelector, userReducer } from '../users/store/user.reducer'
+import { UserAuthEffects } from '../users/store/user.effects'
+import { userFeatureSelector, userAuthReducer } from '../users/store/user.reducer'
+import { UserAuthConfig } from './interfaces/user-auth-config'
+import { JwtInterceptor } from './interceptors/jwt-interceptor'
 
 @NgModule({
   declarations: [],
@@ -13,8 +15,25 @@ import { userFeatureSelector, userReducer } from '../users/store/user.reducer'
     CommonModule,
     BrowserModule,
     HttpClientModule,
-    StoreModule.forRoot({ [userFeatureSelector]: userReducer }),
-    EffectsModule.forFeature([UserEffects])
+    StoreModule.forFeature(userFeatureSelector, userAuthReducer),
+    EffectsModule.forFeature([UserAuthEffects])
   ]
 })
-export class UsersModule {}
+export class UsersModule {
+  public static forRoot(config: UserAuthConfig): ModuleWithProviders<UsersModule> {
+    return {
+      ngModule: UsersModule,
+      providers: [
+        {
+          provide: UserAuthConfig,
+          useValue: config
+        },
+        {
+          provide: HTTP_INTERCEPTORS,
+          useClass: JwtInterceptor,
+          multi: true
+        }
+      ]
+    }
+  }
+}
