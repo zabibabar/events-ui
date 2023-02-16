@@ -9,16 +9,16 @@ import { getUser, isAuthenticated } from 'src/app/features/users/store/user.sele
   styleUrls: ['./login-button.component.scss']
 })
 export class LoginButtonComponent {
-  public user$ = this.store.pipe(getUser)
-  public isAuthenticated$ = this.store.pipe(isAuthenticated)
+  user$ = this.store.pipe(getUser)
+  isAuthenticated$ = this.store.pipe(isAuthenticated)
 
-  public constructor(private readonly store: Store) {}
+  constructor(private readonly store: Store) {}
 
-  public login() {
+  login() {
     this.store.dispatch(UserAuthActions.signIn({ returnUrl: '/' }))
   }
 
-  public logout() {
+  logout() {
     this.store.dispatch(UserAuthActions.signOut())
   }
 }

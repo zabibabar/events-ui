@@ -1,8 +1,7 @@
-<div *ngIf="user$ | async as user; else noAuth">
-  <p>Welcome {{ user?.name }}</p>
-  <button (click)="logout()">Logout</button>
+<div *ngIf="isAuthenticated$ | async; else noAuth">
+  <button mat-button (click)="logout()">Logout</button>
 </div>
 
 <ng-template #noAuth>
-  <button (click)="login()">Login</button>
+  <button mat-button (click)="login()">Login</button>
 </ng-template>

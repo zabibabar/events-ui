@@ -1,0 +1,5 @@
+<div class="toolbar">
+  <div class="toolbar__greeting" *ngIf="user$ | async as user">Hello, {{ user?.given_name }}</div>
+  <div class="flex-spacer"></div>
+  <app-login-button></app-login-button>
+</div>

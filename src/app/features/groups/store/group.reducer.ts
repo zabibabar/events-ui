@@ -11,7 +11,7 @@ export interface GroupStoreState extends EntityState<Group> {
   error: string | null
 }
 
-const adapter: EntityAdapter<Group> = createEntityAdapter<Group>({
+export const adapter: EntityAdapter<Group> = createEntityAdapter<Group>({
   selectId: (group: Group) => group.id
 })
 
