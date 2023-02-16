@@ -41,8 +41,8 @@ export class GroupApiService {
     return this.httpClient.get<Member[]>(`/groups/${groupId}/members`)
   }
 
-  addGroupMembers(groupId: string, userIds: string[]): Observable<Member[]> {
-    return this.httpClient.post<Member[]>(`/groups/${groupId}/members`, userIds)
+  addGroupMember(groupId: string, userId: string): Observable<Member[]> {
+    return this.httpClient.post<Member[]>(`/groups/${groupId}/members`, userId)
   }
 
   removeGroupMember(groupId: string, userId: string): Observable<void> {

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { Store } from '@ngrx/store'
-import { fetchAllGroups } from 'src/app/features/groups/store/group.actions'
+import { FetchAllGroupsActions } from 'src/app/features/groups/store/group.actions'
 
 @Component({
   selector: 'app-groups-page',
@@ -11,6 +11,6 @@ export class GroupsPageComponent implements OnInit {
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.store.dispatch(fetchAllGroups())
+    this.store.dispatch(FetchAllGroupsActions.fetchAllGroups())
   }
 }

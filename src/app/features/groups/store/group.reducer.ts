@@ -23,34 +23,43 @@ const initialState: GroupStoreState = adapter.getInitialState({
 
 export const groupReducer: ActionReducer<GroupStoreState, Action> = createReducer(
   initialState,
-  on(GroupActions.fetchAllGroupsLoading, (state): GroupStoreState => ({ ...state, loading: true })),
   on(
-    GroupActions.fetchAllGroupsSuccess,
+    GroupActions.FetchAllGroupsActions.fetchAllGroupsLoading,
+    (state): GroupStoreState => ({ ...state, loading: true })
+  ),
+  on(
+    GroupActions.FetchAllGroupsActions.fetchAllGroupsSuccess,
     (state, { groups }): GroupStoreState => adapter.upsertMany(groups, { ...state, error: null, loading: false })
   ),
-  on(GroupActions.fetchAllGroupsError, (state, { error }): GroupStoreState => ({ ...state, error, loading: false })),
-  on(GroupActions.fetchGroupLoading, (state): GroupStoreState => ({ ...state, loading: true })),
   on(
-    GroupActions.fetchGroupSuccess,
+    GroupActions.FetchAllGroupsActions.fetchAllGroupsError,
+    (state, { error }): GroupStoreState => ({ ...state, error, loading: false })
+  ),
+  on(GroupActions.CreateGroupActions.createGroupLoading, (state): GroupStoreState => ({ ...state, loading: true })),
+  on(
+    GroupActions.CreateGroupActions.createGroupSuccess,
     (state, { group }): GroupStoreState => adapter.upsertOne(group, { ...state, error: null, loading: false })
   ),
-  on(GroupActions.fetchGroupError, (state, { error }): GroupStoreState => ({ ...state, error, loading: false })),
-  on(GroupActions.createGroupLoading, (state): GroupStoreState => ({ ...state, loading: true })),
   on(
-    GroupActions.createGroupSuccess,
+    GroupActions.CreateGroupActions.createGroupError,
+    (state, { error }): GroupStoreState => ({ ...state, error, loading: false })
+  ),
+  on(GroupActions.UpdateGroupActions.updateGroupLoading, (state): GroupStoreState => ({ ...state, loading: true })),
+  on(
+    GroupActions.UpdateGroupActions.updateGroupSuccess,
     (state, { group }): GroupStoreState => adapter.upsertOne(group, { ...state, error: null, loading: false })
   ),
-  on(GroupActions.createGroupError, (state, { error }): GroupStoreState => ({ ...state, error, loading: false })),
-  on(GroupActions.updateGroupLoading, (state): GroupStoreState => ({ ...state, loading: true })),
   on(
-    GroupActions.updateGroupSuccess,
-    (state, { group }): GroupStoreState => adapter.upsertOne(group, { ...state, error: null, loading: false })
+    GroupActions.UpdateGroupActions.updateGroupError,
+    (state, { error }): GroupStoreState => ({ ...state, error, loading: false })
   ),
-  on(GroupActions.updateGroupError, (state, { error }): GroupStoreState => ({ ...state, error, loading: false })),
-  on(GroupActions.deleteGroupLoading, (state): GroupStoreState => ({ ...state, loading: true })),
+  on(GroupActions.DeleteGroupActions.deleteGroupLoading, (state): GroupStoreState => ({ ...state, loading: true })),
   on(
-    GroupActions.deleteGroupSuccess,
+    GroupActions.DeleteGroupActions.deleteGroupSuccess,
     (state, { groupId }): GroupStoreState => adapter.removeOne(groupId, { ...state, error: null, loading: false })
   ),
-  on(GroupActions.deleteGroupError, (state, { error }): GroupStoreState => ({ ...state, error, loading: false }))
+  on(
+    GroupActions.DeleteGroupActions.deleteGroupError,
+    (state, { error }): GroupStoreState => ({ ...state, error, loading: false })
+  )
 )

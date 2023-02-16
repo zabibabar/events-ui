@@ -1,0 +1,13 @@
+<h1 mat-dialog-title>Create New Group</h1>
+<div mat-dialog-content>
+  <form [formGroup]="groupCreateForm">
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" />
+    </mat-form-field>
+  </form>
+</div>
+<div mat-dialog-actions>
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-flat-button color="primary" (click)="onSubmit()" [disabled]="groupCreateForm.invalid">Create</button>
+</div>

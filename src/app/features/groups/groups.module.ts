@@ -12,14 +12,31 @@ import { GroupCreateButtonComponent } from './components/group-create-button/gro
 import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon'
 import { GroupHeaderComponent } from './components/group-header/group-header.component'
+import { GroupCreateFormComponent } from './components/group-create-form/group-create-form.component'
+import { MatFormFieldModule } from '@angular/material/form-field'
+import { MatDialogModule } from '@angular/material/dialog'
+import { MatInputModule } from '@angular/material/input'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 
 @NgModule({
-  declarations: [GroupListComponent, GroupComponent, GroupCreateButtonComponent, GroupHeaderComponent],
+  declarations: [
+    GroupListComponent,
+    GroupComponent,
+    GroupCreateButtonComponent,
+    GroupHeaderComponent,
+    GroupCreateFormComponent
+  ],
   imports: [
     CommonModule,
     HttpClientModule,
     MatButtonModule,
     MatIconModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDialogModule,
+    FormsModule,
+    ReactiveFormsModule,
     StoreModule.forFeature(groupFeatureSelector, groupReducer),
     EffectsModule.forFeature([GroupEffects])
   ],
