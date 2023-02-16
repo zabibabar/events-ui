@@ -6,6 +6,7 @@ import { MaterialModule } from '../shared/material/material.module'
 import { SidenavComponent } from './components/sidenav/sidenav.component'
 import { LoginButtonComponent } from './components/login-button/login-button.component'
 import { UsersModule } from '../features/users/users.module'
+import { ToolbarComponent } from './components/toolbar/toolbar.component'
 
 @NgModule({
   imports: [
@@ -16,10 +17,11 @@ import { UsersModule } from '../features/users/users.module'
     UsersModule.forRoot({
       domain: 'dev-r8n3bvy7.us.auth0.com',
       clientId: 'yS5sBO76hm6CsDgY9aQcXmxxQKs90Lba',
+      audience: 'https://events-api.demo.com',
       scope: 'openid profile email'
     })
   ],
-  declarations: [SidenavComponent, LoginButtonComponent],
+  declarations: [SidenavComponent, LoginButtonComponent, ToolbarComponent],
   exports: [SidenavComponent, LoginButtonComponent]
 })
 export class CoreModule {}

@@ -40,7 +40,7 @@ export class UserAuthService {
     return from(this.auth0.getUser()).pipe(filter((u): u is User => u !== undefined))
   }
 
-  public getAccessToken(): Observable<unknown> {
+  public getAccessToken(): Observable<string> {
     return from(this.auth0.getTokenSilently())
   }
 
