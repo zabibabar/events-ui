@@ -6,10 +6,6 @@
 @include mat.all-component-typographies(type.$typography);
 @include mat.all-component-themes(theme.$light-theme);
 
-.dark-theme {
-  @include mat.all-component-themes(theme.$dark-theme);
-}
-
 html,
 body {
   height: 100%;
@@ -17,4 +13,8 @@ body {
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
+}
+
+.flex-spacer {
+  flex-grow: 1;
 }
