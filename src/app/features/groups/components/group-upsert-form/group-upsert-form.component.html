@@ -1,4 +1,5 @@
-<h1 mat-dialog-title>Create New Group</h1>
+<h1 mat-dialog-title>{{ title }}</h1>
+
 <div mat-dialog-content>
   <form [formGroup]="groupCreateForm">
     <mat-form-field>
@@ -9,5 +10,7 @@
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onCancel()">Cancel</button>
-  <button mat-flat-button color="primary" (click)="onSubmit()" [disabled]="groupCreateForm.invalid">Create</button>
+  <button mat-flat-button color="primary" (click)="submit()" [disabled]="groupCreateForm.invalid">
+    {{ submitText }}
+  </button>
 </div>

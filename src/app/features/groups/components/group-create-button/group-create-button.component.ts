@@ -11,6 +11,6 @@ export class GroupCreateButtonComponent {
   constructor(private store: Store) {}
 
   openDialog(): void {
-    this.store.dispatch(CreateGroupActions.openDialog())
+    this.store.dispatch(CreateGroupActions.openCreateGroupDialog())
   }
 }

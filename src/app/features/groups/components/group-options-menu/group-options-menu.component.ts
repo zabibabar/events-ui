@@ -14,7 +14,7 @@ export class GroupOptionsMenuComponent {
   constructor(private store: Store) {}
 
   updateGroup(): void {
-    this.store.dispatch(UpdateGroupActions.openDialog({ group: this.group }))
+    this.store.dispatch(UpdateGroupActions.openUpdateGroupDialog({ groupId: this.group.id }))
   }
 
   deleteGroup(): void {

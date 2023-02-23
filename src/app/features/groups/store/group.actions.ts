@@ -1,4 +1,6 @@
-import { createActionGroup, emptyProps, props } from '@ngrx/store'
+import { createAction, createActionGroup, emptyProps, props } from '@ngrx/store'
+import { GroupCreateDTO } from '../dtos/group-create-dto'
+import { GroupUpdateDTO } from '../dtos/group-update-dto'
 import { Group } from '../interfaces/group'
 
 export const FetchAllGroupsActions = createActionGroup({
@@ -14,9 +16,8 @@ export const FetchAllGroupsActions = createActionGroup({
 export const CreateGroupActions = createActionGroup({
   source: 'Groups',
   events: {
-    'Open Dialog': emptyProps(),
-    'Close Dialog': emptyProps(),
-    'Create Group': props<{ name: string }>(),
+    'Open Create Group Dialog': emptyProps(),
+    'Create Group': props<{ group: GroupCreateDTO }>(),
     'Create Group Loading': emptyProps(),
     'Create Group Error': props<{ error: string }>(),
     'Create Group Success': props<{ group: Group }>()
@@ -26,9 +27,8 @@ export const CreateGroupActions = createActionGroup({
 export const UpdateGroupActions = createActionGroup({
   source: 'Groups',
   events: {
-    'Open Dialog': props<{ group: Group }>(),
-    'Close Dialog': emptyProps(),
-    'Update Group': props<{ groupId: string; name: string }>(),
+    'Open Update Group Dialog': props<{ groupId: string }>(),
+    'Update Group': props<{ groupId: string; group: GroupUpdateDTO }>(),
     'Update Group Loading': emptyProps(),
     'Update Group Error': props<{ error: string }>(),
     'Update Group Success': props<{ group: Group }>()
@@ -44,3 +44,5 @@ export const DeleteGroupActions = createActionGroup({
     'Delete Group Success': props<{ groupId: string }>()
   }
 })
+
+export const closeUpsertFormDialog = createAction('[Groups] Close Upsert Form Dialog')
