@@ -68,7 +68,7 @@ export class GroupEffects {
   openGroupCreateFormDialog$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(GroupActions.CreateGroupFormDialogActions.openDialog),
+        ofType(GroupActions.CreateGroupActions.openDialog),
         tap(() => (this.groupCreateFormDialogRef = this.dialog.open(GroupCreateFormComponent)))
       ),
     { dispatch: false }
@@ -77,7 +77,7 @@ export class GroupEffects {
   closeGroupCreateFormDialog$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(GroupActions.CreateGroupFormDialogActions.closeDialog),
+        ofType(GroupActions.CreateGroupActions.closeDialog),
         tap(() => this.groupCreateFormDialogRef.close())
       ),
     { dispatch: false }

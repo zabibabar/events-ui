@@ -1,7 +1,11 @@
-<div class="group">
+<div class="group mat-elevation-z1">
   <div class="group__picture"></div>
   <div class="group__desc">
     <div>{{ group.name }}</div>
     <div>{{ group.members?.length ?? 0 }} members</div>
+  </div>
+
+  <div class="group__options">
+    <app-group-options-menu [group]="group"></app-group-options-menu>
   </div>
 </div>

@@ -14,6 +14,8 @@ export const FetchAllGroupsActions = createActionGroup({
 export const CreateGroupActions = createActionGroup({
   source: 'Groups',
   events: {
+    'Open Dialog': emptyProps(),
+    'Close Dialog': emptyProps(),
     'Create Group': props<{ name: string }>(),
     'Create Group Loading': emptyProps(),
     'Create Group Error': props<{ error: string }>(),
@@ -24,6 +26,8 @@ export const CreateGroupActions = createActionGroup({
 export const UpdateGroupActions = createActionGroup({
   source: 'Groups',
   events: {
+    'Open Dialog': props<{ group: Group }>(),
+    'Close Dialog': emptyProps(),
     'Update Group': props<{ groupId: string; name: string }>(),
     'Update Group Loading': emptyProps(),
     'Update Group Error': props<{ error: string }>(),
@@ -38,13 +42,5 @@ export const DeleteGroupActions = createActionGroup({
     'Delete Group Loading': emptyProps(),
     'Delete Group Error': props<{ error: string }>(),
     'Delete Group Success': props<{ groupId: string }>()
-  }
-})
-
-export const CreateGroupFormDialogActions = createActionGroup({
-  source: 'Groups',
-  events: {
-    'Open Dialog': emptyProps(),
-    'Close Dialog': emptyProps()
   }
 })

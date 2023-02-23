@@ -1,6 +1,6 @@
 import { Component } from '@angular/core'
 import { Store } from '@ngrx/store'
-import { CreateGroupFormDialogActions } from '../../store/group.actions'
+import { CreateGroupActions } from '../../store/group.actions'
 
 @Component({
   selector: 'app-group-create-button',
@@ -11,6 +11,6 @@ export class GroupCreateButtonComponent {
   constructor(private store: Store) {}
 
   openDialog(): void {
-    this.store.dispatch(CreateGroupFormDialogActions.openDialog())
+    this.store.dispatch(CreateGroupActions.openDialog())
   }
 }

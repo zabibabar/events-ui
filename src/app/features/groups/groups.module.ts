@@ -17,6 +17,8 @@ import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatDialogModule } from '@angular/material/dialog'
 import { MatInputModule } from '@angular/material/input'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { GroupOptionsMenuComponent } from './components/group-options-menu/group-options-menu.component'
+import { MatMenuModule } from '@angular/material/menu'
 
 @NgModule({
   declarations: [
@@ -24,7 +26,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
     GroupComponent,
     GroupCreateButtonComponent,
     GroupHeaderComponent,
-    GroupCreateFormComponent
+    GroupCreateFormComponent,
+    GroupOptionsMenuComponent
   ],
   imports: [
     CommonModule,
@@ -35,6 +38,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
     MatFormFieldModule,
     MatInputModule,
     MatDialogModule,
+    MatMenuModule,
     FormsModule,
     ReactiveFormsModule,
     StoreModule.forFeature(groupFeatureSelector, groupReducer),

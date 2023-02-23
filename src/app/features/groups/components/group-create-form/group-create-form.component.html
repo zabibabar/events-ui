@@ -8,6 +8,6 @@
   </form>
 </div>
 <div mat-dialog-actions>
-  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button (click)="onCancel()">Cancel</button>
   <button mat-flat-button color="primary" (click)="onSubmit()" [disabled]="groupCreateForm.invalid">Create</button>
 </div>

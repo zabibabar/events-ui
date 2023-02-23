@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { Store } from '@ngrx/store'
-import { CreateGroupActions, CreateGroupFormDialogActions } from '../../store/group.actions'
+import { CreateGroupActions } from '../../store/group.actions'
 
 @Component({
   selector: 'app-group-create-form',
@@ -24,6 +24,10 @@ export class GroupCreateFormComponent implements OnInit {
   onSubmit(): void {
     const { name } = this.groupCreateForm.value
     this.store.dispatch(CreateGroupActions.createGroup({ name: name as string }))
-    this.store.dispatch(CreateGroupFormDialogActions.closeDialog())
+    this.store.dispatch(CreateGroupActions.closeDialog())
+  }
+
+  onCancel(): void {
+    this.store.dispatch(CreateGroupActions.closeDialog())
   }
 }
