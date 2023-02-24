@@ -1,1 +1,11 @@
-<p>event works!</p>
+<div class="event mat-elevation-z1">
+  <div class="event__picture"></div>
+  <div class="event__desc">
+    <div>{{ event.name }}</div>
+    <div>{{ event.attendees.length }} members</div>
+  </div>
+
+  <div class="event__options">
+    <app-event-options-menu [event]="event"></app-event-options-menu>
+  </div>
+</div>

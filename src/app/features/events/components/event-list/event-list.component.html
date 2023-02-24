@@ -1,1 +1,3 @@
-<p>event-list works!</p>
+<div class="event-list">
+  <app-event *ngFor="let event of events$ | async; trackBy: eventTrackBy" [event]="event"></app-event>
+</div>

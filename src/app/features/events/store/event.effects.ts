@@ -1,35 +1,35 @@
 import { Injectable } from '@angular/core'
-import { Actions, createEffect, ofType } from '@ngrx/effects'
+import { MatDialog, MatDialogRef } from '@angular/material/dialog'
+import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects'
+import { Store } from '@ngrx/store'
 import { of } from 'rxjs'
 import { map, exhaustMap, catchError, tap, mergeMap } from 'rxjs/operators'
+import { EventUpsertFormComponent } from '../components/event-upsert-form/event-upsert-form.component'
+import { EventCreateDTO } from '../dtos/event-create-dto'
+import { EventUpsertDialogData } from '../interfaces/event-upsert-dialog-data'
 import { EventApiService } from '../services/event-api.service'
 import * as EventActions from './event.actions'
+import { selectEventById } from './event.selectors'
 
 @Injectable()
 export class EventEffects {
-  constructor(private actions$: Actions, private eventApiService: EventApiService) {}
+  private eventUpsertFormDialogRef: MatDialogRef<EventUpsertFormComponent>
+
+  constructor(
+    private actions$: Actions,
+    private store: Store,
+    private eventApiService: EventApiService,
+    private dialog: MatDialog
+  ) {}
 
   fetchAllEvents$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(EventActions.fetchAllEvents),
-      tap({ next: EventActions.fetchAllEventsLoading }),
+      ofType(EventActions.FetchAllEventsActions.fetchAllEvents),
+      tap({ next: EventActions.FetchAllEventsActions.fetchAllEventsLoading }),
       exhaustMap(() =>
         this.eventApiService.getAllEvents().pipe(
-          map((events) => EventActions.fetchAllEventsSuccess({ events })),
-          catchError((error) => of(EventActions.fetchAllEventsError({ error })))
-        )
-      )
-    )
-  )
-
-  fetchEvent$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(EventActions.fetchEvent),
-      tap({ next: EventActions.fetchEventLoading }),
-      exhaustMap(({ eventId }) =>
-        this.eventApiService.getEvent(eventId).pipe(
-          map((event) => EventActions.fetchEventSuccess({ event })),
-          catchError((error) => of(EventActions.fetchEventError({ error })))
+          map((events) => EventActions.FetchAllEventsActions.fetchAllEventsSuccess({ events })),
+          catchError((error) => of(EventActions.FetchAllEventsActions.fetchAllEventsError({ error })))
         )
       )
     )
@@ -37,12 +37,12 @@ export class EventEffects {
 
   createEvent$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(EventActions.createEvent),
-      tap({ next: EventActions.createEventLoading }),
+      ofType(EventActions.CreateEventActions.createEvent),
+      tap({ next: EventActions.CreateEventActions.createEventLoading }),
       exhaustMap(({ event }) =>
         this.eventApiService.createEvent(event).pipe(
-          map((event) => EventActions.createEventSuccess({ event })),
-          catchError((error) => of(EventActions.createEventError({ error })))
+          map((event) => EventActions.CreateEventActions.createEventSuccess({ event })),
+          catchError((error) => of(EventActions.CreateEventActions.createEventError({ error })))
         )
       )
     )
@@ -50,12 +50,12 @@ export class EventEffects {
 
   updateEvent$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(EventActions.updateEvent),
-      tap({ next: EventActions.updateEventLoading }),
+      ofType(EventActions.UpdateEventActions.updateEvent),
+      tap({ next: EventActions.UpdateEventActions.updateEventLoading }),
       mergeMap(({ eventId, event }) =>
         this.eventApiService.updateEvent(eventId, event).pipe(
-          map((event) => EventActions.updateEventSuccess({ event })),
-          catchError((error) => of(EventActions.updateEventError({ error })))
+          map((event) => EventActions.UpdateEventActions.updateEventSuccess({ event })),
+          catchError((error) => of(EventActions.UpdateEventActions.updateEventError({ error })))
         )
       )
     )
@@ -63,40 +63,69 @@ export class EventEffects {
 
   deleteEvent$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(EventActions.deleteEvent),
-      tap({ next: EventActions.deleteEventLoading }),
+      ofType(EventActions.DeleteEventActions.deleteEvent),
+      tap({ next: EventActions.DeleteEventActions.deleteEventLoading }),
       mergeMap(({ eventId }) =>
         this.eventApiService.deleteEvent(eventId).pipe(
-          map(() => EventActions.deleteEventSuccess({ eventId })),
-          catchError((error) => of(EventActions.deleteEventError({ error })))
+          map(() => EventActions.DeleteEventActions.deleteEventSuccess({ eventId })),
+          catchError((error) => of(EventActions.DeleteEventActions.deleteEventError({ error })))
         )
       )
     )
   )
 
-  addAttendees$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(EventActions.addAttendees),
-      tap({ next: EventActions.addAttendeesLoading }),
-      mergeMap(({ eventId, attendeeIds }) =>
-        this.eventApiService.addEventAttendees(eventId, attendeeIds).pipe(
-          map((attendees) => EventActions.addAttendeesSuccess({ attendees })),
-          catchError((error) => of(EventActions.addAttendeesError({ error })))
+  openEventCreateFormDialog$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(EventActions.CreateEventActions.openCreateEventDialog),
+        tap(
+          () =>
+            (this.eventUpsertFormDialogRef = this.dialog.open<EventUpsertFormComponent, EventUpsertDialogData>(
+              EventUpsertFormComponent,
+              {
+                data: {
+                  title: 'Create New Event',
+                  submitText: 'Create',
+                  onSubmit: (event) =>
+                    this.store.dispatch(EventActions.CreateEventActions.createEvent({ event: event as EventCreateDTO }))
+                }
+              }
+            ))
         )
-      )
-    )
+      ),
+    { dispatch: false }
   )
 
-  removeAttendees$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(EventActions.removeAttendees),
-      tap({ next: EventActions.removeAttendeesLoading }),
-      mergeMap(({ eventId, attendeeIds }) =>
-        this.eventApiService.removeEventAttendee(eventId, attendeeIds).pipe(
-          map(() => EventActions.removeAttendeesSuccess({ attendeeIds })),
-          catchError((error) => of(EventActions.removeAttendeesError({ error })))
+  openEventUpdateFormDialog$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(EventActions.UpdateEventActions.openUpdateEventDialog),
+        concatLatestFrom(({ eventId }) => this.store.select(selectEventById({ eventId }))),
+        tap(
+          ([{ eventId }, event]) =>
+            (this.eventUpsertFormDialogRef = this.dialog.open<EventUpsertFormComponent, EventUpsertDialogData>(
+              EventUpsertFormComponent,
+              {
+                data: {
+                  event,
+                  title: 'Edit Event',
+                  submitText: 'Save Changes',
+                  onSubmit: (event) =>
+                    this.store.dispatch(EventActions.UpdateEventActions.updateEvent({ eventId, event: event }))
+                }
+              }
+            ))
         )
-      )
-    )
+      ),
+    { dispatch: false }
+  )
+
+  closeEventUpsertFormDialog$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(EventActions.closeUpsertFormDialog),
+        tap(() => this.eventUpsertFormDialogRef.close())
+      ),
+    { dispatch: false }
   )
 }

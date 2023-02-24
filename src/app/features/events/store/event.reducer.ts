@@ -11,7 +11,7 @@ export interface EventStoreState extends EntityState<Event> {
   error: string | null
 }
 
-const adapter: EntityAdapter<Event> = createEntityAdapter<Event>({
+export const adapter: EntityAdapter<Event> = createEntityAdapter<Event>({
   selectId: (event: Event) => event.id
 })
 
@@ -23,34 +23,43 @@ const initialState: EventStoreState = adapter.getInitialState({
 
 export const eventReducer: ActionReducer<EventStoreState, Action> = createReducer(
   initialState,
-  on(EventActions.fetchAllEventsLoading, (state): EventStoreState => ({ ...state, loading: true })),
   on(
-    EventActions.fetchAllEventsSuccess,
+    EventActions.FetchAllEventsActions.fetchAllEventsLoading,
+    (state): EventStoreState => ({ ...state, loading: true })
+  ),
+  on(
+    EventActions.FetchAllEventsActions.fetchAllEventsSuccess,
     (state, { events }): EventStoreState => adapter.upsertMany(events, { ...state, error: null, loading: false })
   ),
-  on(EventActions.fetchAllEventsError, (state, { error }): EventStoreState => ({ ...state, error, loading: false })),
-  on(EventActions.fetchEventLoading, (state): EventStoreState => ({ ...state, loading: true })),
   on(
-    EventActions.fetchEventSuccess,
+    EventActions.FetchAllEventsActions.fetchAllEventsError,
+    (state, { error }): EventStoreState => ({ ...state, error, loading: false })
+  ),
+  on(EventActions.CreateEventActions.createEventLoading, (state): EventStoreState => ({ ...state, loading: true })),
+  on(
+    EventActions.CreateEventActions.createEventSuccess,
     (state, { event }): EventStoreState => adapter.upsertOne(event, { ...state, error: null, loading: false })
   ),
-  on(EventActions.fetchEventError, (state, { error }): EventStoreState => ({ ...state, error, loading: false })),
-  on(EventActions.createEventLoading, (state): EventStoreState => ({ ...state, loading: true })),
   on(
-    EventActions.createEventSuccess,
+    EventActions.CreateEventActions.createEventError,
+    (state, { error }): EventStoreState => ({ ...state, error, loading: false })
+  ),
+  on(EventActions.UpdateEventActions.updateEventLoading, (state): EventStoreState => ({ ...state, loading: true })),
+  on(
+    EventActions.UpdateEventActions.updateEventSuccess,
     (state, { event }): EventStoreState => adapter.upsertOne(event, { ...state, error: null, loading: false })
   ),
-  on(EventActions.createEventError, (state, { error }): EventStoreState => ({ ...state, error, loading: false })),
-  on(EventActions.updateEventLoading, (state): EventStoreState => ({ ...state, loading: true })),
   on(
-    EventActions.updateEventSuccess,
-    (state, { event }): EventStoreState => adapter.upsertOne(event, { ...state, error: null, loading: false })
+    EventActions.UpdateEventActions.updateEventError,
+    (state, { error }): EventStoreState => ({ ...state, error, loading: false })
   ),
-  on(EventActions.updateEventError, (state, { error }): EventStoreState => ({ ...state, error, loading: false })),
-  on(EventActions.deleteEventLoading, (state): EventStoreState => ({ ...state, loading: true })),
+  on(EventActions.DeleteEventActions.deleteEventLoading, (state): EventStoreState => ({ ...state, loading: true })),
   on(
-    EventActions.deleteEventSuccess,
+    EventActions.DeleteEventActions.deleteEventSuccess,
     (state, { eventId }): EventStoreState => adapter.removeOne(eventId, { ...state, error: null, loading: false })
   ),
-  on(EventActions.deleteEventError, (state, { error }): EventStoreState => ({ ...state, error, loading: false }))
+  on(
+    EventActions.DeleteEventActions.deleteEventError,
+    (state, { error }): EventStoreState => ({ ...state, error, loading: false })
+  )
 )

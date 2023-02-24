@@ -1,0 +1,29 @@
+.event {
+  width: 240px;
+  border-radius: 4px;
+  height: 176px;
+  background: white;
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+
+  &__picture {
+    height: 96px;
+    background-color: #e0e0e0;
+  }
+
+  &__desc {
+    padding: 16px;
+  }
+
+  &__options {
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
+
+  &:hover {
+    transition: transform 0.2s;
+    transform: scale(1.02);
+  }
+}

@@ -2,12 +2,12 @@ import { Attendee } from './attendee'
 
 export interface Event {
   id: string
-  group: string
+  event: string
   name: string
   timeStart: Date
   timeEnd: Date
   description?: string
-  attendees?: Attendee[]
+  attendees: Attendee[]
   address: string
   isRemote?: boolean
   hasPot?: boolean
