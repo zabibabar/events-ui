@@ -1,0 +1,35 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@mixin color($theme) {
+  $color-config: mat.get-color-config($theme);
+  $primary-palette: map.get($color-config, 'primary');
+  $foreground-palette: map.get($color-config, 'foreground');
+
+  .sidebar {
+    &__nav-list {
+      &__item {
+        color: mat.get-color-from-palette($foreground-palette, 'text');
+
+        &:hover {
+          background: mat.get-color-from-palette($primary-palette, 'lighter');
+          color: mat.get-color-from-palette($primary-palette, 'lighter-contrast');
+        }
+      }
+    }
+  }
+}
+
+@mixin typography($typography-config) {
+}
+
+@mixin theme($theme, $typography-config) {
+  $color-config: mat.get-color-config($theme);
+  @if $color-config != null {
+    @include color($theme);
+  }
+
+  @if $typography-config != null {
+    @include typography($typography-config);
+  }
+}

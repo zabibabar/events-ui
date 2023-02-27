@@ -1,14 +1,17 @@
 @use '@angular/material' as mat;
-@use 'styles/light-theme.scss' as light-theme;
-@use 'styles/dark-theme.scss' as dark-theme;
+@use 'styles/themes/light-theme.scss' as light-theme;
+@use 'styles/themes/dark-theme.scss' as dark-theme;
 @use 'styles/typography.scss' as type;
+@use './styles/components' as components;
 
 @include mat.core();
 @include mat.all-component-typographies(type.$typography);
 @include mat.all-component-themes(light-theme.$theme);
+@include components.theme(light-theme.$theme, type.$typography, light-theme.$variants);
 
 .dark-theme {
   @include mat.all-component-themes(dark-theme.$theme);
+  @include components.theme(dark-theme.$theme, type.$typography, dark-theme.$variants);
 }
 
 html,
