@@ -1,12 +1,86 @@
 @use '@angular/material' as mat;
 
-$heading-font-family: "'Poppins', sans-serif";
+$font: "'Poppins', sans-serif";
 $typography: mat.define-typography-config(
-  $font-family: $heading-font-family,
-  $headline-1: mat.define-typography-level(112px),
-  $headline-2: mat.define-typography-level(56px),
-  $headline-3: mat.define-typography-level(45px),
-  $headline-4: mat.define-typography-level(34px),
-  $headline-5: mat.define-typography-level(24px),
-  $body-1: mat.define-typography-level(20px)
+  $font-family: $font,
+  $headline-1:
+    mat.define-typography-level(
+      $font-family: $font,
+      $font-weight: 500,
+      $font-size: 35px,
+      $line-height: 40px,
+      $letter-spacing: -0.01em
+    ),
+  $headline-2:
+    mat.define-typography-level(
+      $font-family: $font,
+      $font-weight: 600,
+      $font-size: 29px,
+      $line-height: 32px,
+      $letter-spacing: -0.01em
+    ),
+  $headline-5:
+    mat.define-typography-level(
+      $font-family: $font,
+      $font-weight: 500,
+      $font-size: 24px,
+      $line-height: 32px,
+      $letter-spacing: -0.01em
+    ),
+  $headline-6:
+    mat.define-typography-level(
+      $font-family: $font,
+      $font-weight: 500,
+      $font-size: 20px,
+      $line-height: 24px,
+      $letter-spacing: -0.008em
+    ),
+  $subtitle-1:
+    mat.define-typography-level(
+      $font-family: $font,
+      $font-weight: 600,
+      $font-size: 16px,
+      $line-height: 24px,
+      $letter-spacing: -0.006em
+    ),
+  $subtitle-2:
+    mat.define-typography-level(
+      $font-family: $font,
+      $font-weight: 400,
+      $font-size: 16px,
+      $line-height: 24px,
+      $letter-spacing: -0.006em
+    ),
+  $body-1:
+    mat.define-typography-level(
+      $font-family: $font,
+      $font-weight: 600,
+      $font-size: 14px,
+      $line-height: 16px,
+      $letter-spacing: -0.003em
+    ),
+  $body-2:
+    mat.define-typography-level(
+      $font-family: $font,
+      $font-weight: 400,
+      $font-size: 14px,
+      $line-height: 24px,
+      $letter-spacing: -0.003em
+    ),
+  $button:
+    mat.define-typography-level(
+      $font-family: $font,
+      $font-weight: 500,
+      $font-size: 14px,
+      $line-height: 14px,
+      $letter-spacing: 0em
+    ),
+  $caption:
+    mat.define-typography-level(
+      $font-family: $font,
+      $font-weight: 400,
+      $font-size: 12px,
+      $line-height: 16px,
+      $letter-spacing: 0em
+    )
 );

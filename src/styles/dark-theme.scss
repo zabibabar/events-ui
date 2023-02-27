@@ -1,0 +1,18 @@
+@use '@angular/material' as mat;
+@use 'typography.scss' as type;
+
+// Dark theme
+$primary: mat.define-palette(mat.$blue-grey-palette);
+$accent: mat.define-palette(mat.$amber-palette, A200, A100, A400);
+$warn: mat.define-palette(mat.$deep-orange-palette);
+
+$theme: mat.define-dark-theme(
+  (
+    color: (
+      primary: $primary,
+      accent: $accent,
+      warn: $warn
+    ),
+    typography: type.$typography
+  )
+);

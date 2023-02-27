@@ -1,15 +1,21 @@
 @use '@angular/material' as mat;
-@use 'styles/theme.scss' as theme;
+@use 'styles/light-theme.scss' as light-theme;
+@use 'styles/dark-theme.scss' as dark-theme;
 @use 'styles/typography.scss' as type;
 
 @include mat.core();
 @include mat.all-component-typographies(type.$typography);
-@include mat.all-component-themes(theme.$light-theme);
+@include mat.all-component-themes(light-theme.$theme);
+
+.dark-theme {
+  @include mat.all-component-themes(dark-theme.$theme);
+}
 
 html,
 body {
   height: 100%;
 }
+
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
@@ -17,4 +23,22 @@ body {
 
 .flex-spacer {
   flex-grow: 1;
+}
+
+.mat-typography {
+  .mat-headline-1,
+  .mat-headline-2,
+  .mat-headline-5,
+  .mat-headline-6,
+  .mat-subtitle-1,
+  .mat-subtitle-2,
+  .mat-body-1,
+  .mat-body-2,
+  .mat-caption {
+    margin: 0;
+  }
+}
+
+.secondary-text-color {
+  opacity: 0.74;
 }

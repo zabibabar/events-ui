@@ -9,7 +9,8 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component'
 import { MatButtonModule } from '@angular/material/button'
 import { MatSidenavModule } from '@angular/material/sidenav'
 import { MatIconModule } from '@angular/material/icon'
-import { MatDividerModule } from '@angular/material/divider'
+import { MatDividerModule } from '@angular/material/divider';
+import { ThemeToggleComponent } from './components/theme-toggle/theme-toggle.component'
 
 @NgModule({
   imports: [
@@ -27,7 +28,7 @@ import { MatDividerModule } from '@angular/material/divider'
       scope: 'openid profile email'
     })
   ],
-  declarations: [SidenavComponent, LoginButtonComponent, ToolbarComponent],
+  declarations: [SidenavComponent, LoginButtonComponent, ToolbarComponent, ThemeToggleComponent],
   exports: [SidenavComponent, LoginButtonComponent]
 })
 export class CoreModule {}
