@@ -1,0 +1,51 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@mixin color($theme) {
+  $color-config: mat.get-color-config($theme);
+  $primary-palette: map.get($color-config, 'primary');
+  $foreground-palette: map.get($color-config, 'foreground');
+  $background-palette: map.get($color-config, 'background');
+
+  .event {
+    &__picture {
+      background-color: mat.get-color-from-palette($background-palette, status-bar);
+    }
+
+    &__body {
+      background-color: mat.get-color-from-palette($background-palette, card);
+
+      &__header {
+        &__time {
+          color: mat.get-color-from-palette($primary-palette, 'default');
+        }
+      }
+
+      &__details {
+        color: mat.get-color-from-palette($foreground-palette, secondary-text);
+      }
+
+      &__going {
+        color: mat.get-color-from-palette($foreground-palette, secondary-text);
+      }
+    }
+
+    &__options {
+      color: mat.get-color-from-palette($foreground-palette, secondary-text);
+    }
+  }
+}
+
+@mixin typography($typography-config) {
+}
+
+@mixin theme($theme, $typography-config) {
+  $color-config: mat.get-color-config($theme);
+  @if $color-config != null {
+    @include color($theme);
+  }
+
+  @if $typography-config != null {
+    @include typography($typography-config);
+  }
+}

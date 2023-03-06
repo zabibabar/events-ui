@@ -2,7 +2,7 @@ import { Attendee } from './attendee'
 
 export interface Event {
   id: string
-  event: string
+  group: string
   name: string
   timeStart: Date
   timeEnd: Date

@@ -1,5 +1,6 @@
 .group-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 24px;
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 256px), 1fr));
+  grid-template-rows: auto;
 }
