@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core'
+import { NgModule, isDevMode } from '@angular/core'
 import { BrowserModule } from '@angular/platform-browser'
 
 import { AppRoutingModule } from './app-routing.module'
@@ -8,7 +8,8 @@ import { CoreModule } from './core/core.module'
 import { EffectsModule } from '@ngrx/effects'
 import { StoreModule } from '@ngrx/store'
 import { StoreDevtoolsModule } from '@ngrx/store-devtools'
-import { MatNativeDateModule } from '@angular/material/core'
+import { MatNativeDateModule } from '@angular/material/core';
+import { StoreRouterConnectingModule } from '@ngrx/router-store'
 
 @NgModule({
   declarations: [AppComponent],
@@ -18,9 +19,10 @@ import { MatNativeDateModule } from '@angular/material/core'
     BrowserAnimationsModule,
     CoreModule,
     MatNativeDateModule,
-    StoreModule.forRoot(),
     EffectsModule.forRoot(),
-    StoreDevtoolsModule.instrument()
+    StoreModule.forRoot({}, {}),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
+    StoreRouterConnectingModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
