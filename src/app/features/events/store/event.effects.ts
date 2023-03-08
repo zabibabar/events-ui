@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core'
-import { MatDialog, MatDialogRef } from '@angular/material/dialog'
+import { MatDialogRef } from '@angular/material/dialog'
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects'
 import { Store } from '@ngrx/store'
 import { of } from 'rxjs'
 import { map, exhaustMap, catchError, tap, mergeMap } from 'rxjs/operators'
+import { DialogService } from 'src/app/shared/dialog/dialog.service'
 import { EventUpsertFormComponent } from '../components/event-upsert-form/event-upsert-form.component'
 import { EventCreateDTO } from '../dtos/event-create-dto'
 import { EventUpsertDialogData } from '../interfaces/event-upsert-dialog-data'
@@ -19,7 +20,7 @@ export class EventEffects {
     private actions$: Actions,
     private store: Store,
     private eventApiService: EventApiService,
-    private dialog: MatDialog
+    private dialog: DialogService
   ) {}
 
   fetchAllEvents$ = createEffect(() =>

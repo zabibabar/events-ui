@@ -19,6 +19,8 @@ import { MatInputModule } from '@angular/material/input'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { GroupOptionsMenuComponent } from './components/group-options-menu/group-options-menu.component'
 import { MatMenuModule } from '@angular/material/menu'
+import { DialogFormModule } from 'src/app/shared/dialog-form/dialog-form.module'
+import { DialogModule } from 'src/app/shared/dialog/dialog.module'
 
 @NgModule({
   declarations: [
@@ -40,6 +42,8 @@ import { MatMenuModule } from '@angular/material/menu'
     MatDialogModule,
     MatMenuModule,
     FormsModule,
+    DialogFormModule,
+    DialogModule,
     ReactiveFormsModule,
     StoreModule.forFeature(groupFeatureSelector, groupReducer),
     EffectsModule.forFeature([GroupEffects])

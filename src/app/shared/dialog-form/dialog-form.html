@@ -1,0 +1,10 @@
+<div class="dialog-form">
+  <div class="dialog-form__header">
+    <ng-content select="dialog-form-title, [dialog-form-title]"></ng-content>
+  </div>
+
+  <mat-divider></mat-divider>
+  <ng-content select="dialog-form-body, [dialog-form-body]"></ng-content>
+  <mat-divider></mat-divider>
+  <ng-content select="dialog-form-footer, [dialog-form-footer]"></ng-content>
+</div>

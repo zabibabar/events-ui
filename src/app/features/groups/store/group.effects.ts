@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core'
-import { MatDialog, MatDialogRef } from '@angular/material/dialog'
+import { MatDialogRef } from '@angular/material/dialog'
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects'
 import { Store } from '@ngrx/store'
 import { of } from 'rxjs'
 import { map, exhaustMap, catchError, tap, mergeMap } from 'rxjs/operators'
+import { DialogService } from 'src/app/shared/dialog/dialog.service'
 import { GroupUpsertFormComponent } from '../components/group-upsert-form/group-upsert-form.component'
 import { GroupCreateDTO } from '../dtos/group-create-dto'
 import { GroupUpsertDialogData } from '../interfaces/group-upsert-dialog-data'
@@ -19,7 +20,7 @@ export class GroupEffects {
     private actions$: Actions,
     private store: Store,
     private groupApiService: GroupApiService,
-    private dialog: MatDialog
+    private dialog: DialogService
   ) {}
 
   fetchAllGroups$ = createEffect(() =>
@@ -29,9 +30,7 @@ export class GroupEffects {
       exhaustMap(() =>
         this.groupApiService.getAllGroups().pipe(
           map((groups) => GroupActions.FetchAllGroupsActions.fetchAllGroupsSuccess({ groups })),
-          catchError((error) =>
-            of(GroupActions.FetchAllGroupsActions.fetchAllGroupsError({ error }))
-          )
+          catchError((error) => of(GroupActions.FetchAllGroupsActions.fetchAllGroupsError({ error })))
         )
       )
     )
@@ -82,19 +81,17 @@ export class GroupEffects {
         ofType(GroupActions.CreateGroupActions.openCreateGroupDialog),
         tap(
           () =>
-            (this.groupUpsertFormDialogRef = this.dialog.open<
+            (this.groupUpsertFormDialogRef = this.dialog.open<GroupUpsertFormComponent, GroupUpsertDialogData>(
               GroupUpsertFormComponent,
-              GroupUpsertDialogData
-            >(GroupUpsertFormComponent, {
-              data: {
-                title: 'Create New Group',
-                submitText: 'Create',
-                onSubmit: (group) =>
-                  this.store.dispatch(
-                    GroupActions.CreateGroupActions.createGroup({ group: group as GroupCreateDTO })
-                  )
+              {
+                data: {
+                  title: 'Create New Group',
+                  submitText: 'Create',
+                  onSubmit: (group) =>
+                    this.store.dispatch(GroupActions.CreateGroupActions.createGroup({ group: group as GroupCreateDTO }))
+                }
               }
-            }))
+            ))
         )
       ),
     { dispatch: false }
@@ -107,20 +104,18 @@ export class GroupEffects {
         concatLatestFrom(({ groupId }) => this.store.select(selectGroupById({ groupId }))),
         tap(
           ([{ groupId }, group]) =>
-            (this.groupUpsertFormDialogRef = this.dialog.open<
+            (this.groupUpsertFormDialogRef = this.dialog.open<GroupUpsertFormComponent, GroupUpsertDialogData>(
               GroupUpsertFormComponent,
-              GroupUpsertDialogData
-            >(GroupUpsertFormComponent, {
-              data: {
-                group,
-                title: 'Edit Group',
-                submitText: 'Save Changes',
-                onSubmit: (group) =>
-                  this.store.dispatch(
-                    GroupActions.UpdateGroupActions.updateGroup({ groupId, group })
-                  )
+              {
+                data: {
+                  group,
+                  title: 'Edit Group',
+                  submitText: 'Save Changes',
+                  onSubmit: (group) =>
+                    this.store.dispatch(GroupActions.UpdateGroupActions.updateGroup({ groupId, group }))
+                }
               }
-            }))
+            ))
         )
       ),
     { dispatch: false }

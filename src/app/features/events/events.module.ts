@@ -19,6 +19,9 @@ import { MatInputModule } from '@angular/material/input'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { EventOptionsMenuComponent } from './components/event-options-menu/event-options-menu.component'
 import { MatMenuModule } from '@angular/material/menu'
+import { MatDatepickerModule } from '@angular/material/datepicker'
+import { DialogFormModule } from 'src/app/shared/dialog-form/dialog-form.module'
+import { DialogModule } from 'src/app/shared/dialog/dialog.module'
 
 @NgModule({
   declarations: [
@@ -38,7 +41,10 @@ import { MatMenuModule } from '@angular/material/menu'
     MatDialogModule,
     MatMenuModule,
     MatIconModule,
+    MatDatepickerModule,
     FormsModule,
+    DialogFormModule,
+    DialogModule,
     ReactiveFormsModule,
     StoreModule.forFeature(eventFeatureSelector, eventReducer),
     EffectsModule.forFeature([EventEffects])
