@@ -22,6 +22,7 @@ import { MatMenuModule } from '@angular/material/menu'
 import { MatDatepickerModule } from '@angular/material/datepicker'
 import { DialogFormModule } from 'src/app/shared/dialog-form/dialog-form.module'
 import { DialogModule } from 'src/app/shared/dialog/dialog.module'
+import { RouterModule } from '@angular/router'
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { DialogModule } from 'src/app/shared/dialog/dialog.module'
   ],
   imports: [
     CommonModule,
+    RouterModule,
     HttpClientModule,
     MatButtonModule,
     MatFormFieldModule,
