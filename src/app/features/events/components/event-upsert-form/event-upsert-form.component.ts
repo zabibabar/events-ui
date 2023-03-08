@@ -5,6 +5,16 @@ import { Store } from '@ngrx/store'
 import { EventUpsertDialogData } from '../../interfaces/event-upsert-dialog-data'
 import { closeUpsertFormDialog } from '../../store/event.actions'
 
+type EventUpsertFormType = FormGroup<{
+  name: FormControl<string | null>
+  group: FormControl<string | null>
+  description: FormControl<string | null>
+  timeStart: FormControl<Date | null>
+  timeEnd: FormControl<Date | null>
+  isRemote: FormControl<boolean | null>
+  address: FormControl<string | null>
+}>
+
 @Component({
   selector: 'app-event-upsert-form',
   templateUrl: './event-upsert-form.component.html',
@@ -16,9 +26,7 @@ export class EventUpsertFormComponent implements OnInit {
   onSubmit = this.data.onSubmit
   submitText = this.data.submitText
 
-  eventCreateForm: FormGroup<{
-    name: FormControl<string | null>
-  }>
+  eventCreateForm: EventUpsertFormType
 
   constructor(
     private fb: FormBuilder,
@@ -28,7 +36,13 @@ export class EventUpsertFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.eventCreateForm = this.fb.group({
-      name: ['', Validators.required]
+      name: ['', Validators.required],
+      group: ['', Validators.required],
+      description: [''],
+      timeStart: [new Date(), Validators.required],
+      timeEnd: [new Date(), Validators.required],
+      isRemote: [false, Validators.required],
+      address: ['', Validators.required]
     })
 
     if (this.event) this.eventCreateForm?.patchValue(this.event)
