@@ -7,6 +7,10 @@
   $foreground-palette: map.get($color-config, 'foreground');
 
   .sidebar {
+    &__header__title {
+      color: mat.get-color-from-palette($primary-palette, default);
+    }
+
     &__nav-list {
       &__item {
         color: mat.get-color-from-palette($foreground-palette, 'text');
