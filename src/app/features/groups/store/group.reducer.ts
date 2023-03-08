@@ -6,7 +6,6 @@ import * as GroupActions from './group.actions'
 export const groupFeatureSelector = 'groups'
 
 export interface GroupStoreState extends EntityState<Group> {
-  selectedGroupId: string | null
   loading: boolean
   error: string | null
 }

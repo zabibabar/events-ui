@@ -22,6 +22,8 @@ import { MatMenuModule } from '@angular/material/menu'
 import { DialogFormModule } from 'src/app/shared/dialog-form/dialog-form.module'
 import { DialogModule } from 'src/app/shared/dialog/dialog.module'
 import { RouterModule } from '@angular/router'
+import { MatTabsModule } from '@angular/material/tabs'
+import { MatDividerModule } from '@angular/material/divider'
 
 @NgModule({
   declarations: [
@@ -43,6 +45,8 @@ import { RouterModule } from '@angular/router'
     MatInputModule,
     MatDialogModule,
     MatMenuModule,
+    MatTabsModule,
+    MatDividerModule,
     FormsModule,
     DialogFormModule,
     DialogModule,
@@ -51,6 +55,6 @@ import { RouterModule } from '@angular/router'
     EffectsModule.forFeature([GroupEffects])
   ],
   providers: [],
-  exports: [GroupListComponent, GroupHeaderComponent]
+  exports: [GroupListComponent, GroupHeaderComponent, GroupCreateButtonComponent]
 })
 export class GroupsModule {}

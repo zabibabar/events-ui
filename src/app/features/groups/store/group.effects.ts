@@ -23,8 +23,8 @@ export class GroupEffects {
     private dialog: DialogService
   ) {}
 
-  fetchAllGroups$ = createEffect(() =>
-    this.actions$.pipe(
+  fetchAllGroups$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(GroupActions.FetchAllGroupsActions.fetchAllGroups),
       tap({ next: GroupActions.FetchAllGroupsActions.fetchAllGroupsLoading }),
       exhaustMap(() =>
@@ -34,10 +34,10 @@ export class GroupEffects {
         )
       )
     )
-  )
+  })
 
-  createGroup$ = createEffect(() =>
-    this.actions$.pipe(
+  createGroup$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(GroupActions.CreateGroupActions.createGroup),
       tap({ next: GroupActions.CreateGroupActions.createGroupLoading }),
       exhaustMap(({ group }) =>
@@ -47,10 +47,10 @@ export class GroupEffects {
         )
       )
     )
-  )
+  })
 
-  updateGroup$ = createEffect(() =>
-    this.actions$.pipe(
+  updateGroup$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(GroupActions.UpdateGroupActions.updateGroup),
       tap({ next: GroupActions.UpdateGroupActions.updateGroupLoading }),
       mergeMap(({ groupId, group }) =>
@@ -60,10 +60,10 @@ export class GroupEffects {
         )
       )
     )
-  )
+  })
 
-  deleteGroup$ = createEffect(() =>
-    this.actions$.pipe(
+  deleteGroup$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(GroupActions.DeleteGroupActions.deleteGroup),
       tap({ next: GroupActions.DeleteGroupActions.deleteGroupLoading }),
       mergeMap(({ groupId }) =>
@@ -73,11 +73,11 @@ export class GroupEffects {
         )
       )
     )
-  )
+  })
 
   openGroupCreateFormDialog$ = createEffect(
-    () =>
-      this.actions$.pipe(
+    () => {
+      return this.actions$.pipe(
         ofType(GroupActions.CreateGroupActions.openCreateGroupDialog),
         tap(
           () =>
@@ -88,18 +88,20 @@ export class GroupEffects {
                   title: 'Create New Group',
                   submitText: 'Create',
                   onSubmit: (group) =>
+                    // eslint-disable-next-line @ngrx/no-dispatch-in-effects
                     this.store.dispatch(GroupActions.CreateGroupActions.createGroup({ group: group as GroupCreateDTO }))
                 }
               }
             ))
         )
-      ),
+      )
+    },
     { dispatch: false }
   )
 
   openGroupUpdateFormDialog$ = createEffect(
-    () =>
-      this.actions$.pipe(
+    () => {
+      return this.actions$.pipe(
         ofType(GroupActions.UpdateGroupActions.openUpdateGroupDialog),
         concatLatestFrom(({ groupId }) => this.store.select(selectGroupById({ groupId }))),
         tap(
@@ -112,21 +114,24 @@ export class GroupEffects {
                   title: 'Edit Group',
                   submitText: 'Save Changes',
                   onSubmit: (group) =>
+                    // eslint-disable-next-line @ngrx/no-dispatch-in-effects
                     this.store.dispatch(GroupActions.UpdateGroupActions.updateGroup({ groupId, group }))
                 }
               }
             ))
         )
-      ),
+      )
+    },
     { dispatch: false }
   )
 
   closeGroupUpsertFormDialog$ = createEffect(
-    () =>
-      this.actions$.pipe(
+    () => {
+      return this.actions$.pipe(
         ofType(GroupActions.closeUpsertFormDialog),
         tap(() => this.groupUpsertFormDialogRef.close())
-      ),
+      )
+    },
     { dispatch: false }
   )
 }

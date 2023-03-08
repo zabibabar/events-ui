@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common'
 
 import { GroupDetailsPageRoutingModule } from './group-details-page-routing.module'
 import { GroupDetailsPageComponent } from './group-details-page.component'
-import { EventsModule } from 'src/app/features/events/events.module'
+import { GroupsModule } from 'src/app/features/groups/groups.module'
 
 @NgModule({
   declarations: [GroupDetailsPageComponent],
-  imports: [EventsModule, CommonModule, GroupDetailsPageRoutingModule]
+  imports: [GroupsModule, CommonModule, GroupDetailsPageRoutingModule]
 })
-export class EventsPageModule {}
+export class GroupDetailsPageModule {}

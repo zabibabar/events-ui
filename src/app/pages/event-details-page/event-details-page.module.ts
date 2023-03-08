@@ -9,4 +9,4 @@ import { EventsModule } from 'src/app/features/events/events.module'
   declarations: [EventDetailsPageComponent],
   imports: [EventsModule, CommonModule, EventDetailsPageRoutingModule]
 })
-export class EventsPageModule {}
+export class EventDetailsPageModule {}

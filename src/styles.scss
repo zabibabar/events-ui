@@ -28,6 +28,10 @@ body {
   flex-grow: 1;
 }
 
+.page-container {
+  margin: 24px 32px;
+}
+
 .mat-typography {
   .mat-headline-1,
   .mat-headline-2,
@@ -40,8 +44,4 @@ body {
   .mat-caption {
     margin: 0;
   }
-}
-
-.secondary-text-color {
-  opacity: 0.74;
 }
