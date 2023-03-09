@@ -10,7 +10,8 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatSidenavModule } from '@angular/material/sidenav'
 import { MatIconModule } from '@angular/material/icon'
 import { MatDividerModule } from '@angular/material/divider';
-import { ThemeToggleComponent } from './components/theme-toggle/theme-toggle.component'
+import { ThemeToggleComponent } from './components/theme-toggle/theme-toggle.component';
+import { PageContainerComponent } from './components/page-container/page-container.component'
 
 @NgModule({
   imports: [
@@ -28,7 +29,7 @@ import { ThemeToggleComponent } from './components/theme-toggle/theme-toggle.com
       scope: 'openid profile email'
     })
   ],
-  declarations: [SidenavComponent, LoginButtonComponent, ToolbarComponent, ThemeToggleComponent],
-  exports: [SidenavComponent, LoginButtonComponent]
+  declarations: [SidenavComponent, LoginButtonComponent, ToolbarComponent, ThemeToggleComponent, PageContainerComponent],
+  exports: [SidenavComponent, LoginButtonComponent, PageContainerComponent]
 })
 export class CoreModule {}

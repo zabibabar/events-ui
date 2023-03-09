@@ -24,6 +24,7 @@ import { DialogModule } from 'src/app/shared/dialog/dialog.module'
 import { RouterModule } from '@angular/router'
 import { MatTabsModule } from '@angular/material/tabs'
 import { MatDividerModule } from '@angular/material/divider'
+import { CoreModule } from 'src/app/core/core.module'
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { MatDividerModule } from '@angular/material/divider'
   imports: [
     CommonModule,
     RouterModule,
+    CoreModule,
     HttpClientModule,
     MatButtonModule,
     MatIconModule,

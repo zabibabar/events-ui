@@ -1,6 +1,6 @@
 import { Dictionary } from '@ngrx/entity'
 import { createFeatureSelector, createSelector } from '@ngrx/store'
-import { selectRouteParams } from 'src/app/core/store/router.selectors'
+import { selectRouteParam } from 'src/app/core/store/router.selectors'
 import { Group } from '../interfaces/group'
 import { adapter, groupFeatureSelector, GroupStoreState } from './group.reducer'
 
@@ -14,8 +14,8 @@ export const selectAllGroups = createSelector(selectGroupState, selectAll)
 export const selectGroupTotal = createSelector(selectGroupState, selectTotal)
 export const selectCurrentGroup = createSelector(
   selectGroupEntities,
-  selectRouteParams,
-  (groupEntities, { groupId }) => groupEntities[groupId]
+  selectRouteParam('groupId'),
+  (groupEntities, groupId) => groupEntities[groupId]
 )
 
 export const selectGroupById = (props: { groupId: string }) =>

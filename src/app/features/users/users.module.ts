@@ -1,6 +1,5 @@
 import { ModuleWithProviders, NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { BrowserModule } from '@angular/platform-browser'
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { EffectsModule } from '@ngrx/effects'
 import { StoreModule } from '@ngrx/store'
@@ -13,7 +12,6 @@ import { JwtInterceptor } from './interceptors/jwt-interceptor'
   declarations: [],
   imports: [
     CommonModule,
-    BrowserModule,
     HttpClientModule,
     StoreModule.forFeature(userFeatureSelector, userAuthReducer),
     EffectsModule.forFeature([UserAuthEffects])
