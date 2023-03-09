@@ -1,5 +1,5 @@
 import { Component } from '@angular/core'
-import { NavList } from '../../types/nav-list'
+import { NavLink } from '../../types/nav-link'
 
 @Component({
   selector: 'app-sidenav',
@@ -7,7 +7,7 @@ import { NavList } from '../../types/nav-list'
   styleUrls: ['./sidenav.component.scss']
 })
 export class SidenavComponent {
-  navList: NavList[] = [
+  navList: NavLink[] = [
     { icon: 'home', label: 'Home', link: '/' },
     { icon: 'event', label: 'Events', link: '/events' },
     { icon: 'groups', label: 'Groups', link: '/groups' },

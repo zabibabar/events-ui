@@ -1,5 +1,6 @@
 import { Component } from '@angular/core'
 import { Store } from '@ngrx/store'
+import { NavLink } from 'src/app/core/types/nav-link'
 import { selectCurrentGroup } from '../../store/group.selectors'
 
 @Component({
@@ -8,7 +9,12 @@ import { selectCurrentGroup } from '../../store/group.selectors'
   styleUrls: ['./group-header.component.scss']
 })
 export class GroupHeaderComponent {
-  links = ['About', 'Events', 'Members', 'Photos']
+  links: NavLink[] = [
+    { label: 'About', link: 'home' },
+    { label: 'Events', link: 'events' },
+    { label: 'Members', link: 'members' },
+    { label: 'Photos', link: 'photos' }
+  ]
   activeLink = this.links[0]
 
   group$ = this.store.select(selectCurrentGroup)
