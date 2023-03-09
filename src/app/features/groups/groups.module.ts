@@ -25,16 +25,9 @@ import { RouterModule } from '@angular/router'
 import { MatTabsModule } from '@angular/material/tabs'
 import { MatDividerModule } from '@angular/material/divider'
 import { CoreModule } from 'src/app/core/core.module'
+import { EventsModule } from '../events/events.module'
 
 @NgModule({
-  declarations: [
-    GroupListComponent,
-    GroupComponent,
-    GroupCreateButtonComponent,
-    GroupHeaderComponent,
-    GroupOptionsMenuComponent,
-    GroupUpsertFormComponent
-  ],
   imports: [
     CommonModule,
     RouterModule,
@@ -53,10 +46,19 @@ import { CoreModule } from 'src/app/core/core.module'
     DialogFormModule,
     DialogModule,
     ReactiveFormsModule,
+    EventsModule,
     StoreModule.forFeature(groupFeatureSelector, groupReducer),
     EffectsModule.forFeature([GroupEffects])
   ],
   providers: [],
+  declarations: [
+    GroupListComponent,
+    GroupComponent,
+    GroupCreateButtonComponent,
+    GroupHeaderComponent,
+    GroupOptionsMenuComponent,
+    GroupUpsertFormComponent
+  ],
   exports: [GroupListComponent, GroupHeaderComponent, GroupCreateButtonComponent]
 })
 export class GroupsModule {}

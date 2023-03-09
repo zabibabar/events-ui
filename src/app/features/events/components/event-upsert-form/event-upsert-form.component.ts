@@ -11,7 +11,6 @@ type EventUpsertFormType = FormGroup<{
   description: FormControl<string | null>
   timeStart: FormControl<Date | null>
   timeEnd: FormControl<Date | null>
-  isRemote: FormControl<boolean | null>
   address: FormControl<string | null>
 }>
 
@@ -26,7 +25,7 @@ export class EventUpsertFormComponent implements OnInit {
   onSubmit = this.data.onSubmit
   submitText = this.data.submitText
 
-  eventCreateForm: EventUpsertFormType
+  eventUpsertForm: EventUpsertFormType
 
   constructor(
     private fb: FormBuilder,
@@ -35,21 +34,20 @@ export class EventUpsertFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.eventCreateForm = this.fb.group({
+    this.eventUpsertForm = this.fb.group({
       name: ['', Validators.required],
       group: ['', Validators.required],
       description: [''],
       timeStart: [new Date(), Validators.required],
       timeEnd: [new Date(), Validators.required],
-      isRemote: [false, Validators.required],
       address: ['', Validators.required]
     })
 
-    if (this.event) this.eventCreateForm?.patchValue(this.event)
+    if (this.event) this.eventUpsertForm?.patchValue(this.event)
   }
 
   submit(): void {
-    const { name } = this.eventCreateForm.value
+    const { name } = this.eventUpsertForm.value
     this.onSubmit({ name: name as string })
     this.onCancel()
   }

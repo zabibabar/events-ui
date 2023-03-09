@@ -7,7 +7,13 @@
       </div>
 
       <div class="sidebar__nav-list">
-        <a class="sidebar__nav-list__item" *ngFor="let item of navList" [routerLink]="item.link">
+        <a
+          class="sidebar__nav-list__item"
+          *ngFor="let item of navList"
+          [routerLink]="item.link"
+          routerLinkActive="sidebar__nav-list__item--active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
           <mat-icon class="sidebar__nav-list__item__icon">{{ item.icon }}</mat-icon>
           <div class="sidebar__nav-list__item__label">{{ item.label }}</div>
         </a>

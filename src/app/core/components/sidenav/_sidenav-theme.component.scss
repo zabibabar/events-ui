@@ -13,11 +13,20 @@
 
     &__nav-list {
       &__item {
-        color: mat.get-color-from-palette($foreground-palette, 'text');
+        color: mat.get-color-from-palette($foreground-palette, 'secondary-text');
 
         &:hover {
           background: mat.get-color-from-palette($primary-palette, 'lighter');
           color: mat.get-color-from-palette($primary-palette, 'lighter-contrast');
+        }
+
+        &--active {
+          background: mat.get-color-from-palette($primary-palette, 'lighter');
+          color: mat.get-color-from-palette($primary-palette, 'lighter-contrast');
+        }
+
+        &--active &__icon {
+          color: mat.get-color-from-palette($primary-palette, 'default');
         }
       }
     }
@@ -25,6 +34,15 @@
 }
 
 @mixin typography($typography-config) {
+  .sidebar {
+    &__nav-list {
+      &__item {
+        &--active &__label {
+          @include mat.typography-level($typography-config, 'body-1');
+        }
+      }
+    }
+  }
 }
 
 @mixin theme($theme, $typography-config) {

@@ -1,35 +1,44 @@
 <dialog-form>
   <dialog-form-title>{{ title }}</dialog-form-title>
 
-  <form dialog-form-body [formGroup]="eventCreateForm">
+  <form dialog-form-body class="event-upsert-form" [formGroup]="eventUpsertForm">
     <mat-form-field>
       <mat-label>Name</mat-label>
       <input matInput formControlName="name" />
     </mat-form-field>
+
     <mat-form-field>
       <mat-label>Group</mat-label>
       <input matInput formControlName="group" />
     </mat-form-field>
-    <mat-form-field>
-      <mat-label>Description</mat-label>
-      <textarea matInput formControlName="description"></textarea>
-    </mat-form-field>
+
     <mat-form-field>
       <mat-label>Start Time</mat-label>
       <input matInput [matDatepicker]="picker1" formControlName="timeStart" />
       <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
       <mat-datepicker #picker1></mat-datepicker>
     </mat-form-field>
+
     <mat-form-field>
       <mat-label>End Time</mat-label>
       <input matInput [matDatepicker]="picker2" formControlName="timeEnd" />
       <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
       <mat-datepicker #picker2></mat-datepicker>
     </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Location</mat-label>
+      <input matInput formControlName="address" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Description</mat-label>
+      <textarea matInput formControlName="description"></textarea>
+    </mat-form-field>
   </form>
   <div dialog-form-footer>
     <button mat-button (click)="onCancel()">Cancel</button>
-    <button mat-flat-button color="primary" (click)="submit()" [disabled]="eventCreateForm.invalid">
+    <button mat-flat-button color="primary" (click)="submit()" [disabled]="eventUpsertForm.invalid">
       {{ submitText }}
     </button>
   </div>

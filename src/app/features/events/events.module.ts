@@ -23,16 +23,9 @@ import { MatDatepickerModule } from '@angular/material/datepicker'
 import { DialogFormModule } from 'src/app/shared/dialog-form/dialog-form.module'
 import { DialogModule } from 'src/app/shared/dialog/dialog.module'
 import { RouterModule } from '@angular/router'
+import { MatSlideToggleModule } from '@angular/material/slide-toggle'
 
 @NgModule({
-  declarations: [
-    EventListComponent,
-    EventComponent,
-    EventCreateButtonComponent,
-    EventHeaderComponent,
-    EventOptionsMenuComponent,
-    EventUpsertFormComponent
-  ],
   imports: [
     CommonModule,
     RouterModule,
@@ -44,6 +37,7 @@ import { RouterModule } from '@angular/router'
     MatMenuModule,
     MatIconModule,
     MatDatepickerModule,
+    MatSlideToggleModule,
     FormsModule,
     DialogFormModule,
     DialogModule,
@@ -52,6 +46,14 @@ import { RouterModule } from '@angular/router'
     EffectsModule.forFeature([EventEffects])
   ],
   providers: [],
-  exports: [EventListComponent, EventHeaderComponent]
+  declarations: [
+    EventListComponent,
+    EventComponent,
+    EventCreateButtonComponent,
+    EventHeaderComponent,
+    EventOptionsMenuComponent,
+    EventUpsertFormComponent
+  ],
+  exports: [EventListComponent, EventHeaderComponent, EventCreateButtonComponent]
 })
 export class EventsModule {}
