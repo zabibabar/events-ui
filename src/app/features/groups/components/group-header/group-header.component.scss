@@ -8,10 +8,17 @@
   }
 
   &__details {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
     padding: 24px 0px 16px 0px;
 
     &__name {
       margin-bottom: 16px;
+    }
+
+    &__description {
+      flex-basis: 100%;
     }
   }
 }

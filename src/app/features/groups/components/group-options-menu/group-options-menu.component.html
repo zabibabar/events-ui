@@ -2,12 +2,20 @@
   <mat-icon>more_vert</mat-icon>
 </button>
 <mat-menu #menu="matMenu">
+  <button mat-menu-item>
+    <mat-icon>send</mat-icon>
+    <span>Send Invites</span>
+  </button>
   <button mat-menu-item (click)="updateGroup()">
     <mat-icon>edit</mat-icon>
     <span>Update</span>
   </button>
-  <button mat-menu-item color="warn" (click)="deleteGroup()">
+  <button mat-menu-item (click)="deleteGroup()">
     <mat-icon>delete</mat-icon>
     <span>Delete</span>
+  </button>
+  <button mat-menu-item>
+    <mat-icon>exit_to_app</mat-icon>
+    <span>Leave Group</span>
   </button>
 </mat-menu>
