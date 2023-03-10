@@ -9,16 +9,17 @@ import { UserAuthActions } from './user.actions'
 @Injectable()
 export class UserAuthEffects implements OnInitEffects {
   public readonly signIn$ = createEffect(
-    () =>
-      this.actions$.pipe(
+    () => {
+      return this.actions$.pipe(
         ofType(UserAuthActions.signIn),
         switchMap((action) => this.userAuthService.loginWithRedirect({ target: action.returnUrl }))
-      ),
+      )
+    },
     { dispatch: false }
   )
 
-  public readonly signInCompleted$ = createEffect(() =>
-    this.actions$.pipe(
+  public readonly signInCompleted$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(UserAuthActions.signInCompleted),
       switchMap(() =>
         this.userAuthService.getUser().pipe(
@@ -27,19 +28,20 @@ export class UserAuthEffects implements OnInitEffects {
         )
       )
     )
-  )
+  })
 
   public readonly redirect$ = createEffect(
-    () =>
-      this.actions$.pipe(
+    () => {
+      return this.actions$.pipe(
         ofType(UserAuthActions.signInCompleted),
         switchMap((action) => this.router.navigateByUrl(action.state.target, { replaceUrl: true }))
-      ),
+      )
+    },
     { dispatch: false }
   )
 
-  public readonly signOut$ = createEffect(() =>
-    this.actions$.pipe(
+  public readonly signOut$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(UserAuthActions.signOut),
       tap(() => {
         try {
@@ -49,10 +51,10 @@ export class UserAuthEffects implements OnInitEffects {
       }),
       map(() => UserAuthActions.signedOut())
     )
-  )
+  })
 
-  public readonly init$ = createEffect(() =>
-    this.actions$.pipe(
+  public readonly init$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(UserAuthActions.init),
       switchMap(() => {
         const params = window.location.search
@@ -67,7 +69,7 @@ export class UserAuthEffects implements OnInitEffects {
         }
       })
     )
-  )
+  })
 
   public constructor(
     private readonly actions$: Actions,
