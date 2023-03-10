@@ -4,6 +4,7 @@ import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects'
 import { Store } from '@ngrx/store'
 import { of } from 'rxjs'
 import { map, exhaustMap, catchError, tap, mergeMap } from 'rxjs/operators'
+import { DialogType } from 'src/app/shared/dialog/dialog-type.enum'
 import { DialogService } from 'src/app/shared/dialog/dialog.service'
 import { EventUpsertFormComponent } from '../components/event-upsert-form/event-upsert-form.component'
 import { EventCreateDTO } from '../dtos/event-create-dto'
@@ -23,8 +24,8 @@ export class EventEffects {
     private dialog: DialogService
   ) {}
 
-  fetchAllEvents$ = createEffect(() =>
-    this.actions$.pipe(
+  fetchAllEvents$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(EventActions.FetchAllEventsActions.fetchAllEvents),
       tap({ next: EventActions.FetchAllEventsActions.fetchAllEventsLoading }),
       exhaustMap(() =>
@@ -34,10 +35,10 @@ export class EventEffects {
         )
       )
     )
-  )
+  })
 
-  createEvent$ = createEffect(() =>
-    this.actions$.pipe(
+  createEvent$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(EventActions.CreateEventActions.createEvent),
       tap({ next: EventActions.CreateEventActions.createEventLoading }),
       exhaustMap(({ event }) =>
@@ -47,10 +48,10 @@ export class EventEffects {
         )
       )
     )
-  )
+  })
 
-  updateEvent$ = createEffect(() =>
-    this.actions$.pipe(
+  updateEvent$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(EventActions.UpdateEventActions.updateEvent),
       tap({ next: EventActions.UpdateEventActions.updateEventLoading }),
       mergeMap(({ eventId, event }) =>
@@ -60,10 +61,10 @@ export class EventEffects {
         )
       )
     )
-  )
+  })
 
-  deleteEvent$ = createEffect(() =>
-    this.actions$.pipe(
+  deleteEvent$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(EventActions.DeleteEventActions.deleteEvent),
       tap({ next: EventActions.DeleteEventActions.deleteEventLoading }),
       mergeMap(({ eventId }) =>
@@ -73,33 +74,36 @@ export class EventEffects {
         )
       )
     )
-  )
+  })
 
   openEventCreateFormDialog$ = createEffect(
-    () =>
-      this.actions$.pipe(
+    () => {
+      return this.actions$.pipe(
         ofType(EventActions.CreateEventActions.openCreateEventDialog),
         tap(
           () =>
             (this.eventUpsertFormDialogRef = this.dialog.open<EventUpsertFormComponent, EventUpsertDialogData>(
               EventUpsertFormComponent,
               {
+                type: DialogType.FORM,
                 data: {
                   title: 'Create New Event',
                   submitText: 'Create',
                   onSubmit: (event) =>
+                    // eslint-disable-next-line @ngrx/no-dispatch-in-effects
                     this.store.dispatch(EventActions.CreateEventActions.createEvent({ event: event as EventCreateDTO }))
                 }
               }
             ))
         )
-      ),
+      )
+    },
     { dispatch: false }
   )
 
   openEventUpdateFormDialog$ = createEffect(
-    () =>
-      this.actions$.pipe(
+    () => {
+      return this.actions$.pipe(
         ofType(EventActions.UpdateEventActions.openUpdateEventDialog),
         concatLatestFrom(({ eventId }) => this.store.select(selectEventById({ eventId }))),
         tap(
@@ -107,26 +111,30 @@ export class EventEffects {
             (this.eventUpsertFormDialogRef = this.dialog.open<EventUpsertFormComponent, EventUpsertDialogData>(
               EventUpsertFormComponent,
               {
+                type: DialogType.FORM,
                 data: {
                   event,
                   title: 'Edit Event',
                   submitText: 'Save Changes',
                   onSubmit: (event) =>
+                    // eslint-disable-next-line @ngrx/no-dispatch-in-effects
                     this.store.dispatch(EventActions.UpdateEventActions.updateEvent({ eventId, event: event }))
                 }
               }
             ))
         )
-      ),
+      )
+    },
     { dispatch: false }
   )
 
   closeEventUpsertFormDialog$ = createEffect(
-    () =>
-      this.actions$.pipe(
+    () => {
+      return this.actions$.pipe(
         ofType(EventActions.closeUpsertFormDialog),
         tap(() => this.eventUpsertFormDialogRef.close())
-      ),
+      )
+    },
     { dispatch: false }
   )
 }

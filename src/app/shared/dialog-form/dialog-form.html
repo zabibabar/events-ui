@@ -4,7 +4,9 @@
   </div>
 
   <mat-divider></mat-divider>
-  <ng-content select="dialog-form-body, [dialog-form-body]"></ng-content>
+  <mat-dialog-content>
+    <ng-content select="dialog-form-body, [dialog-form-body]"></ng-content>
+  </mat-dialog-content>
   <mat-divider></mat-divider>
   <ng-content select="dialog-form-footer, [dialog-form-footer]"></ng-content>
 </div>

@@ -4,6 +4,7 @@ import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects'
 import { Store } from '@ngrx/store'
 import { of } from 'rxjs'
 import { map, exhaustMap, catchError, tap, mergeMap } from 'rxjs/operators'
+import { DialogType } from 'src/app/shared/dialog/dialog-type.enum'
 import { DialogService } from 'src/app/shared/dialog/dialog.service'
 import { GroupUpsertFormComponent } from '../components/group-upsert-form/group-upsert-form.component'
 import { GroupCreateDTO } from '../dtos/group-create-dto'
@@ -84,6 +85,7 @@ export class GroupEffects {
             (this.groupUpsertFormDialogRef = this.dialog.open<GroupUpsertFormComponent, GroupUpsertDialogData>(
               GroupUpsertFormComponent,
               {
+                type: DialogType.FORM,
                 data: {
                   title: 'Create New Group',
                   submitText: 'Create',
@@ -109,6 +111,7 @@ export class GroupEffects {
             (this.groupUpsertFormDialogRef = this.dialog.open<GroupUpsertFormComponent, GroupUpsertDialogData>(
               GroupUpsertFormComponent,
               {
+                type: DialogType.FORM,
                 data: {
                   group,
                   title: 'Edit Group',
