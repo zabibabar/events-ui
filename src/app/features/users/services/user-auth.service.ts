@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core'
-import { Auth0Client, User } from '@auth0/auth0-spa-js'
+import { Auth0Client } from '@auth0/auth0-spa-js'
 import { EMPTY, from, Observable } from 'rxjs'
 import { filter, map, switchMap } from 'rxjs/operators'
+import { User } from '../interfaces/user'
+import { UserAuth } from '../interfaces/user-auth'
 import { UserAuthConfig } from '../interfaces/user-auth-config'
 
 @Injectable({
@@ -24,35 +26,54 @@ export class UserAuthService {
     })
   }
 
-  public isAuthenticated() {
+  public isAuthenticated(): Observable<boolean> {
     return from(this.checkSession())
   }
 
-  public loginWithRedirect(appState: { target: string }) {
+  public loginWithRedirect(appState: { target: string }): Observable<never> {
     return from(this.auth0.loginWithRedirect({ appState })).pipe(switchMap(() => EMPTY))
   }
 
-  public handleRedirectCallback() {
+  public handleRedirectCallback(): Observable<{ target: string }> {
     return from(this.auth0.handleRedirectCallback()).pipe(map((result) => result.appState as { target: string }))
   }
 
-  public getUser() {
-    return from(this.auth0.getUser()).pipe(filter((u): u is User => u !== undefined))
+  public getUser(): Observable<User> {
+    return from(this.auth0.getUser()).pipe(
+      filter((u): u is UserAuth => u !== undefined),
+      map(this.convertUserAuthToUser)
+    )
   }
 
   public getAccessToken(): Observable<string> {
     return from(this.auth0.getTokenSilently())
   }
 
-  public logout() {
+  public logout(): void {
     this.auth0.logout({
       logoutParams: { returnTo: this.config.logoutUri ?? location.origin }
     })
   }
 
-  private async checkSession() {
+  private async checkSession(): Promise<boolean> {
     await this.auth0.checkSession()
 
     return await this.auth0.isAuthenticated()
+  }
+
+  private convertUserAuthToUser(userAuth: UserAuth): User {
+    const { sub, name, given_name, family_name, email, picture, locale, email_verified, is_new } = userAuth
+
+    return {
+      name: name as string,
+      email: email as string,
+      picture: picture as string,
+      locale: locale as string,
+      id: sub as string,
+      firstName: given_name as string,
+      lastName: family_name as string,
+      isNew: is_new as boolean,
+      emailVerified: email_verified as boolean
+    }
   }
 }

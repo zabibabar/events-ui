@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core'
 import { Router } from '@angular/router'
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects'
 import { of } from 'rxjs'
-import { catchError, map, switchMap, tap } from 'rxjs/operators'
+import { catchError, filter, map, switchMap, tap } from 'rxjs/operators'
+import { UserApiService } from '../services/user-api.service'
 import { UserAuthService } from '../services/user-auth.service'
 import { UserAuthActions } from './user.actions'
 
 @Injectable()
 export class UserAuthEffects implements OnInitEffects {
-  public readonly signIn$ = createEffect(
+  signIn$ = createEffect(
     () => {
       return this.actions$.pipe(
         ofType(UserAuthActions.signIn),
@@ -18,19 +19,31 @@ export class UserAuthEffects implements OnInitEffects {
     { dispatch: false }
   )
 
-  public readonly signInCompleted$ = createEffect(() => {
+  signInCompleted$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(UserAuthActions.signInCompleted),
       switchMap(() =>
         this.userAuthService.getUser().pipe(
           map((user) => UserAuthActions.signedIn({ user })),
+          tap(console.log),
           catchError((error) => of(UserAuthActions.signInFailed({ error })))
         )
       )
     )
   })
 
-  public readonly redirect$ = createEffect(
+  signedIn$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(UserAuthActions.signedIn),
+        filter(({ user }) => user.isNew),
+        switchMap(({ user }) => this.userApiService.createUser(user))
+      )
+    },
+    { dispatch: false }
+  )
+
+  redirect$ = createEffect(
     () => {
       return this.actions$.pipe(
         ofType(UserAuthActions.signInCompleted),
@@ -40,7 +53,7 @@ export class UserAuthEffects implements OnInitEffects {
     { dispatch: false }
   )
 
-  public readonly signOut$ = createEffect(() => {
+  signOut$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(UserAuthActions.signOut),
       tap(() => {
@@ -53,7 +66,7 @@ export class UserAuthEffects implements OnInitEffects {
     )
   })
 
-  public readonly init$ = createEffect(() => {
+  init$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(UserAuthActions.init),
       switchMap(() => {
@@ -71,13 +84,14 @@ export class UserAuthEffects implements OnInitEffects {
     )
   })
 
-  public constructor(
-    private readonly actions$: Actions,
-    private readonly userAuthService: UserAuthService,
-    private readonly router: Router
+  constructor(
+    private actions$: Actions,
+    private userAuthService: UserAuthService,
+    private router: Router,
+    private userApiService: UserApiService
   ) {}
 
-  public ngrxOnInitEffects() {
+  ngrxOnInitEffects() {
     return UserAuthActions.init()
   }
 
