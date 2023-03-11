@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core'
 import { Auth0Client } from '@auth0/auth0-spa-js'
 import { EMPTY, from, Observable } from 'rxjs'
 import { filter, map, switchMap } from 'rxjs/operators'
-import { User } from '../interfaces/user'
 import { UserAuth } from '../interfaces/user-auth'
 import { UserAuthConfig } from '../interfaces/user-auth-config'
 
@@ -38,11 +37,8 @@ export class UserAuthService {
     return from(this.auth0.handleRedirectCallback()).pipe(map((result) => result.appState as { target: string }))
   }
 
-  public getUser(): Observable<User> {
-    return from(this.auth0.getUser()).pipe(
-      filter((u): u is UserAuth => u !== undefined),
-      map(this.convertUserAuthToUser)
-    )
+  public getUser(): Observable<UserAuth> {
+    return from(this.auth0.getUser()).pipe(filter((u): u is UserAuth => u !== undefined))
   }
 
   public getAccessToken(): Observable<string> {
@@ -59,21 +55,5 @@ export class UserAuthService {
     await this.auth0.checkSession()
 
     return await this.auth0.isAuthenticated()
-  }
-
-  private convertUserAuthToUser(userAuth: UserAuth): User {
-    const { sub, name, given_name, family_name, email, picture, locale, email_verified, is_new } = userAuth
-
-    return {
-      name: name as string,
-      email: email as string,
-      picture: picture as string,
-      locale: locale as string,
-      id: sub as string,
-      firstName: given_name as string,
-      lastName: family_name as string,
-      isNew: is_new as boolean,
-      emailVerified: email_verified as boolean
-    }
   }
 }

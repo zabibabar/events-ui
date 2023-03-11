@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
+import { UserCreateDto } from '../dtos/user-create-dto'
 import { User } from '../interfaces/user'
 
 @Injectable({
@@ -9,7 +10,11 @@ import { User } from '../interfaces/user'
 export class UserApiService {
   constructor(private httpClient: HttpClient) {}
 
-  createUser(user: User): Observable<User> {
-    return this.httpClient.post<User>('/users', user)
+  createUser(user: UserCreateDto): Observable<User> {
+    return this.httpClient.post<User>('users', user)
+  }
+
+  getUser(externalId: string): Observable<User> {
+    return this.httpClient.get<User>(`users/${externalId}`)
   }
 }

@@ -3,6 +3,8 @@ import { Router } from '@angular/router'
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects'
 import { of } from 'rxjs'
 import { catchError, filter, map, switchMap, tap } from 'rxjs/operators'
+import { UserCreateDto } from '../dtos/user-create-dto'
+import { UserAuth } from '../interfaces/user-auth'
 import { UserApiService } from '../services/user-api.service'
 import { UserAuthService } from '../services/user-auth.service'
 import { UserAuthActions } from './user.actions'
@@ -19,35 +21,42 @@ export class UserAuthEffects implements OnInitEffects {
     { dispatch: false }
   )
 
-  signInCompleted$ = createEffect(() => {
+  signInCompletedForExistingUser$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(UserAuthActions.signInCompleted),
       switchMap(() =>
         this.userAuthService.getUser().pipe(
+          filter((user) => !user.is_new),
+          map(this.convertUserAuthToUser),
+          switchMap(({ externalId }) => this.userApiService.getUser(externalId)),
           map((user) => UserAuthActions.signedIn({ user })),
-          tap(console.log),
           catchError((error) => of(UserAuthActions.signInFailed({ error })))
         )
       )
     )
   })
 
-  signedIn$ = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(UserAuthActions.signedIn),
-        filter(({ user }) => user.isNew),
-        switchMap(({ user }) => this.userApiService.createUser(user))
+  signInCompletedForNewUser$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(UserAuthActions.signInCompleted),
+      switchMap(() =>
+        this.userAuthService.getUser().pipe(
+          filter((user) => !!user.is_new),
+          map(this.convertUserAuthToUser),
+          switchMap((user) => this.userApiService.createUser(user)),
+          map((user) => UserAuthActions.signedIn({ user })),
+          catchError((error) => of(UserAuthActions.signInFailed({ error })))
+        )
       )
-    },
-    { dispatch: false }
-  )
+    )
+  })
 
   redirect$ = createEffect(
     () => {
       return this.actions$.pipe(
         ofType(UserAuthActions.signInCompleted),
-        switchMap((action) => this.router.navigateByUrl(action.state.target, { replaceUrl: true }))
+        filter((action) => !!action.state),
+        switchMap((action) => this.router.navigateByUrl(action.state?.target ?? '', { replaceUrl: true }))
       )
     },
     { dispatch: false }
@@ -97,7 +106,7 @@ export class UserAuthEffects implements OnInitEffects {
 
   private getAuthResult(auth: boolean) {
     if (auth) {
-      return this.userAuthService.getUser().pipe(map((user) => UserAuthActions.signedIn({ user })))
+      return of(UserAuthActions.signInCompleted({}))
     } else {
       return of(UserAuthActions.signedOut())
     }
@@ -108,5 +117,20 @@ export class UserAuthEffects implements OnInitEffects {
       map((state) => UserAuthActions.signInCompleted({ state })),
       catchError((error) => of(UserAuthActions.signInFailed({ error })))
     )
+  }
+
+  private convertUserAuthToUser(userAuth: UserAuth): UserCreateDto {
+    const { sub, name, given_name, family_name, email, picture, locale, email_verified } = userAuth
+
+    return {
+      name: name as string,
+      email: email as string,
+      picture: picture as string,
+      locale: locale as string,
+      externalId: sub as string,
+      firstName: given_name as string,
+      lastName: family_name as string,
+      emailVerified: email_verified as boolean
+    }
   }
 }

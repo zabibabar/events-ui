@@ -1,6 +1,6 @@
 import { createAction, createActionGroup, emptyProps, props } from '@ngrx/store'
-import { GroupCreateDTO } from '../dtos/group-create-dto'
-import { GroupUpdateDTO } from '../dtos/group-update-dto'
+import { GroupCreatedto } from '../dtos/group-create-dto'
+import { GroupUpdatedto } from '../dtos/group-update-dto'
 import { Group } from '../interfaces/group'
 
 export const FetchAllGroupsActions = createActionGroup({
@@ -17,7 +17,7 @@ export const CreateGroupActions = createActionGroup({
   source: 'Groups',
   events: {
     'Open Create Group Dialog': emptyProps(),
-    'Create Group': props<{ group: GroupCreateDTO }>(),
+    'Create Group': props<{ group: GroupCreatedto }>(),
     'Create Group Loading': emptyProps(),
     'Create Group Error': props<{ error: string }>(),
     'Create Group Success': props<{ group: Group }>()
@@ -28,7 +28,7 @@ export const UpdateGroupActions = createActionGroup({
   source: 'Groups',
   events: {
     'Open Update Group Dialog': props<{ groupId: string }>(),
-    'Update Group': props<{ groupId: string; group: GroupUpdateDTO }>(),
+    'Update Group': props<{ groupId: string; group: GroupUpdatedto }>(),
     'Update Group Loading': emptyProps(),
     'Update Group Error': props<{ error: string }>(),
     'Update Group Success': props<{ group: Group }>()

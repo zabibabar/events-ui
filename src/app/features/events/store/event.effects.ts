@@ -7,7 +7,7 @@ import { map, exhaustMap, catchError, tap, mergeMap } from 'rxjs/operators'
 import { DialogType } from 'src/app/shared/dialog/dialog-type.enum'
 import { DialogService } from 'src/app/shared/dialog/dialog.service'
 import { EventUpsertFormComponent } from '../components/event-upsert-form/event-upsert-form.component'
-import { EventCreateDTO } from '../dtos/event-create-dto'
+import { EventCreatedto } from '../dtos/event-create-dto'
 import { EventUpsertDialogData } from '../interfaces/event-upsert-dialog-data'
 import { EventApiService } from '../services/event-api.service'
 import * as EventActions from './event.actions'
@@ -91,7 +91,7 @@ export class EventEffects {
                   submitText: 'Create',
                   onSubmit: (event) =>
                     // eslint-disable-next-line @ngrx/no-dispatch-in-effects
-                    this.store.dispatch(EventActions.CreateEventActions.createEvent({ event: event as EventCreateDTO }))
+                    this.store.dispatch(EventActions.CreateEventActions.createEvent({ event: event as EventCreatedto }))
                 }
               }
             ))

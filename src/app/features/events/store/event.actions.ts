@@ -1,6 +1,6 @@
 import { createAction, createActionGroup, emptyProps, props } from '@ngrx/store'
-import { EventCreateDTO } from '../dtos/event-create-dto'
-import { EventUpdateDTO } from '../dtos/event-update-dto'
+import { EventCreatedto } from '../dtos/event-create-dto'
+import { EventUpdatedto } from '../dtos/event-update-dto'
 import { Event } from '../interfaces/event'
 
 export const FetchAllEventsActions = createActionGroup({
@@ -17,7 +17,7 @@ export const CreateEventActions = createActionGroup({
   source: 'Events',
   events: {
     'Open Create Event Dialog': emptyProps(),
-    'Create Event': props<{ event: EventCreateDTO }>(),
+    'Create Event': props<{ event: EventCreatedto }>(),
     'Create Event Loading': emptyProps(),
     'Create Event Error': props<{ error: string }>(),
     'Create Event Success': props<{ event: Event }>()
@@ -28,7 +28,7 @@ export const UpdateEventActions = createActionGroup({
   source: 'Events',
   events: {
     'Open Update Event Dialog': props<{ eventId: string }>(),
-    'Update Event': props<{ eventId: string; event: EventUpdateDTO }>(),
+    'Update Event': props<{ eventId: string; event: EventUpdatedto }>(),
     'Update Event Loading': emptyProps(),
     'Update Event Error': props<{ error: string }>(),
     'Update Event Success': props<{ event: Event }>()

@@ -7,7 +7,7 @@ import { map, exhaustMap, catchError, tap, mergeMap } from 'rxjs/operators'
 import { DialogType } from 'src/app/shared/dialog/dialog-type.enum'
 import { DialogService } from 'src/app/shared/dialog/dialog.service'
 import { GroupUpsertFormComponent } from '../components/group-upsert-form/group-upsert-form.component'
-import { GroupCreateDTO } from '../dtos/group-create-dto'
+import { GroupCreatedto } from '../dtos/group-create-dto'
 import { GroupUpsertDialogData } from '../interfaces/group-upsert-dialog-data'
 import { GroupApiService } from '../services/group-api.service'
 import * as GroupActions from './group.actions'
@@ -91,7 +91,7 @@ export class GroupEffects {
                   submitText: 'Create',
                   onSubmit: (group) =>
                     // eslint-disable-next-line @ngrx/no-dispatch-in-effects
-                    this.store.dispatch(GroupActions.CreateGroupActions.createGroup({ group: group as GroupCreateDTO }))
+                    this.store.dispatch(GroupActions.CreateGroupActions.createGroup({ group: group as GroupCreatedto }))
                 }
               }
             ))

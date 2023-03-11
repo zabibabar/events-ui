@@ -4,8 +4,8 @@ import { Observable } from 'rxjs'
 import { Event } from '../interfaces/event'
 import { Attendee } from '../interfaces/attendee'
 
-type EventCreateDTO = Omit<Event, 'id'>
-type EventUpdateDTO = Partial<EventCreateDTO>
+type EventCreatedto = Omit<Event, 'id'>
+type EventUpdatedto = Partial<EventCreatedto>
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +21,7 @@ export class EventApiService {
     return this.httpClient.get<Event[]>(`/users/${userId}/events`)
   }
 
-  createEvent(Event: EventCreateDTO): Observable<Event> {
+  createEvent(Event: EventCreatedto): Observable<Event> {
     return this.httpClient.post<Event>('/events', Event)
   }
 
@@ -29,7 +29,7 @@ export class EventApiService {
     return this.httpClient.get<Event>(`/events/${eventId}`)
   }
 
-  updateEvent(eventId: string, EventUpdates: EventUpdateDTO): Observable<Event> {
+  updateEvent(eventId: string, EventUpdates: EventUpdatedto): Observable<Event> {
     return this.httpClient.put<Event>(`/events/${eventId}`, EventUpdates)
   }
 
