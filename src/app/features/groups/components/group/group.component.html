@@ -1,11 +1,7 @@
-<div class="group" routerLink="{{ group.id }}">
+<div class="group" [routerLink]="group.id">
   <div class="group__picture"></div>
   <div class="group__desc">
     <div class="mat-body-1">{{ group.name }}</div>
     <div class="group__desc__member-count">{{ group.members?.length ?? 0 }} members</div>
-  </div>
-
-  <div class="group__options secondary-color">
-    <app-group-options-menu [group]="group"></app-group-options-menu>
   </div>
 </div>

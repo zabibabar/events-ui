@@ -17,10 +17,6 @@
         color: mat.get-color-from-palette($foreground-palette, secondary-text);
       }
     }
-
-    &__options {
-      color: mat.get-color-from-palette($foreground-palette, secondary-text);
-    }
   }
 }
 

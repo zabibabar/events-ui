@@ -1,4 +1,4 @@
-<div class="event mat-elevation-z1" routerLink="{{ event.id }}">
+<div class="event mat-elevation-z1" [routerLink]="event.id">
   <div class="event__picture"></div>
   <div class="event__body">
     <div class="event__body__header">
@@ -6,7 +6,7 @@
       <div class="mat-subtitle-1">{{ event.name }}</div>
     </div>
     <div class="event__body__details">
-      <div class="event__body__details__group">{{ event.group }}</div>
+      <div class="event__body__details__group">{{ event.groupId }}</div>
     </div>
 
     <div class="event__body__going">
@@ -16,9 +16,5 @@
         <mat-icon>expand_more</mat-icon>
       </button>
     </div>
-  </div>
-
-  <div class="event__options">
-    <app-event-options-menu [event]="event"></app-event-options-menu>
   </div>
 </div>
