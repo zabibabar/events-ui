@@ -4,14 +4,12 @@ import { selectRouteParam } from 'src/app/core/store/router.selectors'
 import { Group } from '../interfaces/group'
 import { adapter, groupFeatureSelector, GroupStoreState } from './group.reducer'
 
-const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelectors()
+const { selectEntities, selectAll } = adapter.getSelectors()
 
 export const selectGroupState = createFeatureSelector<GroupStoreState>(groupFeatureSelector)
 
-export const selectGroupIds = createSelector(selectGroupState, selectIds)
 export const selectGroupEntities = createSelector(selectGroupState, selectEntities)
 export const selectAllGroups = createSelector(selectGroupState, selectAll)
-export const selectGroupTotal = createSelector(selectGroupState, selectTotal)
 export const selectCurrentGroup = createSelector(
   selectGroupEntities,
   selectRouteParam('groupId'),

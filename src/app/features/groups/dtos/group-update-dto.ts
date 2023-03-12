@@ -1,3 +1,3 @@
-import { GroupCreatedto } from './group-create-dto'
+import { GroupCreatDto } from './group-create-dto'
 
-export type GroupUpdatedto = Partial<GroupCreatedto>
+export type GroupUpdatDto = Partial<GroupCreatDto>

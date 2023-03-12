@@ -1,3 +1,3 @@
-import { EventCreatedto } from './event-create-dto'
+import { EventCreateDto } from './event-create-dto'
 
-export type EventUpdatedto = Partial<EventCreatedto>
+export type EventUpdateDto = Partial<EventCreateDto>

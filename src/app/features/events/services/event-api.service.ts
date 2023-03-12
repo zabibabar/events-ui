@@ -3,9 +3,8 @@ import { HttpClient } from '@angular/common/http'
 import { Observable } from 'rxjs'
 import { Event } from '../interfaces/event'
 import { Attendee } from '../interfaces/attendee'
-
-type EventCreatedto = Omit<Event, 'id'>
-type EventUpdatedto = Partial<EventCreatedto>
+import { EventCreateDto } from '../dtos/event-create-dto'
+import { EventUpdateDto } from '../dtos/event-update-dto'
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +20,7 @@ export class EventApiService {
     return this.httpClient.get<Event[]>(`/users/${userId}/events`)
   }
 
-  createEvent(Event: EventCreatedto): Observable<Event> {
+  createEvent(Event: EventCreateDto): Observable<Event> {
     return this.httpClient.post<Event>('/events', Event)
   }
 
@@ -29,7 +28,7 @@ export class EventApiService {
     return this.httpClient.get<Event>(`/events/${eventId}`)
   }
 
-  updateEvent(eventId: string, EventUpdates: EventUpdatedto): Observable<Event> {
+  updateEvent(eventId: string, EventUpdates: EventUpdateDto): Observable<Event> {
     return this.httpClient.put<Event>(`/events/${eventId}`, EventUpdates)
   }
 

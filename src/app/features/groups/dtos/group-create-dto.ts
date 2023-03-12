@@ -1,3 +1,3 @@
 import { Group } from '../interfaces/group'
 
-export type GroupCreatedto = Omit<Omit<Group, 'id'>, 'members'>
+export type GroupCreatDto = Omit<Omit<Group, 'id'>, 'members'>
