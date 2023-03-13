@@ -29,7 +29,7 @@ export class EventApiService {
   }
 
   updateEvent(eventId: string, EventUpdates: EventUpdateDto): Observable<Event> {
-    return this.httpClient.put<Event>(`events/${eventId}`, EventUpdates)
+    return this.httpClient.patch<Event>(`events/${eventId}`, EventUpdates)
   }
 
   deleteEvent(eventId: string): Observable<void> {

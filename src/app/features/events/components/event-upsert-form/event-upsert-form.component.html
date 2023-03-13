@@ -33,7 +33,12 @@
   </form>
   <div dialog-form-footer>
     <button mat-button (click)="onCancel()">Cancel</button>
-    <button mat-flat-button color="primary" (click)="submit()" [disabled]="eventUpsertForm.invalid">
+    <button
+      mat-flat-button
+      color="primary"
+      (click)="submit()"
+      [disabled]="eventUpsertForm.invalid || eventUpsertForm.pristine"
+    >
       {{ submitText }}
     </button>
   </div>

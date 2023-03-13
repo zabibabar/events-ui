@@ -2,7 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { Store } from '@ngrx/store'
-import { Observable } from 'rxjs'
+import { Observable, take } from 'rxjs'
 import { Group } from 'src/app/features/groups/interfaces/group'
 import { selectCurrentGroup } from 'src/app/features/groups/store/group.selectors'
 import { EventCreateDto } from '../../dtos/event-create-dto'
@@ -51,18 +51,15 @@ export class EventUpsertFormComponent implements OnInit {
   }
 
   submit(): void {
-    this.currentGroup$.subscribe((group) => {
-      console.log(group)
+    this.currentGroup$.pipe(take(1)).subscribe((group) => {
       if (!group) return
 
-      const { name, timeStart, timeEnd, address, description } = this.eventUpsertForm.value
-      const newEvent: EventCreateDto = {
-        name: name as string,
-        address: address as string,
-        description: description as string | undefined,
+      const formValue = this.getDirtyFields(this.eventUpsertForm)
+      const newEvent = {
+        ...formValue,
         groupId: group.id,
-        timeStart: this.setHourTo(timeStart as Date, 19),
-        timeEnd: this.setHourTo(timeEnd as Date, 22)
+        timeStart: this.setHourTo(this.eventUpsertForm.get('timeStart')?.value as Date | string, 19),
+        timeEnd: this.setHourTo(this.eventUpsertForm.get('timeEnd')?.value as Date | string, 22)
       }
 
       this.onSubmit(newEvent)
@@ -70,11 +67,24 @@ export class EventUpsertFormComponent implements OnInit {
     })
   }
 
-  setHourTo(date: Date, hour: number): Date {
+  setHourTo(date: Date | string, hour: number): Date {
+    if (typeof date === 'string') date = new Date(date)
     return new Date(date.setHours(hour))
   }
 
   onCancel(): void {
     this.store.dispatch(closeUpsertFormDialog())
+  }
+
+  private getDirtyFields(formGroup: FormGroup): Partial<EventCreateDto> {
+    const dirtyValues: Record<string, string> = {}
+    Object.keys(formGroup.controls).forEach((c) => {
+      const currentControl = formGroup.get(c)
+
+      if (currentControl?.dirty) {
+        dirtyValues[c] = currentControl.value
+      }
+    })
+    return dirtyValues
   }
 }
