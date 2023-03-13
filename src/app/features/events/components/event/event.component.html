@@ -6,7 +6,7 @@
       <div class="mat-subtitle-1">{{ event.name }}</div>
     </div>
     <div class="event__body__details">
-      <div class="event__body__details__group">{{ event.groupId }}</div>
+      <div class="event__body__details__group" *ngIf="group$ | async as group">{{ group.name }}</div>
     </div>
 
     <div class="event__body__going">

@@ -11,12 +11,10 @@ export class EventDetailsPageGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
     const eventId = route.paramMap.get('eventId')
-    console.log(eventId)
     if (!eventId) return of(false)
 
     return this.store.select(selectEventById({ eventId })).pipe(
       tap((event) => {
-        console.log(event)
         if (!event) this.store.dispatch(FetchOneEventActions.fetchOneEvent({ eventId }))
       }),
       filter((event) => !!event),
