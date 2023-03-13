@@ -1,4 +1,8 @@
-<div class="event mat-elevation-z1" [routerLink]="event.id">
+<div
+  class="event mat-elevation-z1"
+  *ngIf="group$ | async as group"
+  [routerLink]="['/groups', group.id, 'events', event.id]"
+>
   <div class="event__picture"></div>
   <div class="event__body">
     <div class="event__body__header">
@@ -6,7 +10,7 @@
       <div class="mat-subtitle-1">{{ event.name }}</div>
     </div>
     <div class="event__body__details">
-      <div class="event__body__details__group" *ngIf="group$ | async as group">{{ group.name }}</div>
+      <div class="event__body__details__group">{{ group.name }}</div>
     </div>
 
     <div class="event__body__going">

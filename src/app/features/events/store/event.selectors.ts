@@ -8,12 +8,10 @@ const { selectIds, selectEntities, selectAll, selectTotal } = adapter.getSelecto
 
 export const selectEventState = createFeatureSelector<EventStoreState>(eventFeatureSelector)
 
-export const getSelectedUserId = (state: EventStoreState) => state.selectedEventId
 export const selectEventIds = createSelector(selectEventState, selectIds)
 export const selectEventEntities = createSelector(selectEventState, selectEntities)
 export const selectAllEvents = createSelector(selectEventState, selectAll)
 export const selectEventTotal = createSelector(selectEventState, selectTotal)
-export const selectCurrentEventId = createSelector(selectEventState, getSelectedUserId)
 
 export const selectCurrentEvent = createSelector(
   selectEventEntities,

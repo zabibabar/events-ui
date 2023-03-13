@@ -5,14 +5,7 @@ import { EventsPageComponent } from './events-page.component'
 const routes: Routes = [
   {
     path: '',
-    children: [
-      { path: '', component: EventsPageComponent },
-      {
-        path: ':eventId',
-        loadChildren: () =>
-          import('../event-details-page/event-details-page.module').then((m) => m.EventDetailsPageModule)
-      }
-    ]
+    children: [{ path: '', component: EventsPageComponent }]
   }
 ]
 

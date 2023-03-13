@@ -1,3 +1,10 @@
-<div class="event-header">
-  <h1>Events</h1>
+<div class="event-header" *ngIf="event$ | async as event">
+  <div class="event-header__picture"></div>
+  <div class="event-header__details">
+    <div class="event-header__details__name mat-headline-5">{{ event.name }}</div>
+    <div class="flex-spacer"></div>
+    <app-event-options-menu [event]="event"></app-event-options-menu>
+    <div class="event-header__details__description">{{ event.description }}</div>
+  </div>
 </div>
+<mat-divider></mat-divider>

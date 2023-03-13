@@ -24,6 +24,7 @@ import { DialogFormModule } from 'src/app/shared/dialog-form/dialog-form.module'
 import { DialogModule } from 'src/app/shared/dialog/dialog.module'
 import { RouterModule } from '@angular/router'
 import { MatSlideToggleModule } from '@angular/material/slide-toggle'
+import { MatDividerModule } from '@angular/material/divider'
 
 @NgModule({
   imports: [
@@ -38,6 +39,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle'
     MatIconModule,
     MatDatepickerModule,
     MatSlideToggleModule,
+    MatDividerModule,
     FormsModule,
     DialogFormModule,
     DialogModule,
@@ -54,6 +56,6 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle'
     EventOptionsMenuComponent,
     EventUpsertFormComponent
   ],
-  exports: [EventListComponent, EventHeaderComponent, EventCreateButtonComponent]
+  exports: [EventListComponent, EventHeaderComponent, EventCreateButtonComponent, EventHeaderComponent]
 })
 export class EventsModule {}
