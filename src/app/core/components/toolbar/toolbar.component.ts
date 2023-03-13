@@ -8,7 +8,7 @@ import { getUser } from 'src/app/features/users/store/user.selectors'
   styleUrls: ['./toolbar.component.scss']
 })
 export class ToolbarComponent {
-  public user$ = this.store.pipe(getUser)
+  user$ = this.store.pipe(getUser)
 
-  public constructor(private readonly store: Store) {}
+  constructor(private readonly store: Store) {}
 }

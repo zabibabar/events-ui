@@ -15,7 +15,7 @@ export class UserAuthEffects implements OnInitEffects {
     () => {
       return this.actions$.pipe(
         ofType(UserAuthActions.signIn),
-        switchMap((action) => this.userAuthService.loginWithRedirect({ target: action.returnUrl }))
+        tap((action) => this.userAuthService.loginWithRedirect({ target: action.returnUrl }))
       )
     },
     { dispatch: false }
