@@ -27,7 +27,6 @@ export class EventEffects {
   fetchAllEvents$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(EventActions.FetchAllEventsActions.fetchAllEvents),
-      tap({ next: EventActions.FetchAllEventsActions.fetchAllEventsLoading }),
       exhaustMap(() =>
         this.eventApiService.getAllEvents().pipe(
           map((events) => EventActions.FetchAllEventsActions.fetchAllEventsSuccess({ events })),
@@ -37,10 +36,21 @@ export class EventEffects {
     )
   })
 
+  fetchOneEvent$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(EventActions.FetchOneEventActions.fetchOneEvent),
+      exhaustMap(({ eventId }) =>
+        this.eventApiService.getEventById(eventId).pipe(
+          map((event) => EventActions.FetchOneEventActions.fetchOneEventSuccess({ event })),
+          catchError((error) => of(EventActions.FetchOneEventActions.fetchOneEventError({ error })))
+        )
+      )
+    )
+  })
+
   createEvent$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(EventActions.CreateEventActions.createEvent),
-      tap({ next: EventActions.CreateEventActions.createEventLoading }),
       exhaustMap(({ event }) =>
         this.eventApiService.createEvent(event).pipe(
           map((event) => EventActions.CreateEventActions.createEventSuccess({ event })),
@@ -53,7 +63,6 @@ export class EventEffects {
   updateEvent$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(EventActions.UpdateEventActions.updateEvent),
-      tap({ next: EventActions.UpdateEventActions.updateEventLoading }),
       mergeMap(({ eventId, event }) =>
         this.eventApiService.updateEvent(eventId, event).pipe(
           map((event) => EventActions.UpdateEventActions.updateEventSuccess({ event })),
@@ -66,7 +75,6 @@ export class EventEffects {
   deleteEvent$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(EventActions.DeleteEventActions.deleteEvent),
-      tap({ next: EventActions.DeleteEventActions.deleteEventLoading }),
       mergeMap(({ eventId }) =>
         this.eventApiService.deleteEvent(eventId).pipe(
           map(() => EventActions.DeleteEventActions.deleteEventSuccess({ eventId })),

@@ -37,6 +37,19 @@ export class GroupEffects {
     )
   })
 
+  fetchOneGroup$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(GroupActions.FetchOneGroupActions.fetchOneGroup),
+      tap({ next: GroupActions.FetchOneGroupActions.fetchOneGroupLoading }),
+      exhaustMap(({ groupId }) =>
+        this.groupApiService.getGroupById(groupId).pipe(
+          map((group) => GroupActions.FetchOneGroupActions.fetchOneGroupSuccess({ group })),
+          catchError((error) => of(GroupActions.FetchOneGroupActions.fetchOneGroupError({ error })))
+        )
+      )
+    )
+  })
+
   createGroup$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(GroupActions.CreateGroupActions.createGroup),

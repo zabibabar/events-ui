@@ -34,6 +34,15 @@ export const groupReducer: ActionReducer<GroupStoreState, Action> = createReduce
     GroupActions.FetchAllGroupsActions.fetchAllGroupsError,
     (state, { error }): GroupStoreState => ({ ...state, error, loading: false })
   ),
+  on(GroupActions.FetchOneGroupActions.fetchOneGroupLoading, (state): GroupStoreState => ({ ...state, loading: true })),
+  on(
+    GroupActions.FetchOneGroupActions.fetchOneGroupSuccess,
+    (state, { group }): GroupStoreState => adapter.upsertOne(group, { ...state, error: null, loading: false })
+  ),
+  on(
+    GroupActions.FetchOneGroupActions.fetchOneGroupError,
+    (state, { error }): GroupStoreState => ({ ...state, error, loading: false })
+  ),
   on(GroupActions.CreateGroupActions.createGroupLoading, (state): GroupStoreState => ({ ...state, loading: true })),
   on(
     GroupActions.CreateGroupActions.createGroupSuccess,

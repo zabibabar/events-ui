@@ -13,6 +13,16 @@ export const FetchAllGroupsActions = createActionGroup({
   }
 })
 
+export const FetchOneGroupActions = createActionGroup({
+  source: 'Groups',
+  events: {
+    'Fetch One Group': props<{ groupId: string }>(),
+    'Fetch One Group Loading': emptyProps(),
+    'Fetch One Group Error': props<{ error: string }>(),
+    'Fetch One Group Success': props<{ group: Group }>()
+  }
+})
+
 export const CreateGroupActions = createActionGroup({
   source: 'Groups',
   events: {

@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
 import { GroupDetailsPageComponent } from './group-details-page.component'
+import { GroupDetailsPageGuard } from './group-details-page.guard'
 
 const routes: Routes = [
   {
     path: '',
     component: GroupDetailsPageComponent,
+    canActivate: [GroupDetailsPageGuard],
     children: [
       {
         path: '',

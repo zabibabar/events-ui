@@ -16,8 +16,8 @@ export class GroupApiService {
     return this.httpClient.get<Group[]>('groups')
   }
 
-  getGroupsByUser(userId: string): Observable<Group[]> {
-    return this.httpClient.get<Group[]>(`users/${userId}/groups`)
+  getGroupById(groupId: string): Observable<Group> {
+    return this.httpClient.get<Group>(`groups/${groupId}`)
   }
 
   createGroup(group: GroupCreatDto): Observable<Group> {

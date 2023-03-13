@@ -23,19 +23,25 @@ const initialState: EventStoreState = adapter.getInitialState({
 
 export const eventReducer: ActionReducer<EventStoreState, Action> = createReducer(
   initialState,
-  on(
-    EventActions.FetchAllEventsActions.fetchAllEventsLoading,
-    (state): EventStoreState => ({ ...state, loading: true })
-  ),
+  on(EventActions.FetchAllEventsActions.fetchAllEvents, (state): EventStoreState => ({ ...state, loading: true })),
   on(
     EventActions.FetchAllEventsActions.fetchAllEventsSuccess,
     (state, { events }): EventStoreState => adapter.upsertMany(events, { ...state, error: null, loading: false })
   ),
   on(
+    EventActions.FetchOneEventActions.fetchOneEventError,
+    (state, { error }): EventStoreState => ({ ...state, error, loading: false })
+  ),
+  on(EventActions.FetchOneEventActions.fetchOneEvent, (state): EventStoreState => ({ ...state, loading: true })),
+  on(
+    EventActions.FetchOneEventActions.fetchOneEventSuccess,
+    (state, { event }): EventStoreState => adapter.upsertOne(event, { ...state, error: null, loading: false })
+  ),
+  on(
     EventActions.FetchAllEventsActions.fetchAllEventsError,
     (state, { error }): EventStoreState => ({ ...state, error, loading: false })
   ),
-  on(EventActions.CreateEventActions.createEventLoading, (state): EventStoreState => ({ ...state, loading: true })),
+  on(EventActions.CreateEventActions.createEvent, (state): EventStoreState => ({ ...state, loading: true })),
   on(
     EventActions.CreateEventActions.createEventSuccess,
     (state, { event }): EventStoreState => adapter.upsertOne(event, { ...state, error: null, loading: false })
@@ -44,7 +50,7 @@ export const eventReducer: ActionReducer<EventStoreState, Action> = createReduce
     EventActions.CreateEventActions.createEventError,
     (state, { error }): EventStoreState => ({ ...state, error, loading: false })
   ),
-  on(EventActions.UpdateEventActions.updateEventLoading, (state): EventStoreState => ({ ...state, loading: true })),
+  on(EventActions.UpdateEventActions.updateEvent, (state): EventStoreState => ({ ...state, loading: true })),
   on(
     EventActions.UpdateEventActions.updateEventSuccess,
     (state, { event }): EventStoreState => adapter.upsertOne(event, { ...state, error: null, loading: false })
@@ -53,7 +59,7 @@ export const eventReducer: ActionReducer<EventStoreState, Action> = createReduce
     EventActions.UpdateEventActions.updateEventError,
     (state, { error }): EventStoreState => ({ ...state, error, loading: false })
   ),
-  on(EventActions.DeleteEventActions.deleteEventLoading, (state): EventStoreState => ({ ...state, loading: true })),
+  on(EventActions.DeleteEventActions.deleteEvent, (state): EventStoreState => ({ ...state, loading: true })),
   on(
     EventActions.DeleteEventActions.deleteEventSuccess,
     (state, { eventId }): EventStoreState => adapter.removeOne(eventId, { ...state, error: null, loading: false })
