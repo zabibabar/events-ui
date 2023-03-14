@@ -1,0 +1,55 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@mixin color($theme) {
+  $color-config: mat.get-color-config($theme);
+  $is-dark: map.get($color-config, 'is-dark');
+  $primary-palette: map.get($color-config, 'primary');
+  $foreground-palette: map.get($color-config, 'foreground');
+  $background-palette: map.get($color-config, 'background');
+
+  .toolbar {
+    &__nav-list {
+      &__item {
+        color: mat.get-color-from-palette($foreground-palette, 'secondary-text');
+
+        &:hover {
+          background-color: mat.get-color-from-palette($primary-palette, 'lighter');
+          color: mat.get-color-from-palette($primary-palette, 'lighter-contrast');
+        }
+
+        &--active {
+          background-color: mat.get-color-from-palette($primary-palette, 'lighter') !important;
+          color: mat.get-color-from-palette($primary-palette, 'lighter-contrast');
+        }
+
+        &--active &__icon {
+          color: mat.get-color-from-palette($primary-palette, 'default');
+        }
+      }
+    }
+  }
+}
+
+@mixin typography($typography-config) {
+  .toolbar {
+    &__nav-list {
+      &__item {
+        &--active &__label {
+          @include mat.typography-level($typography-config, 'body-1');
+        }
+      }
+    }
+  }
+}
+
+@mixin theme($theme, $typography-config) {
+  $color-config: mat.get-color-config($theme);
+  @if $color-config != null {
+    @include color($theme);
+  }
+
+  @if $typography-config != null {
+    @include typography($typography-config);
+  }
+}

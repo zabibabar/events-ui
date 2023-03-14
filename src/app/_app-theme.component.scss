@@ -1,0 +1,31 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@mixin color($theme) {
+  $color-config: mat.get-color-config($theme);
+  $is-dark: map.get($color-config, 'is-dark');
+  $primary-palette: map.get($color-config, 'primary');
+  $background-palette: map.get($color-config, 'background');
+
+  .app-container {
+    @if $is-dark {
+      background-color: mat.get-color-from-palette($background-palette, 'background');
+    } @else {
+      background-color: rgba($color: mat.get-color-from-palette($primary-palette, 'default'), $alpha: 0.03);
+    }
+  }
+}
+
+@mixin typography($typography-config) {
+}
+
+@mixin theme($theme, $typography-config) {
+  $color-config: mat.get-color-config($theme);
+  @if $color-config != null {
+    @include color($theme);
+  }
+
+  @if $typography-config != null {
+    @include typography($typography-config);
+  }
+}

@@ -1,5 +1,8 @@
-<div class="group-header" *ngIf="group$ | async as group">
-  <div class="group-header__picture"></div>
+<app-page-container class="group-header" *ngIf="group$ | async as group">
+  <img
+    class="group-header__picture"
+    src="https://media.gq.com/photos/59e76aaaf964810d9a9b8d2f/16:9/w_2560%2Cc_limit/GQ_50Greatest_final_v2.jpg"
+  />
   <div class="group-header__details">
     <div class="group-header__details__name mat-headline-5">{{ group.name }}</div>
     <div class="flex-spacer"></div>
@@ -19,7 +22,7 @@
       {{ link.label }}
     </a>
   </nav>
-</div>
+</app-page-container>
 <mat-divider></mat-divider>
 <mat-tab-nav-panel #tabPanel>
   <app-page-container>
