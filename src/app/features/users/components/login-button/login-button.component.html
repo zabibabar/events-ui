@@ -1,7 +1,0 @@
-<div *ngIf="isAuthenticated$ | async; else noAuth">
-  <button mat-button (click)="logout()">Logout</button>
-</div>
-
-<ng-template #noAuth>
-  <button mat-button (click)="login()">Login</button>
-</ng-template>

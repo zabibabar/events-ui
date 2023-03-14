@@ -7,16 +7,21 @@ import { UserAuthEffects } from '../users/store/user.effects'
 import { userFeatureSelector, userAuthReducer } from '../users/store/user.reducer'
 import { JwtInterceptor } from './interceptors/jwt-interceptor'
 import { AuthModule } from '@auth0/auth0-angular'
-import { LoginButtonComponent } from './components/login-button/login-button.component'
 import { MatButtonModule } from '@angular/material/button'
+import { UserDropdownComponent } from './components/user-dropdown/user-dropdown.component'
+import { MatMenuModule } from '@angular/material/menu'
+import { MatIconModule } from '@angular/material/icon';
+import { UserGroupListComponent } from './components/user-group-list/user-group-list.component'
 
 @NgModule({
-  declarations: [LoginButtonComponent],
-  exports: [LoginButtonComponent],
+  declarations: [UserDropdownComponent, UserGroupListComponent],
+  exports: [UserDropdownComponent, UserGroupListComponent],
   imports: [
     CommonModule,
     MatButtonModule,
     HttpClientModule,
+    MatMenuModule,
+    MatIconModule,
     StoreModule.forFeature(userFeatureSelector, userAuthReducer),
     EffectsModule.forFeature([UserAuthEffects]),
     AuthModule.forRoot({

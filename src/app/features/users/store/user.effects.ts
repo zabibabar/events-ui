@@ -25,10 +25,10 @@ export class UserAuthEffects implements OnInitEffects {
     return this.actions$.pipe(
       ofType(UserAuthActions.signInCompleted),
       switchMap(() =>
-        this.userAuthService.getUser().pipe(
+        this.userAuthService.selectUser().pipe(
           filter((user) => !user.is_new),
           map(this.convertUserAuthToUser),
-          switchMap(({ externalId }) => this.userApiService.getUser(externalId)),
+          switchMap(({ externalId }) => this.userApiService.selectUser(externalId)),
           map((user) => UserAuthActions.signedIn({ user })),
           catchError((error) => of(UserAuthActions.signInFailed({ error })))
         )
@@ -40,7 +40,7 @@ export class UserAuthEffects implements OnInitEffects {
     return this.actions$.pipe(
       ofType(UserAuthActions.signInCompleted),
       switchMap(() =>
-        this.userAuthService.getUser().pipe(
+        this.userAuthService.selectUser().pipe(
           filter((user) => !!user.is_new),
           map(this.convertUserAuthToUser),
           switchMap((user) => this.userApiService.createUser(user)),

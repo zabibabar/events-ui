@@ -14,7 +14,7 @@ export class UserApiService {
     return this.httpClient.post<User>('users', user)
   }
 
-  getUser(externalId: string): Observable<User> {
+  selectUser(externalId: string): Observable<User> {
     return this.httpClient.get<User>(`users/${externalId}`)
   }
 }

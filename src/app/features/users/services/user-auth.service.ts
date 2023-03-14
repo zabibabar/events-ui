@@ -22,7 +22,7 @@ export class UserAuthService {
     return this.auth0.handleRedirectCallback().pipe(map((result) => result.appState as { target: string }))
   }
 
-  getUser(): Observable<UserAuth> {
+  selectUser(): Observable<UserAuth> {
     return this.auth0.user$.pipe(filter((u): u is UserAuth => u !== undefined))
   }
 
