@@ -1,11 +1,11 @@
 import { Component } from '@angular/core'
 
 @Component({
-  selector: 'app-theme-toggle',
-  templateUrl: './theme-toggle.component.html',
-  styleUrls: ['./theme-toggle.component.scss']
+  selector: 'app-user-theme-toggle',
+  templateUrl: './user-theme-toggle.component.html',
+  styleUrls: ['./user-theme-toggle.component.scss']
 })
-export class ThemeToggleComponent {
+export class UserThemeToggleComponent {
   isDark = false
 
   toggleDarkTheme() {

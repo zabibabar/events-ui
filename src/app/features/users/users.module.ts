@@ -13,9 +13,10 @@ import { UserAuthEffects } from './store/user-auth/user-auth.effects'
 import { userAuthFeatureSelector, userAuthReducer } from './store/user-auth/user-auth.reducer'
 import { UserEffects } from './store/user/user.effects'
 import { userFeatureSelector, userReducer } from './store/user/user.reducer'
+import { UserThemeToggleComponent } from './components/user-theme-toggle/user-theme-toggle.component'
 
 @NgModule({
-  declarations: [UserDropdownComponent],
+  declarations: [UserDropdownComponent, UserThemeToggleComponent],
   exports: [UserDropdownComponent],
   imports: [
     CommonModule,

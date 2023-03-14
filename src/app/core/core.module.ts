@@ -8,8 +8,7 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component'
 import { MatButtonModule } from '@angular/material/button'
 import { MatSidenavModule } from '@angular/material/sidenav'
 import { MatIconModule } from '@angular/material/icon'
-import { MatDividerModule } from '@angular/material/divider'
-import { ThemeToggleComponent } from './components/theme-toggle/theme-toggle.component'
+import { MatToolbarModule } from '@angular/material/toolbar'
 import { PageContainerComponent } from './components/page-container/page-container.component'
 
 @NgModule({
@@ -20,10 +19,10 @@ import { PageContainerComponent } from './components/page-container/page-contain
     MatButtonModule,
     MatSidenavModule,
     MatIconModule,
-    MatDividerModule,
+    MatToolbarModule,
     UsersModule
   ],
-  declarations: [SidenavComponent, ToolbarComponent, ThemeToggleComponent, PageContainerComponent],
-  exports: [SidenavComponent, PageContainerComponent]
+  declarations: [SidenavComponent, ToolbarComponent, PageContainerComponent],
+  exports: [SidenavComponent, PageContainerComponent, ToolbarComponent]
 })
 export class CoreModule {}
