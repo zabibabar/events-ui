@@ -1,0 +1,8 @@
+<div class="group-member-list" *ngIf="filteredGroupMembers$ | async as groupMembers">
+  <h2>All Members ({{ membersCount$ | async }})</h2>
+  <mat-form-field>
+    <mat-label>Search Members</mat-label>
+    <input matInput [formControl]="filter" />
+  </mat-form-field>
+  <app-group-member *ngFor="let member of groupMembers" [groupMember]="member"> </app-group-member>
+</div>

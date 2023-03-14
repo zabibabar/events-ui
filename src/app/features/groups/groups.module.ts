@@ -26,6 +26,8 @@ import { MatTabsModule } from '@angular/material/tabs'
 import { MatDividerModule } from '@angular/material/divider'
 import { CoreModule } from 'src/app/core/core.module'
 import { EventsModule } from '../events/events.module'
+import { GroupMemberListComponent } from './components/group-member-list/group-member-list.component'
+import { GroupMemberComponent } from './components/group-member/group-member.component'
 
 @NgModule({
   imports: [
@@ -57,8 +59,10 @@ import { EventsModule } from '../events/events.module'
     GroupCreateButtonComponent,
     GroupHeaderComponent,
     GroupOptionsMenuComponent,
-    GroupUpsertFormComponent
+    GroupUpsertFormComponent,
+    GroupMemberListComponent,
+    GroupMemberComponent
   ],
-  exports: [GroupListComponent, GroupHeaderComponent, GroupCreateButtonComponent]
+  exports: [GroupListComponent, GroupHeaderComponent, GroupCreateButtonComponent, GroupMemberListComponent]
 })
 export class GroupsModule {}

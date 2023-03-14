@@ -2,6 +2,8 @@
 @use '../../app/features/groups/components/group/_group-theme.component' as group;
 @use '../../app/features/groups/components/group-header/_group-header-theme.component' as group-header;
 @use '../../app/features/events/components/event-header/_event-header-theme.component' as event-header;
+@use '../../app/features/groups/components/group-member/_group-member-theme.component' as group-member;
+@use '../../app/features/groups/components/group-member-list/_group-member-list-theme.component' as group-member-list;
 @use '../../app/core/components/sidenav/_sidenav-theme.component' as sidenav;
 @use './button/variants' as button-variants;
 
@@ -10,6 +12,8 @@
   @include group.theme($theme, $typography-config);
   @include group-header.theme($theme, $typography-config);
   @include event-header.theme($theme, $typography-config);
+  @include group-member.theme($theme, $typography-config);
+  @include group-member-list.theme($theme, $typography-config);
   @include sidenav.theme($theme, $typography-config);
   @include button-variants.color($theme, $variants);
 }
