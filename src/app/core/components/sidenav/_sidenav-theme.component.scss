@@ -3,8 +3,17 @@
 
 @mixin color($theme) {
   $color-config: mat.get-color-config($theme);
+  $is-dark: map.get($color-config, 'is-dark');
   $primary-palette: map.get($color-config, 'primary');
   $foreground-palette: map.get($color-config, 'foreground');
+  $background-palette: map.get($color-config, 'background');
+
+  .app-container {
+    .mat-sidenav,
+    .mat-sidenav-content {
+      background-color: rgba($color: mat.get-color-from-palette($primary-palette, 'default'), $alpha: 0.02);
+    }
+  }
 
   .sidebar {
     &__header__title {
