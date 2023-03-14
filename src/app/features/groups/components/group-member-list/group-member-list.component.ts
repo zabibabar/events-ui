@@ -14,14 +14,15 @@ import { selectCurrentGroupMembers } from '../../store/group.selectors'
 export class GroupMemberListComponent implements OnInit {
   filter = new FormControl('', { nonNullable: true })
   filteredGroupMembers$: Observable<Member[]>
-  private groupMembers$: Observable<Member[]> = this.store.select(selectCurrentGroupMembers).pipe(
-    map(() =>
-      Array.from({ length: 10 }, () => ({
-        id: 'Zabeeh Ullah Babar',
-        createdAt: '2023-03-11T01:25:23.052Z'
-      }))
-    )
-  )
+  // private groupMembers$: Observable<Member[]> = this.store.select(selectCurrentGroupMembers).pipe(
+  //   map(() =>
+  //     Array.from({ length: 10 }, () => ({
+  //       id: 'Zabeeh Ullah Babar',
+  //       createdAt: '2023-03-11T01:25:23.052Z'
+  //     }))
+  //   )
+  // )
+  private groupMembers$: Observable<Member[]> = this.store.select(selectCurrentGroupMembers)
   membersCount$ = this.groupMembers$.pipe(map((members) => members.length))
 
   constructor(private store: Store) {}

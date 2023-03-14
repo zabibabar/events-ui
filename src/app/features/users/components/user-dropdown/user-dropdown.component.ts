@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core'
 import { Store } from '@ngrx/store'
-import { UserAuthActions } from '../../store/user.actions'
-import { selectIsAuthenticated, selectUser } from '../../store/user.selectors'
+import { UserAuthActions } from '../../store/user-auth/user-auth.actions'
+import { selectCurrentUser, selectIsAuthenticated } from '../../store/user/user.selectors'
 
 @Component({
   selector: 'app-user-dropdown',
@@ -10,7 +10,7 @@ import { selectIsAuthenticated, selectUser } from '../../store/user.selectors'
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class UserDropdownComponent {
-  user$ = this.store.select(selectUser)
+  user$ = this.store.select(selectCurrentUser)
   isAuthenticated$ = this.store.select(selectIsAuthenticated)
 
   constructor(private readonly store: Store) {}

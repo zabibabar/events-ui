@@ -3,11 +3,11 @@ import { Router } from '@angular/router'
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects'
 import { of } from 'rxjs'
 import { catchError, filter, map, switchMap, tap } from 'rxjs/operators'
-import { UserCreateDto } from '../dtos/user-create-dto'
-import { UserAuth } from '../interfaces/user-auth'
-import { UserApiService } from '../services/user-api.service'
-import { UserAuthService } from '../services/user-auth.service'
-import { UserAuthActions } from './user.actions'
+import { UserCreateDto } from '../../dtos/user-create-dto'
+import { UserAuth } from '../../interfaces/user-auth'
+import { UserAuthService } from '../../services/user-auth.service'
+import { CreateUserActions, FetchCurrentUserActions } from '../user/user.actions'
+import { UserAuthActions } from './user-auth.actions'
 
 @Injectable()
 export class UserAuthEffects implements OnInitEffects {
@@ -25,11 +25,10 @@ export class UserAuthEffects implements OnInitEffects {
     return this.actions$.pipe(
       ofType(UserAuthActions.signInCompleted),
       switchMap(() =>
-        this.userAuthService.selectUser().pipe(
+        this.userAuthService.getUser().pipe(
           filter((user) => !user.is_new),
           map(this.convertUserAuthToUser),
-          switchMap(({ externalId }) => this.userApiService.selectUser(externalId)),
-          map((user) => UserAuthActions.signedIn({ user })),
+          map(({ externalId }) => FetchCurrentUserActions.fetchCurrentUser({ externalId })),
           catchError((error) => of(UserAuthActions.signInFailed({ error })))
         )
       )
@@ -40,11 +39,10 @@ export class UserAuthEffects implements OnInitEffects {
     return this.actions$.pipe(
       ofType(UserAuthActions.signInCompleted),
       switchMap(() =>
-        this.userAuthService.selectUser().pipe(
+        this.userAuthService.getUser().pipe(
           filter((user) => !!user.is_new),
           map(this.convertUserAuthToUser),
-          switchMap((user) => this.userApiService.createUser(user)),
-          map((user) => UserAuthActions.signedIn({ user })),
+          map((user) => CreateUserActions.createUser({ user })),
           catchError((error) => of(UserAuthActions.signInFailed({ error })))
         )
       )
@@ -93,12 +91,7 @@ export class UserAuthEffects implements OnInitEffects {
     )
   })
 
-  constructor(
-    private actions$: Actions,
-    private userAuthService: UserAuthService,
-    private router: Router,
-    private userApiService: UserApiService
-  ) {}
+  constructor(private actions$: Actions, private userAuthService: UserAuthService, private router: Router) {}
 
   ngrxOnInitEffects() {
     return UserAuthActions.init()

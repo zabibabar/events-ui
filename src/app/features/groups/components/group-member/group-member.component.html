@@ -1,11 +1,7 @@
-<div class="group-member">
-  <img
-    class="group-member__picture"
-    src="https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png?rev=2540745"
-    alt="..."
-  />
+<div class="group-member" *ngIf="user$ | async as user">
+  <img class="group-member__picture" [src]="user.picture" alt="User Image" />
   <div class="group-member__details">
-    <div class="group-member__details__name mat-body-1">{{ groupMember.id }}</div>
+    <div class="group-member__details__name mat-body-1">{{ user.name }}</div>
     <div class="group-member__details__joined">Joined {{ groupMember.createdAt | date: 'LLL d, yyy' }}</div>
   </div>
   <div class="flex-spacer"></div>
