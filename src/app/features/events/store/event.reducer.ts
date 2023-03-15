@@ -30,9 +30,22 @@ export const eventReducer: ActionReducer<EventStoreState, Action> = createReduce
     (state, { events }): EventStoreState => adapter.upsertMany(events, { ...state, error: null, loading: false })
   ),
   on(
-    EventActions.FetchOneEventActions.fetchOneEventError,
+    EventActions.FetchAllEventsActions.fetchAllEventsError,
     (state, { error }): EventStoreState => ({ ...state, error, loading: false })
   ),
+  on(
+    EventActions.FetchEventsByCurrentGroupActions.fetchEventsByCurrentGroup,
+    (state): EventStoreState => ({ ...state, loading: true })
+  ),
+  on(
+    EventActions.FetchEventsByCurrentGroupActions.fetchEventsByCurrentGroupSuccess,
+    (state, { events }): EventStoreState => adapter.upsertMany(events, { ...state, error: null, loading: false })
+  ),
+  on(
+    EventActions.FetchEventsByCurrentGroupActions.fetchEventsByCurrentGroupError,
+    (state, { error }): EventStoreState => ({ ...state, error, loading: false })
+  ),
+
   on(EventActions.FetchOneEventActions.fetchOneEvent, (state): EventStoreState => ({ ...state, loading: true })),
   on(
     EventActions.FetchOneEventActions.fetchOneEventSuccess,

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpParams } from '@angular/common/http'
 import { Observable } from 'rxjs'
 import { Event } from '../interfaces/event'
 import { Attendee } from '../interfaces/attendee'
@@ -14,6 +14,11 @@ export class EventApiService {
 
   getAllEvents(): Observable<Event[]> {
     return this.httpClient.get<Event[]>('events')
+  }
+
+  getEventsByGroup(groupId: string): Observable<Event[]> {
+    const params = new HttpParams({ fromObject: { groupId } })
+    return this.httpClient.get<Event[]>(`events/`, { params })
   }
 
   getEventById(eventId: string): Observable<Event> {

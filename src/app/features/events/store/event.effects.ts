@@ -4,6 +4,7 @@ import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects'
 import { Store } from '@ngrx/store'
 import { of } from 'rxjs'
 import { map, exhaustMap, catchError, tap, mergeMap } from 'rxjs/operators'
+import { selectRouteParams } from 'src/app/core/store/router.selectors'
 import { DialogType } from 'src/app/shared/dialog/dialog-type.enum'
 import { DialogService } from 'src/app/shared/dialog/dialog.service'
 import { EventUpsertFormComponent } from '../components/event-upsert-form/event-upsert-form.component'
@@ -31,6 +32,21 @@ export class EventEffects {
         this.eventApiService.getAllEvents().pipe(
           map((events) => EventActions.FetchAllEventsActions.fetchAllEventsSuccess({ events })),
           catchError((error) => of(EventActions.FetchAllEventsActions.fetchAllEventsError({ error })))
+        )
+      )
+    )
+  })
+
+  fetchEventsByCurrentGroup$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(EventActions.FetchEventsByCurrentGroupActions.fetchEventsByCurrentGroup),
+      concatLatestFrom(() => this.store.select(selectRouteParams)),
+      exhaustMap(([, { groupId }]) =>
+        this.eventApiService.getEventsByGroup(groupId).pipe(
+          map((events) => EventActions.FetchEventsByCurrentGroupActions.fetchEventsByCurrentGroupSuccess({ events })),
+          catchError((error) =>
+            of(EventActions.FetchEventsByCurrentGroupActions.fetchEventsByCurrentGroupError({ error }))
+          )
         )
       )
     )

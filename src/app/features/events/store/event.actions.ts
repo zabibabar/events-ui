@@ -12,6 +12,15 @@ export const FetchAllEventsActions = createActionGroup({
   }
 })
 
+export const FetchEventsByCurrentGroupActions = createActionGroup({
+  source: 'Events',
+  events: {
+    'Fetch Events By Current Group': emptyProps(),
+    'Fetch Events By Current Group Error': props<{ error: string }>(),
+    'Fetch Events By Current Group Success': props<{ events: Event[] }>()
+  }
+})
+
 export const FetchOneEventActions = createActionGroup({
   source: 'Events',
   events: {

@@ -19,5 +19,9 @@ export const selectCurrentEvent = createSelector(
   (eventEntities, { eventId }) => eventEntities[eventId]
 )
 
+export const selectEventsByCurrentGroup = createSelector(selectAllEvents, selectRouteParams, (events, { groupId }) =>
+  events.filter(({ groupId: gId }) => gId === groupId)
+)
+
 export const selectEventById = (props: { eventId: string }) =>
   createSelector(selectEventEntities, (eventEntities: Dictionary<Event>) => eventEntities[props.eventId])
