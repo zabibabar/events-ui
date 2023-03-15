@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { HttpClient } from '@angular/common/http'
+import { HttpClient, HttpParams } from '@angular/common/http'
 import { Observable } from 'rxjs'
 import { Group } from '../interfaces/group'
 import { Member } from '../interfaces/member'
@@ -30,6 +30,11 @@ export class GroupApiService {
 
   deleteGroup(groupId: string): Observable<void> {
     return this.httpClient.delete<void>(`groups/${groupId}`)
+  }
+
+  addToGroupViaInviteCode(inviteCode: string): Observable<Group> {
+    const params = new HttpParams({ fromObject: { inviteCode } })
+    return this.httpClient.post<Group>('groups/join', null, { params })
   }
 
   getGroupMembers(groupId: string): Observable<Member[]> {

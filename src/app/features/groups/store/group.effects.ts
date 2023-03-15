@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core'
 import { MatDialogRef } from '@angular/material/dialog'
+import { Router } from '@angular/router'
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects'
+import { routerNavigatedAction } from '@ngrx/router-store'
 import { Store } from '@ngrx/store'
 import { of } from 'rxjs'
-import { map, exhaustMap, catchError, tap, mergeMap } from 'rxjs/operators'
+import { map, exhaustMap, catchError, tap, mergeMap, filter } from 'rxjs/operators'
+import { selectQueryParam } from 'src/app/core/store/router.selectors'
 import { DialogType } from 'src/app/shared/dialog/dialog-type.enum'
 import { DialogService } from 'src/app/shared/dialog/dialog.service'
 import { GroupUpsertFormComponent } from '../components/group-upsert-form/group-upsert-form.component'
@@ -21,7 +24,8 @@ export class GroupEffects {
     private actions$: Actions,
     private store: Store,
     private groupApiService: GroupApiService,
-    private dialog: DialogService
+    private dialog: DialogService,
+    private router: Router
   ) {}
 
   fetchAllGroups$ = createEffect(() => {
@@ -45,6 +49,24 @@ export class GroupEffects {
         this.groupApiService.getGroupById(groupId).pipe(
           map((group) => GroupActions.FetchOneGroupActions.fetchOneGroupSuccess({ group })),
           catchError((error) => of(GroupActions.FetchOneGroupActions.fetchOneGroupError({ error })))
+        )
+      )
+    )
+  })
+
+  addToGroupViaInviteCode$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(routerNavigatedAction),
+      filter((action) => action.payload.routerState.url.indexOf('join?inviteCode=') > -1),
+      concatLatestFrom(() => this.store.select(selectQueryParam('inviteCode'))),
+      exhaustMap(([, inviteCode]) =>
+        this.groupApiService.addToGroupViaInviteCode(inviteCode ?? '').pipe(
+          map((group) => GroupActions.AddToGroupViaInviteCodeActions.addToGroupViaInviteCodeSuccess({ group })),
+          tap(({ group }) => this.router.navigate(['/groups', group.id])),
+          catchError((error) =>
+            of(GroupActions.AddToGroupViaInviteCodeActions.addToGroupViaInviteCodeError({ error }))
+          ),
+          tap(() => this.router.navigate(['/groups']))
         )
       )
     )

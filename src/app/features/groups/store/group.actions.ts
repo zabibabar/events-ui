@@ -55,4 +55,12 @@ export const DeleteGroupActions = createActionGroup({
   }
 })
 
+export const AddToGroupViaInviteCodeActions = createActionGroup({
+  source: 'Groups',
+  events: {
+    'Add to Group Via Invite Code Error': props<{ error: string }>(),
+    'Add to Group Via Invite Code Success': props<{ group: Group }>()
+  }
+})
+
 export const closeUpsertFormDialog = createAction('[Groups] Close Upsert Form Dialog')

@@ -7,6 +7,7 @@ const routes: Routes = [
     path: '',
     children: [
       { path: '', component: GroupsPageComponent },
+      { path: 'join', component: GroupsPageComponent },
       {
         path: ':groupId',
         loadChildren: () =>
