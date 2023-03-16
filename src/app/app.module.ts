@@ -11,6 +11,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools'
 import { MatNativeDateModule } from '@angular/material/core'
 import { StoreRouterConnectingModule } from '@ngrx/router-store'
 import { appReducer } from './core/store/app.reducer'
+import { ToastModule } from './shared/toast'
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,7 +24,8 @@ import { appReducer } from './core/store/app.reducer'
     StoreModule.forRoot(appReducer, {}),
     EffectsModule.forRoot(),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
-    StoreRouterConnectingModule.forRoot()
+    StoreRouterConnectingModule.forRoot(),
+    ToastModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
