@@ -21,7 +21,7 @@ export class UserAuthEffects implements OnInitEffects {
     return this.actions$.pipe(
       ofType(UserAuthActions.init),
       switchMap(() => this.userAuthService.isAuthenticated()),
-      map((isLoggedIn) => (isLoggedIn ? UserAuthActions.signInCompleted() : UserAuthActions.signOutCompleted())),
+      map((isLoggedIn) => (isLoggedIn ? UserAuthActions.signInCompleted({}) : UserAuthActions.signOutCompleted())),
       catchError((error) => of(UserAuthActions.signInFailed({ error })))
     )
   })
@@ -30,7 +30,7 @@ export class UserAuthEffects implements OnInitEffects {
     () => {
       return this.actions$.pipe(
         ofType(UserAuthActions.signIn),
-        tap(() => this.userAuthService.login())
+        tap((action) => this.userAuthService.loginWithRedirect({ target: action.returnUrl }))
       )
     },
     { dispatch: false }
@@ -41,7 +41,6 @@ export class UserAuthEffects implements OnInitEffects {
       ofType(UserAuthActions.signInCompleted),
       switchMap(() =>
         this.userAuthService.getUser().pipe(
-          tap(console.log),
           filter((user) => !user.is_new),
           map(this.convertUserAuthToUser),
           map(({ externalId }) => FetchCurrentUserActions.fetchCurrentUser({ externalId }))

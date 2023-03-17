@@ -15,7 +15,7 @@ export class UserDropdownComponent {
   constructor(private readonly store: Store) {}
 
   login() {
-    this.store.dispatch(UserAuthActions.signIn())
+    this.store.dispatch(UserAuthActions.signIn({ returnUrl: '/' }))
   }
 
   logout() {

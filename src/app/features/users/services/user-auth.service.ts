@@ -14,8 +14,8 @@ export class UserAuthService {
     return this.auth0.isAuthenticated$
   }
 
-  login(): void {
-    this.auth0.loginWithRedirect()
+  loginWithRedirect(appState: { target: string }): void {
+    this.auth0.loginWithRedirect({ appState })
   }
 
   getUser(): Observable<UserAuth> {
