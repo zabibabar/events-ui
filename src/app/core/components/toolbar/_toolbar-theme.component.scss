@@ -10,37 +10,14 @@
 
   .toolbar {
     &__nav-list {
-      &__item {
-        color: mat.get-color-from-palette($foreground-palette, 'secondary-text');
-
-        &:hover {
-          background-color: mat.get-color-from-palette($primary-palette, 'lighter');
-          color: mat.get-color-from-palette($primary-palette, 'lighter-contrast');
-        }
-
-        &--active {
-          background-color: mat.get-color-from-palette($primary-palette, 'lighter') !important;
-          color: mat.get-color-from-palette($primary-palette, 'lighter-contrast');
-        }
-
-        &--active &__icon {
-          color: mat.get-color-from-palette($primary-palette, 'default');
-        }
+      &__item--active {
+        background-color: mat.get-color-from-palette($background-palette, 'focused-button') !important;
       }
     }
   }
 }
 
 @mixin typography($typography-config) {
-  .toolbar {
-    &__nav-list {
-      &__item {
-        &--active &__label {
-          @include mat.typography-level($typography-config, 'body-1');
-        }
-      }
-    }
-  }
 }
 
 @mixin theme($theme, $typography-config) {
