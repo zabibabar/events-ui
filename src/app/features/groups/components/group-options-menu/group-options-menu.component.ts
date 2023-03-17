@@ -20,4 +20,8 @@ export class GroupOptionsMenuComponent {
   deleteGroup(): void {
     this.store.dispatch(DeleteGroupActions.deleteGroup({ groupId: this.group.id }))
   }
+
+  copyInviteLink(): void {
+    navigator.clipboard.writeText(`${location.origin}/groups/join?inviteCode=${this.group.inviteCode}`)
+  }
 }

@@ -2,9 +2,9 @@
   <mat-icon>more_vert</mat-icon>
 </button>
 <mat-menu #menu="matMenu">
-  <button mat-menu-item>
-    <mat-icon>send</mat-icon>
-    <span>Send Invites</span>
+  <button mat-menu-item (click)="copyInviteLink()">
+    <mat-icon>content_copy</mat-icon>
+    <span>Copy Invite Link</span>
   </button>
   <button mat-menu-item (click)="updateGroup()">
     <mat-icon>edit</mat-icon>
