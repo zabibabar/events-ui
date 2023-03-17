@@ -25,7 +25,7 @@ import { ToastModule } from './shared/toast'
     EffectsModule.forRoot(),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
     StoreRouterConnectingModule.forRoot(),
-    ToastModule.forRoot()
+    ToastModule
   ],
   providers: [],
   bootstrap: [AppComponent]

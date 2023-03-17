@@ -1,13 +1,49 @@
 .toast {
-  position: relative;
+  position: fixed;
+  top: 80px;
+  right: 16px;
+  z-index: 9999;
+
   display: flex;
-  justify-content: space-around;
-  margin-bottom: 20px;
-  padding: 10px 15px 10px 48px;
-  width: 290px;
-  background: #fff;
-  border-width: 1px;
-  border-style: solid;
-  border-color: #dddddd #d6d6d6 #cfcfcf;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.11);
+  align-items: start;
+  padding: 16px;
+  overflow: hidden;
+  border-radius: 4px;
+  width: 320px;
+  min-height: 48px;
+  box-sizing: border-box;
+
+  &__flash {
+    position: absolute;
+    height: 100%;
+    width: 4px;
+    left: 0;
+    top: 0;
+    flex: 0 0 auto;
+  }
+
+  &__icon {
+    flex: 0 0 auto;
+  }
+
+  &__body {
+    flex: 1 1 auto;
+    &__title {
+      margin-bottom: 8px;
+    }
+    padding: 0 16px;
+
+    &__message {
+      text-align: justify;
+    }
+  }
+
+  &__close-button {
+    margin: -16px;
+    &__icon {
+      font-size: 16px;
+      height: 16px;
+      width: 16px;
+    }
+  }
 }

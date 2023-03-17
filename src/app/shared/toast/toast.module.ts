@@ -1,25 +1,18 @@
-import { NgModule, ModuleWithProviders } from '@angular/core'
-import { OverlayModule } from '@angular/cdk/overlay'
+import { CommonModule } from '@angular/common'
+import { NgModule } from '@angular/core'
+import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon'
+import { ToastrModule } from 'ngx-toastr'
 
 import { ToastComponent } from './toast.component'
-import { defaultToastConfig, TOAST_CONFIG_TOKEN } from './toast-config'
 
 @NgModule({
-  imports: [OverlayModule, MatIconModule],
-  declarations: [ToastComponent],
-  entryComponents: [ToastComponent]
+  imports: [
+    CommonModule,
+    MatIconModule,
+    MatButtonModule,
+    ToastrModule.forRoot({ timeOut: 100000, toastComponent: ToastComponent, toastClass: 'toast', tapToDismiss: false })
+  ],
+  declarations: [ToastComponent]
 })
-export class ToastModule {
-  public static forRoot(config = defaultToastConfig): ModuleWithProviders<ToastModule> {
-    return {
-      ngModule: ToastModule,
-      providers: [
-        {
-          provide: TOAST_CONFIG_TOKEN,
-          useValue: { ...defaultToastConfig, ...config }
-        }
-      ]
-    }
-  }
-}
+export class ToastModule {}
