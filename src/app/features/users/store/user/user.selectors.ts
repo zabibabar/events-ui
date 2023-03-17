@@ -18,5 +18,3 @@ export const selectCurrentUser = createSelector(
 
 export const selectUserById = (props: { userId: string }) =>
   createSelector(selectUserEntities, (userEntities: Dictionary<User>) => userEntities[props.userId])
-
-export const selectIsAuthenticated = createSelector(selectCurrentUserId, (userId) => userId !== '')

@@ -51,7 +51,8 @@ export const userReducer: ActionReducer<UserStoreState, Action> = createReducer(
   on(CreateUserActions.createUser, (state): UserStoreState => ({ ...state, loading: true })),
   on(
     CreateUserActions.createUserSuccess,
-    (state, { user }): UserStoreState => adapter.upsertOne(user, { ...state, error: null, loading: false })
+    (state, { user }): UserStoreState =>
+      adapter.upsertOne(user, { ...state, error: null, loading: false, currentUserId: user.id })
   ),
   on(CreateUserActions.createUserError, (state, { error }): UserStoreState => ({ ...state, error, loading: false })),
   on(UpdateUserActions.updateUser, (state): UserStoreState => ({ ...state, loading: true })),

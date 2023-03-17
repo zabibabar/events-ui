@@ -11,11 +11,26 @@ import { UserAuthActions } from './user-auth.actions'
 
 @Injectable()
 export class UserAuthEffects implements OnInitEffects {
+  constructor(private actions$: Actions, private userAuthService: UserAuthService, private router: Router) {}
+
+  ngrxOnInitEffects() {
+    return UserAuthActions.init()
+  }
+
+  init$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(UserAuthActions.init),
+      switchMap(() => this.userAuthService.isAuthenticated()),
+      map((isLoggedIn) => (isLoggedIn ? UserAuthActions.signInCompleted() : UserAuthActions.signOutCompleted())),
+      catchError((error) => of(UserAuthActions.signInFailed({ error })))
+    )
+  })
+
   signIn$ = createEffect(
     () => {
       return this.actions$.pipe(
         ofType(UserAuthActions.signIn),
-        tap((action) => this.userAuthService.loginWithRedirect({ target: action.returnUrl }))
+        tap(() => this.userAuthService.login())
       )
     },
     { dispatch: false }
@@ -26,10 +41,10 @@ export class UserAuthEffects implements OnInitEffects {
       ofType(UserAuthActions.signInCompleted),
       switchMap(() =>
         this.userAuthService.getUser().pipe(
+          tap(console.log),
           filter((user) => !user.is_new),
           map(this.convertUserAuthToUser),
-          map(({ externalId }) => FetchCurrentUserActions.fetchCurrentUser({ externalId })),
-          catchError((error) => of(UserAuthActions.signInFailed({ error })))
+          map(({ externalId }) => FetchCurrentUserActions.fetchCurrentUser({ externalId }))
         )
       )
     )
@@ -42,75 +57,19 @@ export class UserAuthEffects implements OnInitEffects {
         this.userAuthService.getUser().pipe(
           filter((user) => !!user.is_new),
           map(this.convertUserAuthToUser),
-          map((user) => CreateUserActions.createUser({ user })),
-          catchError((error) => of(UserAuthActions.signInFailed({ error })))
+          map((user) => CreateUserActions.createUser({ user }))
         )
       )
     )
   })
 
-  redirect$ = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(UserAuthActions.signInCompleted),
-        filter((action) => !!action.state),
-        switchMap((action) => this.router.navigateByUrl(action.state?.target ?? '', { replaceUrl: true }))
-      )
-    },
-    { dispatch: false }
-  )
-
   signOut$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(UserAuthActions.signOut),
-      tap(() => {
-        try {
-          this.userAuthService.logout()
-          // eslint-disable-next-line no-empty
-        } catch {}
-      }),
-      map(() => UserAuthActions.signedOut())
+      tap(() => this.userAuthService.logout()),
+      map(() => UserAuthActions.signOutCompleted())
     )
   })
-
-  init$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(UserAuthActions.init),
-      switchMap(() => {
-        const params = window.location.search
-
-        if (params.includes('code=') && params.includes('state=')) {
-          return this.completeSignIn()
-        } else {
-          return this.userAuthService.isAuthenticated().pipe(
-            switchMap((auth) => this.getAuthResult(auth)),
-            catchError((error) => of(UserAuthActions.signInFailed({ error })))
-          )
-        }
-      })
-    )
-  })
-
-  constructor(private actions$: Actions, private userAuthService: UserAuthService, private router: Router) {}
-
-  ngrxOnInitEffects() {
-    return UserAuthActions.init()
-  }
-
-  private getAuthResult(auth: boolean) {
-    if (auth) {
-      return of(UserAuthActions.signInCompleted({}))
-    } else {
-      return of(UserAuthActions.signedOut())
-    }
-  }
-
-  private completeSignIn() {
-    return this.userAuthService.handleRedirectCallback().pipe(
-      map((state) => UserAuthActions.signInCompleted({ state })),
-      catchError((error) => of(UserAuthActions.signInFailed({ error })))
-    )
-  }
 
   private convertUserAuthToUser(userAuth: UserAuth): UserCreateDto {
     const { sub, name, given_name, family_name, email, picture, locale, email_verified } = userAuth

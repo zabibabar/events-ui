@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { AuthService } from '@auth0/auth0-angular'
 import { Observable } from 'rxjs'
-import { filter, map } from 'rxjs/operators'
+import { filter } from 'rxjs/operators'
 import { UserAuth } from '../interfaces/user-auth'
 
 @Injectable({
@@ -14,12 +14,8 @@ export class UserAuthService {
     return this.auth0.isAuthenticated$
   }
 
-  loginWithRedirect(appState: { target: string }): void {
-    this.auth0.loginWithRedirect({ appState })
-  }
-
-  handleRedirectCallback(): Observable<{ target: string }> {
-    return this.auth0.handleRedirectCallback().pipe(map((result) => result.appState as { target: string }))
+  login(): void {
+    this.auth0.loginWithRedirect()
   }
 
   getUser(): Observable<UserAuth> {

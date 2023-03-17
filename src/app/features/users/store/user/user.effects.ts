@@ -31,7 +31,7 @@ export class UserEffects {
     )
   })
 
-  FetchCurrentUser$ = createEffect(() => {
+  fetchCurrentUser$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(FetchCurrentUserActions.fetchCurrentUser),
       exhaustMap(({ externalId }) =>

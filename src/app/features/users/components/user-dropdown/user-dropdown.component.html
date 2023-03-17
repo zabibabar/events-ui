@@ -1,16 +1,19 @@
-<button mat-button class="user-dropdown" [matMenuTriggerFor]="menu" *ngIf="user$ | async as user">
+<button mat-button class="user-dropdown" [matMenuTriggerFor]="menu" *ngIf="user$ | async as user; else loggedOut">
   <img matButtonIcon class="user-dropdown__picture" [src]="user.picture" alt="User Image" />
   <span>{{ user.firstName }}</span>
   <mat-icon iconPositionEnd>expand_more</mat-icon>
 </button>
 <mat-menu #menu="matMenu">
-  <button *ngIf="isAuthenticated$ | async" mat-menu-item (click)="logout()">
+  <button mat-menu-item (click)="logout()">
     <mat-icon>logout</mat-icon>
     <span>Logout</span>
   </button>
-  <button *ngIf="(isAuthenticated$ | async) === false" mat-menu-item (click)="login()">
+  <app-user-theme-toggle></app-user-theme-toggle>
+</mat-menu>
+
+<ng-template #loggedOut>
+  <button mat-flat-button color="primary" (click)="login()">
     <mat-icon>login</mat-icon>
     <span>Login</span>
   </button>
-  <app-user-theme-toggle></app-user-theme-toggle>
-</mat-menu>
+</ng-template>
