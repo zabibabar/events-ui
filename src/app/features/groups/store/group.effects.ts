@@ -4,8 +4,8 @@ import { Router } from '@angular/router'
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects'
 import { routerNavigatedAction } from '@ngrx/router-store'
 import { Store } from '@ngrx/store'
-import { of } from 'rxjs'
-import { map, exhaustMap, catchError, tap, mergeMap, filter } from 'rxjs/operators'
+import { forkJoin, of } from 'rxjs'
+import { map, exhaustMap, catchError, tap, mergeMap, filter, switchMap } from 'rxjs/operators'
 import { selectQueryParam } from 'src/app/core/store/router.selectors'
 import { DialogType } from 'src/app/shared/dialog/dialog-type.enum'
 import { DialogService } from 'src/app/shared/dialog/dialog.service'
@@ -101,8 +101,18 @@ export class GroupEffects {
   deleteGroup$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(GroupActions.DeleteGroupActions.deleteGroup),
-      tap({ next: GroupActions.DeleteGroupActions.deleteGroupLoading }),
-      mergeMap(({ groupId }) =>
+      switchMap((action) => {
+        const groupDeleteDialogRef = this.dialog.openConfirmationDialog({
+          type: 'error',
+          title: 'You are about to archive a group?',
+          message: 'You will not be able to create new events or add new members to this group',
+          primaryCTA: 'Archive Group'
+        })
+
+        return forkJoin([of(action), groupDeleteDialogRef.afterClosed()])
+      }),
+      filter(([, isConfirmed]) => !!isConfirmed),
+      mergeMap(([{ groupId }]) =>
         this.groupApiService.deleteGroup(groupId).pipe(
           map(() => GroupActions.DeleteGroupActions.deleteGroupSuccess({ groupId })),
           catchError((error) => of(GroupActions.DeleteGroupActions.deleteGroupError({ error })))

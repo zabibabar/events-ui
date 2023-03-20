@@ -1,6 +1,8 @@
 <div class="toast">
   <div class="toast__flash" [ngClass]="'toast__flash--' + toastType"></div>
-  <mat-icon class="toast__icon" [ngClass]="'toast__icon--' + toastType">check</mat-icon>
+  <mat-icon class="toast__icon" [ngClass]="'toast__icon--' + toastType">{{
+    toastType === 'success' ? 'check_circle' : 'warning'
+  }}</mat-icon>
   <div class="toast__body">
     <div class="toast__body__title mat-body-1">{{ title }}</div>
     <div class="toast__body__message">

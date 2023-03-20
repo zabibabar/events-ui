@@ -1,0 +1,49 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@mixin color($theme) {
+  $color-config: mat.get-color-config($theme);
+  $is-dark: map.get($color-config, 'is-dark');
+  $warn-palette: map.get($color-config, 'warn');
+  $background-palette: map.get($color-config, 'background');
+  $foreground-palette: map.get($color-config, 'foreground');
+  $green-palette: mat.define-palette(mat.$green-palette);
+  $teal-palette: mat.define-palette(mat.$teal-palette);
+  $light-green-palette: mat.define-palette(mat.$light-green-palette);
+
+  .dialog-confirmation {
+    background-color: mat.get-color-from-palette($background-palette, card);
+
+    &__body {
+      &__icon--error {
+        color: mat.get-color-from-palette($warn-palette, default);
+      }
+
+      &__icon--success {
+        @if $is-dark {
+          color: mat.get-color-from-palette($green-palette, A400);
+        } @else {
+          color: mat.get-color-from-palette($green-palette, 800);
+        }
+      }
+
+      &__message {
+        color: mat.get-color-from-palette($foreground-palette, 'secondary-text');
+      }
+    }
+  }
+}
+
+@mixin typography($typography-config) {
+}
+
+@mixin theme($theme, $typography-config) {
+  $color-config: mat.get-color-config($theme);
+  @if $color-config != null {
+    @include color($theme);
+  }
+
+  @if $typography-config != null {
+    @include typography($typography-config);
+  }
+}
