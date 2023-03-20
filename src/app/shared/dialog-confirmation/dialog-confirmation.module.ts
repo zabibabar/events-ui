@@ -4,11 +4,10 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatDialogModule } from '@angular/material/dialog'
 import { MatDividerModule } from '@angular/material/divider'
 import { MatIconModule } from '@angular/material/icon'
-import { DialogConfirmationModule } from '../dialog-confirmation/dialog-confirmation.module'
-import { DialogService } from './dialog.service'
+import { DialogConfirmationComponent } from './dialog-confirmation'
 
 @NgModule({
-  imports: [DialogConfirmationModule, MatDialogModule, CommonModule, MatDividerModule, MatButtonModule, MatIconModule],
-  providers: [DialogService]
+  declarations: [DialogConfirmationComponent],
+  imports: [MatDialogModule, CommonModule, MatDividerModule, MatButtonModule, MatIconModule]
 })
-export class DialogModule {}
+export class DialogConfirmationModule {}
