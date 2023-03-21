@@ -6,6 +6,7 @@
 @use '../../app/features/groups/components/group-member-list/_group-member-list-theme.component' as group-member-list;
 @use '../../app/core/components/toolbar/_toolbar-theme.component' as toolbar;
 @use '../../app/shared/toast/toast-theme.component' as toast;
+@use '../../app/shared/upload-image/upload-image-theme.component' as upload-image;
 @use '../../app/shared/dialog-confirmation/dialog-confirmation-theme.component' as dialog-confirmation;
 @use '../../app/app-theme.component' as app;
 @use './button/variants' as button-variants;
@@ -20,6 +21,7 @@
   @include group-member-list.theme($theme, $typography-config);
   @include toolbar.theme($theme, $typography-config);
   @include toast.theme($theme, $typography-config);
+  @include upload-image.theme($theme, $typography-config);
   @include dialog-confirmation.theme($theme, $typography-config);
   @include button-variants.color($theme, $variants);
 }

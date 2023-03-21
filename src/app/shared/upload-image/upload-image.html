@@ -1,0 +1,41 @@
+<dialog-form class="upload-file">
+  <dialog-form-title>{{ data.title }}</dialog-form-title>
+
+  <div dialog-form-body class="upload-file__body">
+    <ngx-file-drop
+      *ngIf="!uploadedFile"
+      class="upload-file__body__drop-zone"
+      (onFileDrop)="dropped($event)"
+      [multiple]="false"
+      [directory]="false"
+      accept=".png"
+    >
+      <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+        <div class="ngx-file-drop__content__body">
+          <mat-icon class="ngx-file-drop__content__body" color="primary">upload</mat-icon>
+          <div class="mat-body-1">Drag and drop your file to upload, or</div>
+          <button mat-stroked-button (click)="openFileSelector()">Browse Files</button>
+
+          <div class="mat-caption">You can upload png and jpg files.</div>
+        </div>
+      </ng-template>
+    </ngx-file-drop>
+    <div *ngIf="uploadedFile">
+      <image-cropper
+        [imageFile]="uploadedFile"
+        [maintainAspectRatio]="true"
+        [containWithinAspectRatio]="true"
+        [aspectRatio]="16 / 9"
+        [resizeToWidth]="800"
+        [cropperMinWidth]="128"
+        [transform]="transform"
+        format="png"
+        (imageCropped)="imageCropped($event)"
+      ></image-cropper>
+    </div>
+  </div>
+  <div dialog-form-footer class="upload-file__footer">
+    <button mat-stroked-button [mat-dialog-close]>Cancel</button>
+    <button [disabled]="!uploadedFile" mat-flat-button color="primary" (click)="submit()">Upload</button>
+  </div>
+</dialog-form>

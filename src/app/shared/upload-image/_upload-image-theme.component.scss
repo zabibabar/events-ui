@@ -1,0 +1,38 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@mixin color($theme) {
+  $color-config: mat.get-color-config($theme);
+  $primary-palette: map.get($color-config, 'primary');
+  $foreground-palette: map.get($color-config, 'foreground');
+
+  .upload-file {
+    color: mat.get-color-from-palette($foreground-palette, text);
+  }
+
+  .ngx-file-drop__drop-zone {
+    border: 2px dashed mat.get-color-from-palette($foreground-palette, divider) !important;
+  }
+
+  .ngx-file-drop__content {
+    background-color: rgba($color: mat.get-color-from-palette($primary-palette, default), $alpha: 0.02) !important;
+    color: mat.get-color-from-palette($foreground-palette, text) !important;
+  }
+}
+
+@mixin typography($typography-config) {
+  .ngx-file-drop__content {
+    @include mat.typography-level($typography-config, 'body-2');
+  }
+}
+
+@mixin theme($theme, $typography-config) {
+  $color-config: mat.get-color-config($theme);
+  @if $color-config != null {
+    @include color($theme);
+  }
+
+  @if $typography-config != null {
+    @include typography($typography-config);
+  }
+}

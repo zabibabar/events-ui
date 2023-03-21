@@ -5,6 +5,8 @@ import { DialogConfig } from './dialog-config'
 import { DialogConfirmationComponent } from '../dialog-confirmation/dialog-confirmation'
 import { DialogConfirmationData } from '../dialog-confirmation/dialog-confirmation-data'
 import { DialogType } from './dialog-type.enum'
+import { UploadImageComponent } from '../upload-image/upload-image'
+import { UploadImageData } from '../upload-image/upload-image-data'
 
 const DialogWidth: Record<DialogType, string> = {
   [DialogType.CONFIRMATION]: '400px',
@@ -26,13 +28,20 @@ export class DialogService {
     })
   }
 
-  openConfirmationDialog(data: DialogConfirmationData) {
+  openConfirmationDialog(data: DialogConfirmationData): MatDialogRef<DialogConfirmationComponent, boolean> {
     return this.open<DialogConfirmationComponent, DialogConfirmationData, boolean>(DialogConfirmationComponent, {
       type: DialogType.CONFIRMATION,
       data: {
         ...data,
         secondaryCTA: data.secondaryCTA ?? 'Cancel'
       }
+    })
+  }
+
+  openUploadImage(data: UploadImageData): MatDialogRef<UploadImageComponent, string> {
+    return this.open<UploadImageComponent, UploadImageData, string>(UploadImageComponent, {
+      type: DialogType.FORM,
+      data
     })
   }
 }

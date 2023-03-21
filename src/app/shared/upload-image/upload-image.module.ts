@@ -4,20 +4,22 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatDialogModule } from '@angular/material/dialog'
 import { MatDividerModule } from '@angular/material/divider'
 import { MatIconModule } from '@angular/material/icon'
-import { DialogConfirmationModule } from '../dialog-confirmation/dialog-confirmation.module'
-import { UploadImageModule } from '../upload-image/upload-image.module'
-import { DialogService } from './dialog.service'
+import { NgxFileDropModule } from 'ngx-file-drop'
+import { ImageCropperModule } from 'ngx-image-cropper'
+import { DialogFormModule } from '../dialog-form/dialog-form.module'
+import { UploadImageComponent } from './upload-image'
 
 @NgModule({
+  declarations: [UploadImageComponent],
   imports: [
-    DialogConfirmationModule,
     MatDialogModule,
     CommonModule,
     MatDividerModule,
     MatButtonModule,
     MatIconModule,
-    UploadImageModule
-  ],
-  providers: [DialogService]
+    DialogFormModule,
+    NgxFileDropModule,
+    ImageCropperModule
+  ]
 })
-export class DialogModule {}
+export class UploadImageModule {}
