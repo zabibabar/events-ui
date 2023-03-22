@@ -5,5 +5,5 @@ export interface Group {
   name: string
   inviteCode: string
   description?: string
-  members?: Member[]
+  members: Member[]
 }

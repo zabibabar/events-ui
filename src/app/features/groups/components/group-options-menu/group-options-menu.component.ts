@@ -1,17 +1,21 @@
-import { Component, Input } from '@angular/core'
+import { Component, Input, ViewChild } from '@angular/core'
+import { MatMenu } from '@angular/material/menu'
 import { Store } from '@ngrx/store'
+import { DialogService } from 'src/app/shared/dialog/dialog.service'
 import { Group } from '../../interfaces/group'
 import { DeleteGroupActions, UpdateGroupActions } from '../../store/group.actions'
 
 @Component({
   selector: 'app-group-options-menu',
   templateUrl: './group-options-menu.component.html',
-  styleUrls: ['./group-options-menu.component.scss']
+  styleUrls: ['./group-options-menu.component.scss'],
+  exportAs: 'groupOptionsMenu'
 })
 export class GroupOptionsMenuComponent {
+  @ViewChild(MatMenu, { static: true }) menu: MatMenu
   @Input() group: Group
 
-  constructor(private store: Store) {}
+  constructor(private store: Store, private dialog: DialogService) {}
 
   updateGroup(): void {
     this.store.dispatch(UpdateGroupActions.openUpdateGroupDialog({ groupId: this.group.id }))
@@ -19,6 +23,10 @@ export class GroupOptionsMenuComponent {
 
   deleteGroup(): void {
     this.store.dispatch(DeleteGroupActions.deleteGroup({ groupId: this.group.id }))
+  }
+
+  changeGroupPicture(): void {
+    this.dialog.openUploadImage({ title: 'Upload Group Image' })
   }
 
   copyInviteLink(): void {

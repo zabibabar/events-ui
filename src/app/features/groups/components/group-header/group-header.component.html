@@ -6,9 +6,11 @@
   <div class="group-header__details">
     <div class="group-header__details__name mat-headline-5">{{ group.name }}</div>
     <div class="flex-spacer"></div>
+    <div class="flex-spacer"></div>
     <app-event-create-button></app-event-create-button>
-    <app-group-options-menu [group]="group"></app-group-options-menu>
-    <div class="group-header__details__description">{{ group.description }}</div>
+    <button mat-button [matMenuTriggerFor]="menu.menu"><mat-icon> edit </mat-icon> Edit Group</button>
+    <app-group-options-menu #menu="groupOptionsMenu" [group]="group"></app-group-options-menu>
+    <div class="group-header__details__description">{{ group.members.length }} members</div>
   </div>
 
   <nav class="group-header__tabs" mat-tab-nav-bar [tabPanel]="tabPanel" mat-stretch-tabs="false" mat-align-tabs="start">
