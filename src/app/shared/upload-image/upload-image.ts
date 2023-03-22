@@ -2,6 +2,7 @@ import { Component, Inject } from '@angular/core'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { NgxFileDropEntry } from 'ngx-file-drop'
 import { ImageCroppedEvent, ImageTransform } from 'ngx-image-cropper'
+import { from, Observable, take } from 'rxjs'
 import { UploadImageData } from './upload-image-data'
 
 @Component({
@@ -11,7 +12,7 @@ import { UploadImageData } from './upload-image-data'
 })
 export class UploadImageComponent {
   uploadedFile: File
-  croppedImage = ''
+  croppedImage: Observable<File>
   transform: ImageTransform = { scale: 1 }
 
   constructor(
@@ -31,10 +32,18 @@ export class UploadImageComponent {
 
   imageCropped(event: ImageCroppedEvent) {
     if (typeof event.base64 !== 'string') return
-    this.croppedImage = event.base64
+    this.croppedImage = this.base64ToFile(event.base64)
   }
 
   submit(): void {
-    this.dialogRef.close(this.croppedImage)
+    this.croppedImage.pipe(take(1)).subscribe((image) => this.dialogRef.close(image))
+  }
+
+  private base64ToFile(base64String: string): Observable<File> {
+    return from(
+      fetch(base64String)
+        .then((res) => res.arrayBuffer())
+        .then((buf) => new File([buf], this.data.fileName, { type: 'image/png' }))
+    )
   }
 }

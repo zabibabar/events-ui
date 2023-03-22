@@ -3,7 +3,7 @@ import { MatMenu } from '@angular/material/menu'
 import { Store } from '@ngrx/store'
 import { DialogService } from 'src/app/shared/dialog/dialog.service'
 import { Group } from '../../interfaces/group'
-import { DeleteGroupActions, UpdateGroupActions } from '../../store/group.actions'
+import { DeleteGroupActions, UpdateGroupActions, UploadGroupPictureActions } from '../../store/group.actions'
 
 @Component({
   selector: 'app-group-options-menu',
@@ -26,7 +26,8 @@ export class GroupOptionsMenuComponent {
   }
 
   changeGroupPicture(): void {
-    this.dialog.openUploadImage({ title: 'Upload Group Image' })
+    const data = { title: 'Upload Group Image', minWidth: 1200, aspectRatio: 2.7, fileName: 'group_picture' }
+    this.store.dispatch(UploadGroupPictureActions.uploadGroupPicture({ groupId: this.group.id, data }))
   }
 
   copyInviteLink(): void {

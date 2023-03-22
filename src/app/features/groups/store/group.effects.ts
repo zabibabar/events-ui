@@ -9,6 +9,7 @@ import { map, exhaustMap, catchError, tap, mergeMap, filter, switchMap } from 'r
 import { selectQueryParam } from 'src/app/core/store/router.selectors'
 import { DialogType } from 'src/app/shared/dialog/dialog-type.enum'
 import { DialogService } from 'src/app/shared/dialog/dialog.service'
+import { UploadImageComponent } from 'src/app/shared/upload-image/upload-image'
 import { GroupUpsertFormComponent } from '../components/group-upsert-form/group-upsert-form.component'
 import { GroupCreatDto } from '../dtos/group-create-dto'
 import { GroupUpsertDialogData } from '../interfaces/group-upsert-dialog-data'
@@ -19,6 +20,7 @@ import { selectGroupById } from './group.selectors'
 @Injectable()
 export class GroupEffects {
   private groupUpsertFormDialogRef: MatDialogRef<GroupUpsertFormComponent>
+  private groupImageUploadDialogRef: MatDialogRef<UploadImageComponent>
 
   constructor(
     private actions$: Actions,
@@ -182,4 +184,21 @@ export class GroupEffects {
     },
     { dispatch: false }
   )
+
+  uploadGroupPicture$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(GroupActions.UploadGroupPictureActions.uploadGroupPicture),
+      switchMap((action) => {
+        this.groupImageUploadDialogRef = this.dialog.openUploadImage(action.data)
+        return forkJoin([of(action), this.groupImageUploadDialogRef.afterClosed()])
+      }),
+      filter(([, imageFile]) => !!imageFile),
+      mergeMap(([{ groupId }, imageFile]) =>
+        this.groupApiService.uploadGroupPicture(groupId, imageFile as File).pipe(
+          map((imageUrl) => GroupActions.UploadGroupPictureActions.uploadGroupPictureSuccess({ groupId, imageUrl })),
+          catchError((error) => of(GroupActions.UploadGroupPictureActions.uploadGroupPictureError({ error })))
+        )
+      )
+    )
+  })
 }

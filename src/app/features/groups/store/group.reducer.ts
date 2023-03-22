@@ -77,5 +77,18 @@ export const groupReducer: ActionReducer<GroupStoreState, Action> = createReduce
   on(
     GroupActions.DeleteGroupActions.deleteGroupError,
     (state, { error }): GroupStoreState => ({ ...state, error, loading: false })
+  ),
+  on(
+    GroupActions.UploadGroupPictureActions.uploadGroupPictureLoading,
+    (state): GroupStoreState => ({ ...state, loading: true })
+  ),
+  on(
+    GroupActions.UploadGroupPictureActions.uploadGroupPictureSuccess,
+    (state, { groupId, imageUrl }): GroupStoreState =>
+      adapter.updateOne({ id: groupId, changes: { picture: imageUrl } }, { ...state, error: null, loading: false })
+  ),
+  on(
+    GroupActions.UploadGroupPictureActions.uploadGroupPictureError,
+    (state, { error }): GroupStoreState => ({ ...state, error, loading: false })
   )
 )

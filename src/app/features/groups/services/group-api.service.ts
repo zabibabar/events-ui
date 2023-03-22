@@ -32,6 +32,12 @@ export class GroupApiService {
     return this.httpClient.delete<void>(`groups/${groupId}`)
   }
 
+  uploadGroupPicture(groupId: string, image: File): Observable<string> {
+    const formData = new FormData()
+    formData.append('group_picture', image)
+    return this.httpClient.post(`groups/${groupId}/uploadPicture`, formData, { responseType: 'text' })
+  }
+
   addToGroupViaInviteCode(inviteCode: string): Observable<Group> {
     const params = new HttpParams({ fromObject: { inviteCode } })
     return this.httpClient.post<Group>('groups/join', null, { params })

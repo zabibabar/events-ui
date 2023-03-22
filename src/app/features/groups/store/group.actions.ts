@@ -1,4 +1,5 @@
 import { createAction, createActionGroup, emptyProps, props } from '@ngrx/store'
+import { UploadImageData } from 'src/app/shared/upload-image/upload-image-data'
 import { GroupCreatDto } from '../dtos/group-create-dto'
 import { GroupUpdatDto } from '../dtos/group-update-dto'
 import { Group } from '../interfaces/group'
@@ -60,6 +61,16 @@ export const AddToGroupViaInviteCodeActions = createActionGroup({
   events: {
     'Add to Group Via Invite Code Error': props<{ error: string }>(),
     'Add to Group Via Invite Code Success': props<{ group: Group }>()
+  }
+})
+
+export const UploadGroupPictureActions = createActionGroup({
+  source: 'Groups',
+  events: {
+    'Upload Group Picture': props<{ groupId: string; data: UploadImageData }>(),
+    'Upload Group Picture Loading': emptyProps(),
+    'Upload Group Picture Error': props<{ error: string }>(),
+    'Upload Group Picture Success': props<{ groupId: string; imageUrl: string }>()
   }
 })
 

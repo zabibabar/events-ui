@@ -38,8 +38,8 @@ export class DialogService {
     })
   }
 
-  openUploadImage(data: UploadImageData): MatDialogRef<UploadImageComponent, string> {
-    return this.open<UploadImageComponent, UploadImageData, string>(UploadImageComponent, {
+  openUploadImage(data: UploadImageData): MatDialogRef<UploadImageComponent, File> {
+    return this.open<UploadImageComponent, UploadImageData, File>(UploadImageComponent, {
       type: DialogType.FORM,
       data
     })
