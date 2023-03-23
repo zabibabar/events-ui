@@ -3,4 +3,5 @@ export interface UploadImageData {
   minWidth: number
   aspectRatio: number
   fileName: string
+  uploadAction: (imageFile: File) => void
 }

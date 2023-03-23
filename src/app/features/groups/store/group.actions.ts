@@ -67,7 +67,8 @@ export const AddToGroupViaInviteCodeActions = createActionGroup({
 export const UploadGroupPictureActions = createActionGroup({
   source: 'Groups',
   events: {
-    'Upload Group Picture': props<{ groupId: string; data: UploadImageData }>(),
+    'Open Upload Group Picture Dialog': props<{ data: UploadImageData }>(),
+    'Upload Group Picture': props<{ groupId: string; imageFile: File }>(),
     'Upload Group Picture Loading': emptyProps(),
     'Upload Group Picture Error': props<{ error: string }>(),
     'Upload Group Picture Success': props<{ groupId: string; imageUrl: string }>()

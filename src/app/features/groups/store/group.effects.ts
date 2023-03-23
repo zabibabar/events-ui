@@ -188,17 +188,32 @@ export class GroupEffects {
   uploadGroupPicture$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(GroupActions.UploadGroupPictureActions.uploadGroupPicture),
-      switchMap((action) => {
-        this.groupImageUploadDialogRef = this.dialog.openUploadImage(action.data)
-        return forkJoin([of(action), this.groupImageUploadDialogRef.afterClosed()])
-      }),
-      filter(([, imageFile]) => !!imageFile),
-      mergeMap(([{ groupId }, imageFile]) =>
-        this.groupApiService.uploadGroupPicture(groupId, imageFile as File).pipe(
+      mergeMap(({ groupId, imageFile }) =>
+        this.groupApiService.uploadGroupPicture(groupId, imageFile).pipe(
           map((imageUrl) => GroupActions.UploadGroupPictureActions.uploadGroupPictureSuccess({ groupId, imageUrl })),
           catchError((error) => of(GroupActions.UploadGroupPictureActions.uploadGroupPictureError({ error })))
         )
       )
     )
   })
+
+  openUploadGroupPictureDialog$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(GroupActions.UploadGroupPictureActions.openUploadGroupPictureDialog),
+        tap((action) => (this.groupImageUploadDialogRef = this.dialog.openUploadImage(action.data)))
+      )
+    },
+    { dispatch: false }
+  )
+
+  closeUploadGroupPictureDialog$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(GroupActions.UploadGroupPictureActions.uploadGroupPictureSuccess),
+        tap(() => this.groupImageUploadDialogRef.close())
+      )
+    },
+    { dispatch: false }
+  )
 }

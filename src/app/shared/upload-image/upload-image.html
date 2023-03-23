@@ -3,38 +3,39 @@
 
   <div dialog-form-body class="upload-file__body">
     <ngx-file-drop
-      *ngIf="!uploadedFile"
+      *ngIf="!(uploadedFile$ | async)!"
       class="upload-file__body__drop-zone"
       (onFileDrop)="dropped($event)"
       [multiple]="false"
       [directory]="false"
-      accept=".png"
+      accept=".png, .jpeg, .jpg"
     >
       <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
         <div class="ngx-file-drop__content__body">
           <mat-icon class="ngx-file-drop__content__body" color="primary">upload</mat-icon>
           <div class="mat-body-1">Drag and drop your file to upload, or</div>
-          <button mat-stroked-button (click)="openFileSelector()">Browse Files</button>
+          <button *ngIf="!isUploading" mat-stroked-button (click)="openFileSelector()">Browse Files</button>
+          <button *ngIf="isUploading" mat-stroked-button>
+            Loading... <mat-icon><mat-spinner [diameter]="18"></mat-spinner></mat-icon>
+          </button>
 
           <div class="mat-caption">You can upload png and jpg files.</div>
         </div>
       </ng-template>
     </ngx-file-drop>
-    <div *ngIf="uploadedFile">
-      <image-cropper
-        [imageFile]="uploadedFile"
-        [maintainAspectRatio]="true"
-        [containWithinAspectRatio]="true"
-        [aspectRatio]="data.aspectRatio"
-        [cropperMinWidth]="data.minWidth"
-        [transform]="transform"
-        format="png"
-        (imageCropped)="imageCropped($event)"
-      ></image-cropper>
-    </div>
+    <image-cropper
+      *ngIf="uploadedFile$ | async"
+      [imageFile]="(uploadedFile$ | async)!"
+      [maintainAspectRatio]="true"
+      [aspectRatio]="data.aspectRatio"
+      [cropperMinWidth]="data.minWidth"
+      [resizeToWidth]="data.minWidth"
+      [autoCrop]="false"
+      format="png"
+    ></image-cropper>
   </div>
   <div dialog-form-footer class="upload-file__footer">
     <button mat-stroked-button [mat-dialog-close]>Cancel</button>
-    <button [disabled]="!uploadedFile" mat-flat-button color="primary" (click)="submit()">Upload</button>
+    <button [disabled]="!(uploadedFile$ | async)!" mat-flat-button color="primary" (click)="submit()">Upload</button>
   </div>
 </dialog-form>
