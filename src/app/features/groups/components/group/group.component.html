@@ -1,5 +1,5 @@
 <div class="group" [routerLink]="group.id">
-  <div class="group__picture"></div>
+  <img class="group__picture" [src]="group.picture" />
   <div class="group__desc">
     <div class="mat-body-1">{{ group.name }}</div>
     <div class="group__desc__member-count">{{ group.members.length }} members</div>
