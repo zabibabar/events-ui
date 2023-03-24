@@ -3,7 +3,7 @@
   *ngIf="group$ | async as group"
   [routerLink]="['/groups', group.id, 'events', event.id]"
 >
-  <div class="event__picture"></div>
+  <img class="event__picture" [src]="event.picture" />
   <div class="event__body">
     <div class="event__body__header">
       <div class="event__body__header__time mat-body-1">{{ event.timeStart | date: 'E, LLL d, h:mm a' }}</div>
