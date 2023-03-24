@@ -81,5 +81,18 @@ export const eventReducer: ActionReducer<EventStoreState, Action> = createReduce
   on(
     EventActions.DeleteEventActions.deleteEventError,
     (state, { error }): EventStoreState => ({ ...state, error, loading: false })
+  ),
+  on(
+    EventActions.UploadEventPictureActions.uploadEventPictureLoading,
+    (state): EventStoreState => ({ ...state, loading: true })
+  ),
+  on(
+    EventActions.UploadEventPictureActions.uploadEventPictureSuccess,
+    (state, { eventId: id, imageUrl }): EventStoreState =>
+      adapter.updateOne({ id, changes: { picture: imageUrl } }, { ...state, error: null, loading: false })
+  ),
+  on(
+    EventActions.UploadEventPictureActions.uploadEventPictureError,
+    (state, { error }): EventStoreState => ({ ...state, error, loading: false })
   )
 )

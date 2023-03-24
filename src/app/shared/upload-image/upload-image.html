@@ -25,7 +25,7 @@
     </ngx-file-drop>
     <image-cropper
       *ngIf="uploadedFile$ | async"
-      [imageFile]="(uploadedFile$ | async)!"
+      [imageBase64]="(uploadedFile$ | async)!"
       [maintainAspectRatio]="true"
       [aspectRatio]="data.aspectRatio"
       [cropperMinWidth]="data.minWidth"

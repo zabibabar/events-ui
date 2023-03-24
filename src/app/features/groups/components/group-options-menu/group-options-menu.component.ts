@@ -34,7 +34,6 @@ export class GroupOptionsMenuComponent {
       title: 'Upload Group Image',
       minWidth: 1200,
       aspectRatio: 2.7,
-      fileName: 'group_picture',
       uploadAction
     }
 

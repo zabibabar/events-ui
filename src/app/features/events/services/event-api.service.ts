@@ -41,6 +41,12 @@ export class EventApiService {
     return this.httpClient.delete<void>(`events/${eventId}`)
   }
 
+  uploadEventPicture(eventId: string, image: File): Observable<string> {
+    const formData = new FormData()
+    formData.append('event_picture', image)
+    return this.httpClient.post(`events/${eventId}/uploadPicture`, formData, { responseType: 'text' })
+  }
+
   getEventAttendees(eventId: string): Observable<Attendee[]> {
     return this.httpClient.get<Attendee[]>(`events/${eventId}/attendees`)
   }

@@ -13,7 +13,7 @@ import { UploadImageData } from './upload-image-data'
 })
 export class UploadImageComponent {
   @ViewChild(ImageCropperComponent) imageCropper: ImageCropperComponent
-  uploadedFile$: Observable<File>
+  uploadedFile$: Observable<string>
   isUploading = false
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: UploadImageData, private imageCompress: NgxImageCompressService) {}
@@ -50,20 +50,19 @@ export class UploadImageComponent {
     })
   }
 
-  private compressImage(file: File): Observable<File> {
+  private compressImage(file: File): Observable<string> {
     return this.convertFileToBase64(file).pipe(
       switchMap((base64String) =>
         this.imageCompress.compressFile(base64String, DOC_ORIENTATION.Up, 100, 50, this.data.minWidth * 2)
-      ),
-      switchMap((base64String) => this.base64ToFile(base64String))
+      )
     )
   }
 
-  private base64ToFile(base64String: string): Observable<File> {
+  private base64ToFile(base64String: string, fileName = 'file'): Observable<File> {
     return from(
       fetch(base64String)
         .then((res) => res.arrayBuffer())
-        .then((buf) => new File([buf], this.data.fileName, { type: 'image/png' }))
+        .then((buf) => new File([buf], fileName, { type: 'image/png' }))
     )
   }
 }

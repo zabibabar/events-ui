@@ -1,4 +1,5 @@
 import { createAction, createActionGroup, emptyProps, props } from '@ngrx/store'
+import { UploadImageData } from 'src/app/shared/upload-image/upload-image-data'
 import { EventCreateDto } from '../dtos/event-create-dto'
 import { EventUpdateDto } from '../dtos/event-update-dto'
 import { Event } from '../interfaces/event'
@@ -56,6 +57,17 @@ export const DeleteEventActions = createActionGroup({
     'Delete Event': props<{ eventId: string }>(),
     'Delete Event Error': props<{ error: string }>(),
     'Delete Event Success': props<{ eventId: string }>()
+  }
+})
+
+export const UploadEventPictureActions = createActionGroup({
+  source: 'Events',
+  events: {
+    'Open Upload Event Picture Dialog': props<{ data: UploadImageData }>(),
+    'Upload Event Picture': props<{ eventId: string; imageFile: File }>(),
+    'Upload Event Picture Loading': emptyProps(),
+    'Upload Event Picture Error': props<{ error: string }>(),
+    'Upload Event Picture Success': props<{ eventId: string; imageUrl: string }>()
   }
 })
 

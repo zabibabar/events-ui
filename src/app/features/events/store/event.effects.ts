@@ -7,6 +7,7 @@ import { map, exhaustMap, catchError, tap, mergeMap } from 'rxjs/operators'
 import { selectRouteParams } from 'src/app/core/store/router.selectors'
 import { DialogType } from 'src/app/shared/dialog/dialog-type.enum'
 import { DialogService } from 'src/app/shared/dialog/dialog.service'
+import { UploadImageComponent } from 'src/app/shared/upload-image/upload-image'
 import { EventUpsertFormComponent } from '../components/event-upsert-form/event-upsert-form.component'
 import { EventCreateDto } from '../dtos/event-create-dto'
 import { EventUpsertDialogData } from '../interfaces/event-upsert-dialog-data'
@@ -17,6 +18,7 @@ import { selectEventById } from './event.selectors'
 @Injectable()
 export class EventEffects {
   private eventUpsertFormDialogRef: MatDialogRef<EventUpsertFormComponent>
+  private eventImageUploadDialogRef: MatDialogRef<UploadImageComponent>
 
   constructor(
     private actions$: Actions,
@@ -157,6 +159,38 @@ export class EventEffects {
       return this.actions$.pipe(
         ofType(EventActions.closeUpsertFormDialog),
         tap(() => this.eventUpsertFormDialogRef.close())
+      )
+    },
+    { dispatch: false }
+  )
+
+  uploadEventPicture$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(EventActions.UploadEventPictureActions.uploadEventPicture),
+      mergeMap(({ eventId, imageFile }) =>
+        this.eventApiService.uploadEventPicture(eventId, imageFile).pipe(
+          map((imageUrl) => EventActions.UploadEventPictureActions.uploadEventPictureSuccess({ eventId, imageUrl })),
+          catchError((error) => of(EventActions.UploadEventPictureActions.uploadEventPictureError({ error })))
+        )
+      )
+    )
+  })
+
+  openUploadEventPictureDialog$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(EventActions.UploadEventPictureActions.openUploadEventPictureDialog),
+        tap((action) => (this.eventImageUploadDialogRef = this.dialog.openUploadImage(action.data)))
+      )
+    },
+    { dispatch: false }
+  )
+
+  closeUploadEventPictureDialog$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(EventActions.UploadEventPictureActions.uploadEventPictureSuccess),
+        tap(() => this.eventImageUploadDialogRef.close())
       )
     },
     { dispatch: false }

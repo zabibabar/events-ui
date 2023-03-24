@@ -1,10 +1,11 @@
-<button mat-icon-button [matMenuTriggerFor]="menu" (click)="$event.stopPropagation()">
-  <mat-icon>more_vert</mat-icon>
-</button>
 <mat-menu #menu="matMenu">
   <button mat-menu-item (click)="updateEvent()">
     <mat-icon>edit</mat-icon>
     <span>Update</span>
+  </button>
+  <button mat-menu-item (click)="changeEventPicture()">
+    <mat-icon>image</mat-icon>
+    <span>Change Event Picture</span>
   </button>
   <button mat-menu-item color="warn" (click)="deleteEvent()">
     <mat-icon>delete</mat-icon>
