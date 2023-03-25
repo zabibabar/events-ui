@@ -24,6 +24,7 @@
     </div>
   </div>
   <div class="event-header__side">
+    <app-event-going-button [event]="event"></app-event-going-button>
     <button mat-flat-button [matMenuTriggerFor]="menu.menu"><mat-icon> expand_more </mat-icon> Edit Event</button>
     <div class="event-header__side__group" *ngIf="group$ | async as group" [routerLink]="['/groups', group.id]">
       <img class="event-header__side__group__image" [src]="group.picture" alt="Group Picture" />

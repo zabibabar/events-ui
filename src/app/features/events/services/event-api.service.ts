@@ -5,6 +5,7 @@ import { Event } from '../interfaces/event'
 import { Attendee } from '../interfaces/attendee'
 import { EventCreateDto } from '../dtos/event-create-dto'
 import { EventUpdateDto } from '../dtos/event-update-dto'
+import { AttendeeUpdateDto } from '../dtos/attendee-update-dto'
 
 @Injectable({
   providedIn: 'root'
@@ -51,11 +52,7 @@ export class EventApiService {
     return this.httpClient.get<Attendee[]>(`events/${eventId}/attendees`)
   }
 
-  addEventAttendees(eventId: string, attendeeIds: string[]): Observable<Attendee[]> {
-    return this.httpClient.post<Attendee[]>(`events/${eventId}/attendees`, attendeeIds)
-  }
-
-  removeEventAttendee(eventId: string, attendeeIds: string[]): Observable<void> {
-    return this.httpClient.delete<void>(`events/${eventId}/attendees`, { body: attendeeIds })
+  updateEventAttendee(eventId: string, update: AttendeeUpdateDto): Observable<Attendee[]> {
+    return this.httpClient.put<Attendee[]>(`events/${eventId}/attendees`, update)
   }
 }

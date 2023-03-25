@@ -1,0 +1,15 @@
+<mat-button-toggle-group
+  class="event-going-button"
+  *ngIf="attendee$ | async as attendee"
+  (change)="isGoingChanged$.next($event.value)"
+  [value]="attendee.isGoing"
+>
+  <mat-button-toggle class="event-going-button__button" [value]="true">
+    <mat-icon class="event-going-button__button__icon">check</mat-icon>
+    <span class="event-going-button__button__label">Going</span>
+  </mat-button-toggle>
+  <mat-button-toggle class="event-going-button__button" [value]="false">
+    <mat-icon class="event-going-button__button__icon">close</mat-icon>
+    <span class="event-going-button__button__label">Not going</span>
+  </mat-button-toggle>
+</mat-button-toggle-group>

@@ -1,6 +1,7 @@
 import { Dictionary } from '@ngrx/entity'
 import { createFeatureSelector, createSelector } from '@ngrx/store'
 import { selectRouteParams } from 'src/app/core/store/router.selectors'
+import { selectCurrentUser } from '../../users/store/user/user.selectors'
 import { Event } from '../interfaces/event'
 import { adapter, eventFeatureSelector, EventStoreState } from './event.reducer'
 
@@ -25,3 +26,7 @@ export const selectEventsByCurrentGroup = createSelector(selectAllEvents, select
 
 export const selectEventById = (props: { eventId: string }) =>
   createSelector(selectEventEntities, (eventEntities: Dictionary<Event>) => eventEntities[props.eventId])
+
+export const selectCurrentAttendee = createSelector(selectCurrentEvent, selectCurrentUser, (currentEvent, user) =>
+  currentEvent?.attendees.find(({ id }) => user?.id === id)
+)

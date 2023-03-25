@@ -195,4 +195,18 @@ export class EventEffects {
     },
     { dispatch: false }
   )
+
+  updateEventAttendee$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(EventActions.UpdateEventAttendeeActions.updateEventAttendee),
+      mergeMap(({ eventId, attendee }) =>
+        this.eventApiService.updateEventAttendee(eventId, attendee).pipe(
+          map((attendees) =>
+            EventActions.UpdateEventAttendeeActions.updateEventAttendeeSuccess({ eventId, attendees })
+          ),
+          catchError((error) => of(EventActions.UpdateEventAttendeeActions.updateEventAttendeeError({ error })))
+        )
+      )
+    )
+  })
 }

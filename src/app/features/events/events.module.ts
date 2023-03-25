@@ -28,6 +28,8 @@ import { MatDividerModule } from '@angular/material/divider'
 import { CoreModule } from 'src/app/core/core.module'
 import { MatTabsModule } from '@angular/material/tabs'
 import { EventTimeLocationComponent } from './components/event-time-location/event-time-location.component'
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { EventGoingButtonComponent } from './components/event-going-button/event-going-button.component'
 
 @NgModule({
   imports: [
@@ -45,6 +47,7 @@ import { EventTimeLocationComponent } from './components/event-time-location/eve
     MatSlideToggleModule,
     MatDividerModule,
     MatTabsModule,
+    MatButtonToggleModule,
     FormsModule,
     DialogFormModule,
     DialogModule,
@@ -60,7 +63,8 @@ import { EventTimeLocationComponent } from './components/event-time-location/eve
     EventHeaderComponent,
     EventOptionsMenuComponent,
     EventUpsertFormComponent,
-    EventTimeLocationComponent
+    EventTimeLocationComponent,
+    EventGoingButtonComponent
   ],
   exports: [EventListComponent, EventHeaderComponent, EventCreateButtonComponent, EventHeaderComponent]
 })
