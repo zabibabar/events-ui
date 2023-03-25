@@ -6,7 +6,6 @@
 .event-header__main {
   min-width: 440px;
   max-width: 100%;
-  height: 200vh;
 
   &__picture {
     width: 100%;
@@ -26,14 +25,15 @@
     }
   }
 
-  &__tabs {
-    position: -webkit-sticky;
-    position: sticky;
-    top: 16px;
-  }
+  // &__tabs {
+  //   position: -webkit-sticky;
+  //   position: sticky;
+  //   top: 16px;
+  // }
 }
 
 .event-header__side {
+  margin-left: 72px;
   min-width: 280px;
   max-width: 360px;
   position: -webkit-sticky;

@@ -13,7 +13,7 @@ export class EventHeaderComponent {
   links: NavLink[] = [
     { label: 'Home', link: 'home' },
     { label: 'Attendees', link: 'attendees' },
-    { label: 'Tasks', link: 'tasks' }
+    { label: 'Photos', link: 'photos' }
   ]
 
   event$ = this.store.select(selectCurrentEvent)

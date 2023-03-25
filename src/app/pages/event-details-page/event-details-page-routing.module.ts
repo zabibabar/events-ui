@@ -16,20 +16,16 @@ const routes: Routes = [
       },
       {
         path: 'home',
-        loadChildren: () => import('../group-home-page/group-home-page.module').then((m) => m.GroupHomePageModule)
+        loadChildren: () => import('../event-home-page/event-home-page.module').then((m) => m.EventHomePageModule)
       },
       {
-        path: 'events',
-        loadChildren: () => import('../group-events-page/group-events-page.module').then((m) => m.GroupEventsPageModule)
-      },
-      {
-        path: 'members',
+        path: 'attendees',
         loadChildren: () =>
-          import('../group-members-page/group-members-page.module').then((m) => m.GroupMembersPageModule)
+          import('../event-attendees-page/event-attendees-page.module').then((m) => m.EventAttendeesPageModule)
       },
       {
         path: 'photos',
-        loadChildren: () => import('../group-photos-page/group-photos-page.module').then((m) => m.GroupPhotosPageModule)
+        loadChildren: () => import('../event-photos-page/event-photos-page.module').then((m) => m.EventPhotosPageModule)
       }
     ]
   }
