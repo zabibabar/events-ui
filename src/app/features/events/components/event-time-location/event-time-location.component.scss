@@ -1,0 +1,16 @@
+.event-time-location {
+  border-radius: 8px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  &__row {
+    display: flex;
+    gap: 16px;
+
+    &__icon {
+      flex-shrink: 0;
+    }
+  }
+}

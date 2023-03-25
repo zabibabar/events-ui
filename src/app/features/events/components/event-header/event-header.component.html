@@ -1,10 +1,44 @@
 <div class="event-header" *ngIf="event$ | async as event">
-  <div class="event-header__picture"></div>
-  <div class="event-header__details">
-    <div class="event-header__details__name mat-headline-5">{{ event.name }}</div>
-    <div class="flex-spacer"></div>
-    <app-event-options-menu [event]="event"></app-event-options-menu>
-    <div class="event-header__details__description">{{ event.description }}</div>
+  <div class="event-header__main">
+    <img class="event-header__main__picture" [src]="event.picture" />
+    <div class="event-header__main__details">
+      <div class="event-header__main__details__time mat-body-1">{{ event.timeStart | date: 'E, LLL d, h:mm a' }}</div>
+      <div class="event-header__main__details__name mat-headline-5">{{ event.name }}</div>
+      <div class="event-header__main__details__description">{{ event.attendees.length }} attendees</div>
+    </div>
+
+    <div class="event-header__main__tabs">
+      <nav mat-tab-nav-bar [tabPanel]="tabPanel" mat-stretch-tabs="false" mat-align-tabs="start">
+        <a
+          mat-tab-link
+          *ngFor="let link of links"
+          routerLinkActive
+          #rla="routerLinkActive"
+          [active]="rla.isActive"
+          [routerLink]="link.link"
+        >
+          {{ link.label }}
+        </a>
+      </nav>
+      <mat-divider></mat-divider>
+    </div>
   </div>
+  <div class="event-header__side">
+    <button mat-flat-button [matMenuTriggerFor]="menu.menu"><mat-icon> expand_more </mat-icon> Edit Event</button>
+    <div class="event-header__side__group" *ngIf="group$ | async as group" [routerLink]="['/groups', group.id]">
+      <img class="event-header__side__group__image" [src]="group.picture" alt="Group Picture" />
+      <div class="event-header__side__group__details">
+        <div class="event-header__side__group__details__name mat-body-1">{{ group.name }}</div>
+        <div class="event-header__side__group__details__members-count">{{ group.members.length }} members</div>
+        <a [routerLink]="['/groups', group.id, 'events']" class="event-header__side__group__details__see-more=events"
+          >See more events</a
+        >
+      </div>
+    </div>
+    <app-event-time-location [event]="event"></app-event-time-location>
+  </div>
+  <app-event-options-menu #menu="eventOptionsMenu" [event]="event"></app-event-options-menu>
 </div>
-<mat-divider></mat-divider>
+<mat-tab-nav-panel #tabPanel>
+  <ng-content></ng-content>
+</mat-tab-nav-panel>

@@ -1,16 +1,20 @@
 .event-header {
-  padding: 24px 32px 0px 32px;
+  display: flex;
+  gap: 32px;
+}
+
+.event-header__main {
+  min-width: 440px;
+  max-width: 100%;
+  height: 200vh;
 
   &__picture {
     width: 100%;
-    height: 240px;
+    aspect-ratio: 16 / 9;
     border-radius: 8px;
   }
 
   &__details {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
     padding: 24px 0px 16px 0px;
 
     &__name {
@@ -19,6 +23,46 @@
 
     &__description {
       flex-basis: 100%;
+    }
+  }
+
+  &__tabs {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 16px;
+  }
+}
+
+.event-header__side {
+  min-width: 280px;
+  max-width: 360px;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 24px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+
+  &__group {
+    cursor: pointer;
+    border-radius: 8px;
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+
+    &__image {
+      width: 112px;
+      height: 56px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+
+    &__details {
+      &__name {
+        margin-bottom: 4px;
+      }
     }
   }
 }

@@ -25,11 +25,15 @@ import { DialogModule } from 'src/app/shared/dialog/dialog.module'
 import { RouterModule } from '@angular/router'
 import { MatSlideToggleModule } from '@angular/material/slide-toggle'
 import { MatDividerModule } from '@angular/material/divider'
+import { CoreModule } from 'src/app/core/core.module'
+import { MatTabsModule } from '@angular/material/tabs'
+import { EventTimeLocationComponent } from './components/event-time-location/event-time-location.component'
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
+    CoreModule,
     HttpClientModule,
     MatButtonModule,
     MatFormFieldModule,
@@ -40,6 +44,7 @@ import { MatDividerModule } from '@angular/material/divider'
     MatDatepickerModule,
     MatSlideToggleModule,
     MatDividerModule,
+    MatTabsModule,
     FormsModule,
     DialogFormModule,
     DialogModule,
@@ -54,7 +59,8 @@ import { MatDividerModule } from '@angular/material/divider'
     EventCreateButtonComponent,
     EventHeaderComponent,
     EventOptionsMenuComponent,
-    EventUpsertFormComponent
+    EventUpsertFormComponent,
+    EventTimeLocationComponent
   ],
   exports: [EventListComponent, EventHeaderComponent, EventCreateButtonComponent, EventHeaderComponent]
 })
