@@ -1,24 +1,14 @@
-<div
-  class="event mat-elevation-z1"
-  *ngIf="group$ | async as group"
-  [routerLink]="['/groups', group.id, 'events', event.id]"
->
+<div class="event mat-elevation-z1" [routerLink]="[event.id]">
   <img class="event__picture" [src]="event.picture" />
   <div class="event__body">
     <div class="event__body__header">
       <div class="event__body__header__time mat-body-1">{{ event.timeStart | date: 'E, LLL d, h:mm a' }}</div>
       <div class="mat-subtitle-1">{{ event.name }}</div>
     </div>
-    <div class="event__body__details">
-      <div class="event__body__details__group">{{ group.name }}</div>
-    </div>
 
     <div class="event__body__going">
-      <div>{{ event.attendees.length }} attendees</div>
-      <button mat-stroked-button color="primary" (click)="$event.stopPropagation()">
-        <span>Going</span>
-        <mat-icon>expand_more</mat-icon>
-      </button>
+      <div>{{ attendeeCount$ | async }} attendees</div>
+      <!-- <app-event-going-button [event]="event"></app-event-going-button> -->
     </div>
   </div>
 </div>

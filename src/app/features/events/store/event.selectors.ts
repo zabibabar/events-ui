@@ -27,11 +27,18 @@ export const selectEventsByCurrentGroup = createSelector(selectAllEvents, select
 export const selectEventById = (props: { eventId: string }) =>
   createSelector(selectEventEntities, (eventEntities: Dictionary<Event>) => eventEntities[props.eventId])
 
-export const selectCurrentEventAttendee = createSelector(selectCurrentEvent, selectCurrentUser, (currentEvent, user) =>
-  currentEvent?.attendees.find(({ id }) => user?.id === id)
-)
+export const selectCurrentUserAsEventAttendee = ({ eventId }: { eventId: string }) =>
+  createSelector(selectEventById({ eventId }), selectCurrentUser, (currentEvent, user) =>
+    currentEvent?.attendees.find(({ id }) => user?.id === id)
+  )
 
-export const selectCurrentEventGoingAttendeesCount = createSelector(
+export const selectGoingAttendeesCountForEvent = ({ eventId }: { eventId: string }) =>
+  createSelector(
+    selectEventById({ eventId }),
+    (event: Event | undefined) => event?.attendees.filter(({ isGoing }) => isGoing).length ?? 0
+  )
+
+export const selectGoingAttendeesCountForCurrentEvent = createSelector(
   selectCurrentEvent,
   (event: Event | undefined) => event?.attendees.filter(({ isGoing }) => isGoing).length ?? 0
 )
