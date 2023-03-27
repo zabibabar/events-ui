@@ -1,8 +1,8 @@
 import { Component } from '@angular/core'
 import { Store } from '@ngrx/store'
 import { NavLink } from 'src/app/core/types/nav-link'
-import { selectCurrentGroup } from 'src/app/features/groups/store/group.selectors'
-import { selectCurrentEvent } from '../../store/event.selectors'
+import { selectCurrentGroup, selectIsCurrentGroupMemberOrganizer } from 'src/app/features/groups/store/group.selectors'
+import { selectCurrentEvent, selectCurrentEventGoingAttendeesCount } from '../../store/event.selectors'
 
 @Component({
   selector: 'app-event-header',
@@ -18,6 +18,8 @@ export class EventHeaderComponent {
 
   event$ = this.store.select(selectCurrentEvent)
   group$ = this.store.select(selectCurrentGroup)
+  attendeeCount$ = this.store.select(selectCurrentEventGoingAttendeesCount)
+  isCurrentGroupMemberOrganizer$ = this.store.select(selectIsCurrentGroupMemberOrganizer)
 
   constructor(private store: Store) {}
 }

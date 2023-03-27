@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store'
 import { debounceTime, distinctUntilChanged, of, Subject, switchMap } from 'rxjs'
 import { Event } from '../../interfaces/event'
 import { UpdateEventAttendeeActions } from '../../store/event.actions'
-import { selectCurrentAttendee } from '../../store/event.selectors'
+import { selectCurrentEventAttendee } from '../../store/event.selectors'
 
 @Component({
   selector: 'app-event-going-button',
@@ -13,7 +13,7 @@ import { selectCurrentAttendee } from '../../store/event.selectors'
 export class EventGoingButtonComponent {
   @Input() event: Event
 
-  attendee$ = this.store.select(selectCurrentAttendee)
+  attendee$ = this.store.select(selectCurrentEventAttendee)
   isGoingChanged$ = new Subject<boolean>()
 
   constructor(private store: Store) {

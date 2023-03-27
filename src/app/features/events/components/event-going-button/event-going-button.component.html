@@ -4,12 +4,20 @@
   (change)="isGoingChanged$.next($event.value)"
   [value]="attendee.isGoing"
 >
-  <mat-button-toggle class="event-going-button__button" [value]="true">
+  <mat-button-toggle
+    class="event-going-button__button"
+    [ngClass]="{ 'event-going-button__button--going': attendee.isGoing }"
+    [value]="true"
+  >
     <mat-icon class="event-going-button__button__icon">check</mat-icon>
     <span class="event-going-button__button__label">Going</span>
   </mat-button-toggle>
-  <mat-button-toggle class="event-going-button__button" [value]="false">
+  <mat-button-toggle
+    class="event-going-button__button"
+    [value]="false"
+    [ngClass]="{ 'event-going-button__button--not-going': !attendee.isGoing }"
+  >
     <mat-icon class="event-going-button__button__icon">close</mat-icon>
-    <span class="event-going-button__button__label">Not going</span>
+    <span class="event-going-button__button__label">Not Going</span>
   </mat-button-toggle>
 </mat-button-toggle-group>
