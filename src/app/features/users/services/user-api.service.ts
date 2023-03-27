@@ -30,4 +30,10 @@ export class UserApiService {
   deleteUser(userId: string): Observable<void> {
     return this.httpClient.delete<void>(`users/${userId}`)
   }
+
+  uploadUserPicture(userId: string, image: File): Observable<string> {
+    const formData = new FormData()
+    formData.append('user_picture', image)
+    return this.httpClient.post(`users/${userId}/uploadPicture`, formData, { responseType: 'text' })
+  }
 }

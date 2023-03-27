@@ -1,21 +1,32 @@
 import { Injectable } from '@angular/core'
+import { MatDialogRef } from '@angular/material/dialog'
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects'
 import { Store } from '@ngrx/store'
 import { of } from 'rxjs'
-import { map, exhaustMap, catchError, mergeMap, filter } from 'rxjs/operators'
+import { map, exhaustMap, catchError, mergeMap, filter, tap } from 'rxjs/operators'
+import { DialogService } from 'src/app/shared/dialog/dialog.service'
+import { UploadImageComponent } from 'src/app/shared/upload-image/upload-image'
 import { UserApiService } from '../../services/user-api.service'
 import {
   CreateUserActions,
   DeleteUserActions,
   FetchOneUserActions,
   FetchCurrentUserActions,
-  UpdateUserActions
+  UpdateUserActions,
+  UploadUserPictureActions
 } from './user.actions'
 import { selectUserById } from './user.selectors'
 
 @Injectable()
 export class UserEffects {
-  constructor(private actions$: Actions, private store: Store, private userApiService: UserApiService) {}
+  private groupImageUploadDialogRef: MatDialogRef<UploadImageComponent>
+
+  constructor(
+    private actions$: Actions,
+    private store: Store,
+    private userApiService: UserApiService,
+    private dialog: DialogService
+  ) {}
 
   fetchOneUser$ = createEffect(() => {
     return this.actions$.pipe(
@@ -78,4 +89,36 @@ export class UserEffects {
       )
     )
   })
+
+  uploadUserPicture$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(UploadUserPictureActions.uploadUserPicture),
+      mergeMap(({ userId, imageFile }) =>
+        this.userApiService.uploadUserPicture(userId, imageFile).pipe(
+          map((imageUrl) => UploadUserPictureActions.uploadUserPictureSuccess({ userId, imageUrl })),
+          catchError((error) => of(UploadUserPictureActions.uploadUserPictureError({ error })))
+        )
+      )
+    )
+  })
+
+  openUploadUserPictureDialog$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(UploadUserPictureActions.openUploadUserPictureDialog),
+        tap((action) => (this.groupImageUploadDialogRef = this.dialog.openUploadImage(action.data)))
+      )
+    },
+    { dispatch: false }
+  )
+
+  closeUploadUserPictureDialog$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(UploadUserPictureActions.uploadUserPictureSuccess),
+        tap(() => this.groupImageUploadDialogRef.close())
+      )
+    },
+    { dispatch: false }
+  )
 }

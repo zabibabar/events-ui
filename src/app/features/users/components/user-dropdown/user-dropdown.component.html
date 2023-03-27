@@ -1,15 +1,21 @@
-<button mat-button class="user-dropdown" [matMenuTriggerFor]="menu" *ngIf="user$ | async as user; else loggedOut">
-  <img matButtonIcon class="user-dropdown__picture" [src]="user.picture" alt="User Image" />
-  <span>{{ user.firstName }}</span>
-  <mat-icon iconPositionEnd>expand_more</mat-icon>
-</button>
-<mat-menu #menu="matMenu">
-  <button mat-menu-item (click)="logout()">
-    <mat-icon>logout</mat-icon>
-    <span>Logout</span>
+<ng-container *ngIf="user$ | async as user; else loggedOut">
+  <button mat-button class="user-dropdown" [matMenuTriggerFor]="menu">
+    <img matButtonIcon class="user-dropdown__picture" [src]="user.picture" alt="User Image" />
+    <span>{{ user.firstName }}</span>
+    <mat-icon iconPositionEnd>expand_more</mat-icon>
   </button>
-  <app-user-theme-toggle></app-user-theme-toggle>
-</mat-menu>
+  <mat-menu #menu="matMenu">
+    <app-user-theme-toggle></app-user-theme-toggle>
+    <button mat-menu-item (click)="changeUserPicture(user.id)">
+      <mat-icon>image</mat-icon>
+      <span>Change Profile Picture</span>
+    </button>
+    <button mat-menu-item (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      <span>Logout</span>
+    </button>
+  </mat-menu>
+</ng-container>
 
 <ng-template #loggedOut>
   <button mat-flat-button color="primary" (click)="login()">

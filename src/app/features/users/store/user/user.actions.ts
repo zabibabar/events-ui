@@ -1,4 +1,5 @@
-import { createActionGroup, props } from '@ngrx/store'
+import { createActionGroup, emptyProps, props } from '@ngrx/store'
+import { UploadImageData } from 'src/app/shared/upload-image/upload-image-data'
 import { UserCreateDto } from '../../dtos/user-create-dto'
 import { UserUpdateDto } from '../../dtos/user-update-dto'
 import { User } from '../../interfaces/user'
@@ -45,5 +46,16 @@ export const DeleteUserActions = createActionGroup({
     'Delete User': props<{ userId: string }>(),
     'Delete User Error': props<{ error: string }>(),
     'Delete User Success': props<{ userId: string }>()
+  }
+})
+
+export const UploadUserPictureActions = createActionGroup({
+  source: 'Users',
+  events: {
+    'Open Upload User Picture Dialog': props<{ data: UploadImageData }>(),
+    'Upload User Picture': props<{ userId: string; imageFile: File }>(),
+    'Upload User Picture Loading': emptyProps(),
+    'Upload User Picture Error': props<{ error: string }>(),
+    'Upload User Picture Success': props<{ userId: string; imageUrl: string }>()
   }
 })

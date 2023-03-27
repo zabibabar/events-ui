@@ -14,6 +14,7 @@ import { userAuthFeatureSelector, userAuthReducer } from './store/user-auth/user
 import { UserEffects } from './store/user/user.effects'
 import { userFeatureSelector, userReducer } from './store/user/user.reducer'
 import { UserThemeToggleComponent } from './components/user-theme-toggle/user-theme-toggle.component'
+import { DialogModule } from 'src/app/shared/dialog/dialog.module'
 
 @NgModule({
   declarations: [UserDropdownComponent, UserThemeToggleComponent],
@@ -24,6 +25,7 @@ import { UserThemeToggleComponent } from './components/user-theme-toggle/user-th
     HttpClientModule,
     MatMenuModule,
     MatIconModule,
+    DialogModule,
     StoreModule.forFeature(userAuthFeatureSelector, userAuthReducer),
     StoreModule.forFeature(userFeatureSelector, userReducer),
     EffectsModule.forFeature([UserAuthEffects, UserEffects]),
