@@ -1,7 +1,7 @@
 import { createAction, createActionGroup, emptyProps, props } from '@ngrx/store'
 import { UploadImageData } from 'src/app/shared/upload-image/upload-image-data'
-import { GroupCreatDto } from '../dtos/group-create-dto'
-import { GroupUpdatDto } from '../dtos/group-update-dto'
+import { GroupCreateDto } from '../dtos/group-create-dto'
+import { GroupUpdateDto } from '../dtos/group-update-dto'
 import { Group } from '../interfaces/group'
 
 export const FetchAllGroupsActions = createActionGroup({
@@ -28,7 +28,7 @@ export const CreateGroupActions = createActionGroup({
   source: 'Groups',
   events: {
     'Open Create Group Dialog': emptyProps(),
-    'Create Group': props<{ group: GroupCreatDto }>(),
+    'Create Group': props<{ group: GroupCreateDto }>(),
     'Create Group Loading': emptyProps(),
     'Create Group Error': props<{ error: string }>(),
     'Create Group Success': props<{ group: Group }>()
@@ -39,7 +39,7 @@ export const UpdateGroupActions = createActionGroup({
   source: 'Groups',
   events: {
     'Open Update Group Dialog': props<{ groupId: string }>(),
-    'Update Group': props<{ groupId: string; group: GroupUpdatDto }>(),
+    'Update Group': props<{ groupId: string; group: GroupUpdateDto }>(),
     'Update Group Loading': emptyProps(),
     'Update Group Error': props<{ error: string }>(),
     'Update Group Success': props<{ group: Group }>()
@@ -75,4 +75,4 @@ export const UploadGroupPictureActions = createActionGroup({
   }
 })
 
-export const closeUpsertFormDialog = createAction('[Groups] Close Upsert Form Dialog')
+export const CloseUpsertGroupFormDialog = createAction('[Groups] Close Upsert Group Form Dialog')

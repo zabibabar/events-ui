@@ -82,4 +82,4 @@ export const UploadEventPictureActions = createActionGroup({
   }
 })
 
-export const closeUpsertFormDialog = createAction('[Events] Close Upsert Form Dialog')
+export const CloseUpsertEventFormDialog = createAction('[Events] Close Upsert Event Form Dialog')

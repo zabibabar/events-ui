@@ -108,7 +108,7 @@ export class EventEffects {
         ofType(EventActions.CreateEventActions.openCreateEventDialog),
         tap(
           () =>
-            (this.eventUpsertFormDialogRef = this.dialog.open<EventUpsertFormComponent, EventUpsertDialogData>(
+            (this.eventUpsertFormDialogRef = this.dialog.openForm<EventUpsertFormComponent, EventUpsertDialogData>(
               EventUpsertFormComponent,
               {
                 type: DialogType.FORM,
@@ -134,7 +134,7 @@ export class EventEffects {
         concatLatestFrom(({ eventId }) => this.store.select(selectEventById({ eventId }))),
         tap(
           ([{ eventId }, event]) =>
-            (this.eventUpsertFormDialogRef = this.dialog.open<EventUpsertFormComponent, EventUpsertDialogData>(
+            (this.eventUpsertFormDialogRef = this.dialog.openForm<EventUpsertFormComponent, EventUpsertDialogData>(
               EventUpsertFormComponent,
               {
                 type: DialogType.FORM,
@@ -157,7 +157,11 @@ export class EventEffects {
   closeEventUpsertFormDialog$ = createEffect(
     () => {
       return this.actions$.pipe(
-        ofType(EventActions.closeUpsertFormDialog),
+        ofType(
+          EventActions.CloseUpsertEventFormDialog,
+          EventActions.CreateEventActions.createEventSuccess,
+          EventActions.UpdateEventActions.updateEventSuccess
+        ),
         tap(() => this.eventUpsertFormDialogRef.close())
       )
     },

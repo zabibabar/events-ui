@@ -27,10 +27,6 @@ export class UserApiService {
     return this.httpClient.patch<User>(`users/${userId}`, changes)
   }
 
-  deleteUser(userId: string): Observable<void> {
-    return this.httpClient.delete<void>(`users/${userId}`)
-  }
-
   uploadUserPicture(userId: string, image: File): Observable<string> {
     const formData = new FormData()
     formData.append('user_picture', image)

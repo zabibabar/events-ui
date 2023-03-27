@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core'
 import { Store } from '@ngrx/store'
 import { UploadImageData } from 'src/app/shared/upload-image/upload-image-data'
 import { UserAuthActions } from '../../store/user-auth/user-auth.actions'
-import { UploadUserPictureActions } from '../../store/user/user.actions'
+import { UploadUserPictureActions, UpdateUserActions } from '../../store/user/user.actions'
 import { selectCurrentUser } from '../../store/user/user.selectors'
 
 @Component({
@@ -28,6 +28,10 @@ export class UserDropdownComponent {
     }
 
     this.store.dispatch(UploadUserPictureActions.openUploadUserPictureDialog({ data }))
+  }
+
+  updateUserProfile(userId: string): void {
+    this.store.dispatch(UpdateUserActions.openUpdateUserDialog({ userId }))
   }
 
   login() {

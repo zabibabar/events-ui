@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { Store } from '@ngrx/store'
 import { GroupUpsertDialogData } from '../../interfaces/group-upsert-dialog-data'
-import { closeUpsertFormDialog } from '../../store/group.actions'
+import { CloseUpsertGroupFormDialog } from '../../store/group.actions'
 
 @Component({
   selector: 'app-group-upsert-form',
@@ -37,10 +37,9 @@ export class GroupUpsertFormComponent implements OnInit {
   submit(): void {
     const { name } = this.groupCreateForm.value
     this.onSubmit({ name: name as string })
-    this.onCancel()
   }
 
   onCancel(): void {
-    this.store.dispatch(closeUpsertFormDialog())
+    this.store.dispatch(CloseUpsertGroupFormDialog())
   }
 }

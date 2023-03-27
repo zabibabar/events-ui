@@ -15,16 +15,26 @@ import { UserEffects } from './store/user/user.effects'
 import { userFeatureSelector, userReducer } from './store/user/user.reducer'
 import { UserThemeToggleComponent } from './components/user-theme-toggle/user-theme-toggle.component'
 import { DialogModule } from 'src/app/shared/dialog/dialog.module'
+import { DialogFormModule } from 'src/app/shared/dialog-form/dialog-form.module'
+import { MatFormFieldModule } from '@angular/material/form-field'
+import { MatInputModule } from '@angular/material/input'
+import { UserUpdateFormComponent } from './components/user-update-form/user-update-form.component'
+import { ReactiveFormsModule } from '@angular/forms'
 
 @NgModule({
-  declarations: [UserDropdownComponent, UserThemeToggleComponent],
+  declarations: [UserDropdownComponent, UserThemeToggleComponent, UserUpdateFormComponent],
   exports: [UserDropdownComponent],
   imports: [
     CommonModule,
+    ReactiveFormsModule,
+
     MatButtonModule,
     HttpClientModule,
     MatMenuModule,
     MatIconModule,
+    MatFormFieldModule,
+    MatInputModule,
+    DialogFormModule,
     DialogModule,
     StoreModule.forFeature(userAuthFeatureSelector, userAuthReducer),
     StoreModule.forFeature(userFeatureSelector, userReducer),

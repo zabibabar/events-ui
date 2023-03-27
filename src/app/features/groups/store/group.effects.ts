@@ -11,7 +11,7 @@ import { DialogType } from 'src/app/shared/dialog/dialog-type.enum'
 import { DialogService } from 'src/app/shared/dialog/dialog.service'
 import { UploadImageComponent } from 'src/app/shared/upload-image/upload-image'
 import { GroupUpsertFormComponent } from '../components/group-upsert-form/group-upsert-form.component'
-import { GroupCreatDto } from '../dtos/group-create-dto'
+import { GroupCreateDto } from '../dtos/group-create-dto'
 import { GroupUpsertDialogData } from '../interfaces/group-upsert-dialog-data'
 import { GroupApiService } from '../services/group-api.service'
 import * as GroupActions from './group.actions'
@@ -129,7 +129,7 @@ export class GroupEffects {
         ofType(GroupActions.CreateGroupActions.openCreateGroupDialog),
         tap(
           () =>
-            (this.groupUpsertFormDialogRef = this.dialog.open<GroupUpsertFormComponent, GroupUpsertDialogData>(
+            (this.groupUpsertFormDialogRef = this.dialog.openForm<GroupUpsertFormComponent, GroupUpsertDialogData>(
               GroupUpsertFormComponent,
               {
                 type: DialogType.FORM,
@@ -138,7 +138,7 @@ export class GroupEffects {
                   submitText: 'Create',
                   onSubmit: (group) =>
                     // eslint-disable-next-line @ngrx/no-dispatch-in-effects
-                    this.store.dispatch(GroupActions.CreateGroupActions.createGroup({ group: group as GroupCreatDto }))
+                    this.store.dispatch(GroupActions.CreateGroupActions.createGroup({ group: group as GroupCreateDto }))
                 }
               }
             ))
@@ -155,7 +155,7 @@ export class GroupEffects {
         concatLatestFrom(({ groupId }) => this.store.select(selectGroupById({ groupId }))),
         tap(
           ([{ groupId }, group]) =>
-            (this.groupUpsertFormDialogRef = this.dialog.open<GroupUpsertFormComponent, GroupUpsertDialogData>(
+            (this.groupUpsertFormDialogRef = this.dialog.openForm<GroupUpsertFormComponent, GroupUpsertDialogData>(
               GroupUpsertFormComponent,
               {
                 type: DialogType.FORM,
@@ -178,7 +178,11 @@ export class GroupEffects {
   closeGroupUpsertFormDialog$ = createEffect(
     () => {
       return this.actions$.pipe(
-        ofType(GroupActions.closeUpsertFormDialog),
+        ofType(
+          GroupActions.CloseUpsertGroupFormDialog,
+          GroupActions.CreateGroupActions.createGroupSuccess,
+          GroupActions.UpdateGroupActions.updateGroupSuccess
+        ),
         tap(() => this.groupUpsertFormDialogRef.close())
       )
     },

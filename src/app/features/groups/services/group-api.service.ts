@@ -3,8 +3,8 @@ import { HttpClient, HttpParams } from '@angular/common/http'
 import { Observable } from 'rxjs'
 import { Group } from '../interfaces/group'
 import { Member } from '../interfaces/member'
-import { GroupCreatDto } from '../dtos/group-create-dto'
-import { GroupUpdatDto } from '../dtos/group-update-dto'
+import { GroupCreateDto } from '../dtos/group-create-dto'
+import { GroupUpdateDto } from '../dtos/group-update-dto'
 
 @Injectable({
   providedIn: 'root'
@@ -20,11 +20,11 @@ export class GroupApiService {
     return this.httpClient.get<Group>(`groups/${groupId}`)
   }
 
-  createGroup(group: GroupCreatDto): Observable<Group> {
+  createGroup(group: GroupCreateDto): Observable<Group> {
     return this.httpClient.post<Group>('groups', group)
   }
 
-  updateGroup(groupId: string, groupUpdates: GroupUpdatDto): Observable<Group> {
+  updateGroup(groupId: string, groupUpdates: GroupUpdateDto): Observable<Group> {
     return this.httpClient.patch<Group>(`groups/${groupId}`, groupUpdates)
   }
 

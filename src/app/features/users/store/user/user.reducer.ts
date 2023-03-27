@@ -5,7 +5,6 @@ import {
   FetchCurrentUserActions,
   CreateUserActions,
   UpdateUserActions,
-  DeleteUserActions,
   UploadUserPictureActions
 } from './user.actions'
 import { User } from '../../interfaces/user'
@@ -62,12 +61,6 @@ export const userReducer: ActionReducer<UserStoreState, Action> = createReducer(
     (state, { user }): UserStoreState => adapter.upsertOne(user, { ...state, error: null, loading: false })
   ),
   on(UpdateUserActions.updateUserError, (state, { error }): UserStoreState => ({ ...state, error, loading: false })),
-  on(DeleteUserActions.deleteUser, (state): UserStoreState => ({ ...state, loading: true })),
-  on(
-    DeleteUserActions.deleteUserSuccess,
-    (state, { userId }): UserStoreState => adapter.removeOne(userId, { ...state, error: null, loading: false })
-  ),
-  on(DeleteUserActions.deleteUserError, (state, { error }): UserStoreState => ({ ...state, error, loading: false })),
   on(UploadUserPictureActions.uploadUserPictureLoading, (state): UserStoreState => ({ ...state, loading: true })),
   on(
     UploadUserPictureActions.uploadUserPictureSuccess,

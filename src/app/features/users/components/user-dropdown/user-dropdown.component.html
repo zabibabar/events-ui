@@ -1,11 +1,18 @@
 <ng-container *ngIf="user$ | async as user; else loggedOut">
   <button mat-button class="user-dropdown" [matMenuTriggerFor]="menu">
     <img matButtonIcon class="user-dropdown__picture" [src]="user.picture" alt="User Image" />
-    <span>{{ user.firstName }}</span>
     <mat-icon iconPositionEnd>expand_more</mat-icon>
   </button>
   <mat-menu #menu="matMenu">
+    <button mat-menu-item disabled>
+      <mat-icon>person</mat-icon>
+      <span>Signed in as: {{ user.name }}</span>
+    </button>
     <app-user-theme-toggle></app-user-theme-toggle>
+    <button mat-menu-item (click)="updateUserProfile(user.id)">
+      <mat-icon>edit</mat-icon>
+      <span>Update Profile</span>
+    </button>
     <button mat-menu-item (click)="changeUserPicture(user.id)">
       <mat-icon>image</mat-icon>
       <span>Change Profile Picture</span>

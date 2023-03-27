@@ -71,10 +71,10 @@ export class UserAuthEffects implements OnInitEffects {
   })
 
   private convertUserAuthToUser(userAuth: UserAuth): UserCreateDto {
-    const { sub, name, given_name, family_name, email, picture, locale, email_verified } = userAuth
+    const { sub, name, nickname, given_name, family_name, email, picture, locale, email_verified } = userAuth
 
     return {
-      name: name as string,
+      name: (name as string) ?? (nickname as string) ?? `${given_name} ${family_name}`,
       email: email as string,
       picture: picture as string,
       locale: locale as string,

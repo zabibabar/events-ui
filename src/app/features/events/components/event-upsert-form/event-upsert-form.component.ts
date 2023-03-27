@@ -7,7 +7,7 @@ import { Group } from 'src/app/features/groups/interfaces/group'
 import { selectCurrentGroup } from 'src/app/features/groups/store/group.selectors'
 import { EventCreateDto } from '../../dtos/event-create-dto'
 import { EventUpsertDialogData } from '../../interfaces/event-upsert-dialog-data'
-import { closeUpsertFormDialog } from '../../store/event.actions'
+import { CloseUpsertEventFormDialog } from '../../store/event.actions'
 
 type EventUpsertFormType = FormGroup<{
   name: FormControl<string | null>
@@ -63,7 +63,6 @@ export class EventUpsertFormComponent implements OnInit {
       }
 
       this.onSubmit(newEvent)
-      this.onCancel()
     })
   }
 
@@ -73,7 +72,7 @@ export class EventUpsertFormComponent implements OnInit {
   }
 
   onCancel(): void {
-    this.store.dispatch(closeUpsertFormDialog())
+    this.store.dispatch(CloseUpsertEventFormDialog())
   }
 
   private getDirtyFields(formGroup: FormGroup): Partial<EventCreateDto> {

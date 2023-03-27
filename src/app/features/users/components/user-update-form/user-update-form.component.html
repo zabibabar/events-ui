@@ -1,0 +1,32 @@
+<dialog-form>
+  <dialog-form-title>{{ title }}</dialog-form-title>
+
+  <form dialog-form-body class="user-update-form" [formGroup]="userUpdateForm">
+    <mat-form-field>
+      <mat-label>First Name</mat-label>
+      <input matInput formControlName="firstName" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Last Name</mat-label>
+      <input matInput formControlName="lastName" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Display Name</mat-label>
+      <input matInput formControlName="name" />
+      <mat-hint>This name will be seen by other users</mat-hint>
+    </mat-form-field>
+  </form>
+  <div dialog-form-footer>
+    <button mat-button (click)="onCancel()">Cancel</button>
+    <button
+      mat-flat-button
+      color="primary"
+      (click)="submit()"
+      [disabled]="userUpdateForm.invalid || userUpdateForm.pristine"
+    >
+      {{ submitText }}
+    </button>
+  </div>
+</dialog-form>

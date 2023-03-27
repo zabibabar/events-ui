@@ -1,3 +1,5 @@
-import { UserCreateDto } from './user-create-dto'
-
-export type UserUpdateDto = Omit<UserCreateDto, 'externalId' | 'picture'>
+export type UserUpdateDto = {
+  firstName?: string
+  lastName?: string
+  name?: string
+}

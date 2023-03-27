@@ -4,22 +4,28 @@ import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects'
 import { Store } from '@ngrx/store'
 import { of } from 'rxjs'
 import { map, exhaustMap, catchError, mergeMap, filter, tap } from 'rxjs/operators'
+import { DialogType } from 'src/app/shared/dialog/dialog-type.enum'
 import { DialogService } from 'src/app/shared/dialog/dialog.service'
 import { UploadImageComponent } from 'src/app/shared/upload-image/upload-image'
+import { UserUpdateFormComponent } from '../../components/user-update-form/user-update-form.component'
+import { UserUpdateDto } from '../../dtos/user-update-dto'
+import { User } from '../../interfaces/user'
+import { UserUpdateDialogData } from '../../interfaces/user-update-form-dialog'
 import { UserApiService } from '../../services/user-api.service'
 import {
   CreateUserActions,
-  DeleteUserActions,
   FetchOneUserActions,
   FetchCurrentUserActions,
   UpdateUserActions,
-  UploadUserPictureActions
+  UploadUserPictureActions,
+  CloseUpdateUserFormDialog
 } from './user.actions'
 import { selectUserById } from './user.selectors'
 
 @Injectable()
 export class UserEffects {
-  private groupImageUploadDialogRef: MatDialogRef<UploadImageComponent>
+  private userUpdateFormDialogRef: MatDialogRef<UserUpdateFormComponent>
+  private userImageUploadDialogRef: MatDialogRef<UploadImageComponent>
 
   constructor(
     private actions$: Actions,
@@ -78,17 +84,41 @@ export class UserEffects {
     )
   })
 
-  deleteUser$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(DeleteUserActions.deleteUser),
-      mergeMap(({ userId }) =>
-        this.userApiService.deleteUser(userId).pipe(
-          map(() => DeleteUserActions.deleteUserSuccess({ userId })),
-          catchError((error) => of(DeleteUserActions.deleteUserError({ error })))
-        )
+  openUserUpdateFormDialog$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(UpdateUserActions.openUpdateUserDialog),
+        concatLatestFrom(({ userId }) => this.store.select(selectUserById({ userId }))),
+        tap(([{ userId }, user]) => {
+          this.userUpdateFormDialogRef = this.dialog.open<UserUpdateFormComponent, UserUpdateDialogData>(
+            UserUpdateFormComponent,
+            {
+              type: DialogType.FORM,
+              data: {
+                user: user as User,
+                title: 'Edit Profile',
+                submitText: 'Save Changes',
+                onSubmit: (user) =>
+                  // eslint-disable-next-line @ngrx/no-dispatch-in-effects
+                  this.store.dispatch(UpdateUserActions.updateUser({ userId, changes: user as UserUpdateDto }))
+              }
+            }
+          )
+        })
       )
-    )
-  })
+    },
+    { dispatch: false }
+  )
+
+  closeUserUpsertFormDialog$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(CloseUpdateUserFormDialog, UpdateUserActions.updateUserSuccess),
+        tap(() => this.userUpdateFormDialogRef.close())
+      )
+    },
+    { dispatch: false }
+  )
 
   uploadUserPicture$ = createEffect(() => {
     return this.actions$.pipe(
@@ -106,7 +136,7 @@ export class UserEffects {
     () => {
       return this.actions$.pipe(
         ofType(UploadUserPictureActions.openUploadUserPictureDialog),
-        tap((action) => (this.groupImageUploadDialogRef = this.dialog.openUploadImage(action.data)))
+        tap((action) => (this.userImageUploadDialogRef = this.dialog.openUploadImage(action.data)))
       )
     },
     { dispatch: false }
@@ -116,7 +146,7 @@ export class UserEffects {
     () => {
       return this.actions$.pipe(
         ofType(UploadUserPictureActions.uploadUserPictureSuccess),
-        tap(() => this.groupImageUploadDialogRef.close())
+        tap(() => this.userImageUploadDialogRef.close())
       )
     },
     { dispatch: false }
