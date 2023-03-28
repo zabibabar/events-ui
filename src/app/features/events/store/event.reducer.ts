@@ -13,7 +13,7 @@ export interface EventStoreState extends EntityState<Event> {
 
 export const adapter: EntityAdapter<Event> = createEntityAdapter<Event>({
   selectId: (event: Event) => event.id,
-  sortComparer: (a: Event, b: Event) => new Date(b.timeStart).getTime() - new Date(a.timeStart).getTime()
+  sortComparer: (a: Event, b: Event) => new Date(a.timeStart).getTime() - new Date(b.timeStart).getTime()
 })
 
 const initialState: EventStoreState = adapter.getInitialState({

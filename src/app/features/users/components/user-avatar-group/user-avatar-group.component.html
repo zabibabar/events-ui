@@ -1,0 +1,8 @@
+<div class="user-avatar-group" *ngIf="appearance === 'stack'">
+  <span class="user-avatar-group__avatar" *ngFor="let user of visibleUsers">
+    <ng-container *ngIf="user">
+      <img class="user-avatar-group__avatar__image" [src]="user.picture" [alt]="user.name" />
+    </ng-container>
+  </span>
+  <span class="user-avatar-group__avatar mat-caption" *ngIf="moreUserCount > 0">+{{ moreUserCount }}</span>
+</div>

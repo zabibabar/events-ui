@@ -6,6 +6,7 @@
 @use '../../app/features/events/components/event-time-location/_event-time-location-theme.component' as
   event-time-location;
 @use '../../app/features/groups/components/group-member/_group-member-theme.component' as group-member;
+@use '../../app/features/users/components/user-avatar-group/_user-avatar-group-theme.component' as user-avatar-group;
 @use '../../app/features/groups/components/group-member-list/_group-member-list-theme.component' as group-member-list;
 @use '../../app/core/components/toolbar/_toolbar-theme.component' as toolbar;
 @use '../../app/shared/toast/toast-theme.component' as toast;
@@ -17,13 +18,14 @@
 @mixin theme($theme, $typography-config, $variants) {
   @include app.theme($theme, $typography-config);
   @include event.theme($theme, $typography-config);
-  @include group.theme($theme, $typography-config);
-  @include group-header.theme($theme, $typography-config);
   @include event-header.theme($theme, $typography-config);
   @include event-going-button.theme($theme, $typography-config);
   @include event-time-location.theme($theme, $typography-config);
+  @include group.theme($theme, $typography-config);
+  @include group-header.theme($theme, $typography-config);
   @include group-member.theme($theme, $typography-config);
   @include group-member-list.theme($theme, $typography-config);
+  @include user-avatar-group.theme($theme, $typography-config);
   @include toolbar.theme($theme, $typography-config);
   @include toast.theme($theme, $typography-config);
   @include upload-image.theme($theme, $typography-config);

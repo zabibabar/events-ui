@@ -28,6 +28,7 @@ import { CoreModule } from 'src/app/core/core.module'
 import { EventsModule } from '../events/events.module'
 import { GroupMemberListComponent } from './components/group-member-list/group-member-list.component'
 import { GroupMemberComponent } from './components/group-member/group-member.component'
+import { UsersModule } from '../users/users.module'
 
 @NgModule({
   imports: [
@@ -49,6 +50,7 @@ import { GroupMemberComponent } from './components/group-member/group-member.com
     DialogModule,
     ReactiveFormsModule,
     EventsModule,
+    UsersModule,
     StoreModule.forFeature(groupFeatureSelector, groupReducer),
     EffectsModule.forFeature([GroupEffects])
   ],

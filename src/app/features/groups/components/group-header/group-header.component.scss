@@ -18,8 +18,9 @@
       margin-bottom: 16px;
     }
 
-    &__description {
+    &__members {
       flex-basis: 100%;
+      cursor: pointer;
     }
   }
 }

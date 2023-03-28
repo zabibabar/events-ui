@@ -20,14 +20,14 @@ import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
 import { UserUpdateFormComponent } from './components/user-update-form/user-update-form.component'
 import { ReactiveFormsModule } from '@angular/forms'
+import { UserAvatarGroupComponent } from './components/user-avatar-group/user-avatar-group.component'
 
 @NgModule({
-  declarations: [UserDropdownComponent, UserThemeToggleComponent, UserUpdateFormComponent],
-  exports: [UserDropdownComponent],
+  declarations: [UserAvatarGroupComponent, UserDropdownComponent, UserThemeToggleComponent, UserUpdateFormComponent],
+  exports: [UserAvatarGroupComponent, UserDropdownComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,
-
     MatButtonModule,
     HttpClientModule,
     MatMenuModule,

@@ -1,0 +1,23 @@
+.user-avatar-group {
+  display: flex;
+  flex-direction: row;
+  text-decoration: none;
+
+  &__avatar {
+    border-radius: 50%;
+    height: 32px;
+    width: 32px;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    &__image {
+      width: 100%;
+    }
+
+    &:not(:first-child) {
+      margin-left: -8px;
+    }
+  }
+}

@@ -35,7 +35,9 @@ export class GroupMemberListComponent implements OnInit {
       filter((searchTerm) => searchTerm.length > 0),
       switchMap((searchTerm) =>
         this.groupMembers$.pipe(
-          map((members) => members.filter((member) => member.id.toLowerCase().includes(searchTerm.toLowerCase())))
+          map((members) =>
+            members.filter((member) => member.user?.name.toLowerCase().includes(searchTerm.toLowerCase()))
+          )
         )
       )
     )

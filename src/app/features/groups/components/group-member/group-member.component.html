@@ -1,4 +1,4 @@
-<div class="group-member" *ngIf="user$ | async as user">
+<div class="group-member" *ngIf="groupMember.user as user">
   <img class="group-member__picture" [src]="user.picture" alt="User Image" />
   <div class="group-member__details">
     <div class="group-member__details__name mat-body-1">{{ user.name }}</div>
