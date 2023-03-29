@@ -1,12 +1,14 @@
-<div class="event-attendee-grid" *ngIf="visibleAttendees$ | async as attendees">
-  <div class="event-attendee-grid__header">
-    <div class="mat-headline-6 event-attendee-grid__header__title">Attendees ({{ attendees.length }})</div>
-    <a class="event-attendee-grid__header__title" routerLink="../attendees">See all</a>
-  </div>
-  <div class="event-attendee-grid__grid">
-    <div class="event-attendee-grid__grid__item" *ngFor="let a of attendees">
-      <img class="event-attendee-grid__grid__item__image" [src]="a.user?.picture" [alt]="a.user?.name" />
-      <div class="event-attendee-grid__grid__item__name mat-body-1">{{ a.user?.name }}</div>
+<div class="event-attendee-grid">
+  <card *ngIf="visibleAttendees$ | async as attendees">
+    <card-header>
+      <div class="mat-headline-6">Attendees ({{ attendees.length }})</div>
+      <a routerLink="../attendees">See all</a>
+    </card-header>
+    <div class="event-attendee-grid__grid">
+      <div class="event-attendee-grid__grid__item" *ngFor="let a of attendees">
+        <img class="event-attendee-grid__grid__item__image" [src]="a.user?.picture" [alt]="a.user?.name" />
+        <div class="event-attendee-grid__grid__item__name mat-body-1">{{ a.user?.name }}</div>
+      </div>
     </div>
-  </div>
+  </card>
 </div>

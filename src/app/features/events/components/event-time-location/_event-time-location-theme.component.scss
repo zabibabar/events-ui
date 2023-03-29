@@ -4,11 +4,8 @@
 @mixin color($theme) {
   $color-config: mat.get-color-config($theme);
   $foreground-palette: map.get($color-config, 'foreground');
-  $background-palette: map.get($color-config, 'background');
 
   .event-time-location {
-    background-color: mat.get-color-from-palette($background-palette, card);
-
     &__row {
       &__icon {
         color: mat.get-color-from-palette($foreground-palette, secondary-text);

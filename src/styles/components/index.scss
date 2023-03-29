@@ -3,9 +3,6 @@
 @use '../../app/features/groups/components/group-header/_group-header-theme.component' as group-header;
 @use '../../app/features/events/components/event-header/_event-header-theme.component' as event-header;
 @use '../../app/features/events/components/event-going-button/_event-going-button-theme.component' as event-going-button;
-@use '../../app/features/events/components/event-description/_event-description-theme.component' as event-description;
-@use '../../app/features/events/components/event-attendee-grid/_event-attendee-grid-theme.component' as
-  event-attendee-grid;
 @use '../../app/features/events/components/event-time-location/_event-time-location-theme.component' as
   event-time-location;
 @use '../../app/features/groups/components/group-member/_group-member-theme.component' as group-member;
@@ -13,6 +10,7 @@
 @use '../../app/features/groups/components/group-member-list/_group-member-list-theme.component' as group-member-list;
 @use '../../app/core/components/toolbar/_toolbar-theme.component' as toolbar;
 @use '../../app/shared/toast/toast-theme.component' as toast;
+@use '../../app/shared/card/card-theme.component' as card;
 @use '../../app/shared/upload-image/upload-image-theme.component' as upload-image;
 @use '../../app/shared/dialog-confirmation/dialog-confirmation-theme.component' as dialog-confirmation;
 @use '../../app/app-theme.component' as app;
@@ -23,8 +21,7 @@
   @include event.theme($theme, $typography-config);
   @include event-header.theme($theme, $typography-config);
   @include event-going-button.theme($theme, $typography-config);
-  @include event-description.theme($theme, $typography-config);
-  @include event-attendee-grid.theme($theme, $typography-config);
+  @include card.theme($theme, $typography-config);
   @include event-time-location.theme($theme, $typography-config);
   @include group.theme($theme, $typography-config);
   @include group-header.theme($theme, $typography-config);
