@@ -8,7 +8,7 @@ import { UserEmbedded } from '../../interfaces/user-embedded'
 })
 export class UserAvatarGroupComponent implements OnInit {
   @Input() users: { user?: UserEmbedded }[] = []
-  @Input() max = 4
+  @Input() max = 3
   @Input() appearance: 'stack' | 'grid' = 'stack'
   visibleUsers: UserEmbedded[] = []
   moreUserCount = 0

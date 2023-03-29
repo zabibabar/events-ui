@@ -1,8 +1,17 @@
-<div class="user-avatar-group" *ngIf="appearance === 'stack'">
-  <span class="user-avatar-group__avatar" *ngFor="let user of visibleUsers">
+<div class="user-avatar-group--stack" *ngIf="appearance === 'stack'">
+  <span class="user-avatar-group--stack__avatar" *ngFor="let user of visibleUsers">
     <ng-container *ngIf="user">
-      <img class="user-avatar-group__avatar__image" [src]="user.picture" [alt]="user.name" />
+      <img class="user-avatar-group--stack__avatar__image" [src]="user.picture" [alt]="user.name" />
     </ng-container>
   </span>
-  <span class="user-avatar-group__avatar mat-caption" *ngIf="moreUserCount > 0">+{{ moreUserCount }}</span>
+  <span class="user-avatar-group--stack__avatar mat-caption" *ngIf="moreUserCount > 0">+{{ moreUserCount }}</span>
+</div>
+
+<div class="user-avatar-group--grid" *ngIf="appearance === 'grid'">
+  <span class="user-avatar-group--grid__avatar" *ngFor="let user of visibleUsers">
+    <ng-container *ngIf="user">
+      <img class="user-avatar-group--grid__avatar__image" [src]="user.picture" [alt]="user.name" />
+    </ng-container>
+  </span>
+  <span class="user-avatar-group--grid__avatar mat-caption" *ngIf="moreUserCount > 0">+{{ moreUserCount }}</span>
 </div>

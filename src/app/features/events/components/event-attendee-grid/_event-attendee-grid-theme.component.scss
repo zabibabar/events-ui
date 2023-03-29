@@ -4,14 +4,9 @@
 @mixin color($theme) {
   $color-config: mat.get-color-config($theme);
   $background-palette: map.get($color-config, 'background');
-  $foreground-palette: map.get($color-config, 'foreground');
 
-  .user-avatar-group--stack {
-    &__avatar {
-      border: 2px solid mat.get-color-from-palette($background-palette, 'background');
-      background-color: mat.get-color-from-palette($background-palette, unselected-chip);
-      color: mat.get-color-from-palette($foreground-palette, text);
-    }
+  .event-attendee-grid {
+    background-color: mat.get-color-from-palette($background-palette, card);
   }
 }
 

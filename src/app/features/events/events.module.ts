@@ -31,7 +31,8 @@ import { EventTimeLocationComponent } from './components/event-time-location/eve
 import { MatButtonToggleModule } from '@angular/material/button-toggle'
 import { EventGoingButtonComponent } from './components/event-going-button/event-going-button.component'
 import { UsersModule } from '../users/users.module'
-import { EventDescriptionComponent } from './components/event-description/event-description.component'
+import { EventDescriptionComponent } from './components/event-description/event-description.component';
+import { EventAttendeeGridComponent } from './components/event-attendee-grid/event-attendee-grid.component'
 
 @NgModule({
   imports: [
@@ -68,14 +69,16 @@ import { EventDescriptionComponent } from './components/event-description/event-
     EventUpsertFormComponent,
     EventTimeLocationComponent,
     EventGoingButtonComponent,
-    EventDescriptionComponent
+    EventDescriptionComponent,
+    EventAttendeeGridComponent
   ],
   exports: [
     EventListComponent,
     EventHeaderComponent,
     EventCreateButtonComponent,
     EventHeaderComponent,
-    EventDescriptionComponent
+    EventDescriptionComponent,
+    EventAttendeeGridComponent
   ]
 })
 export class EventsModule {}

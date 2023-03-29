@@ -4,4 +4,6 @@ export interface Attendee {
   id: string
   isGoing: boolean
   user?: UserEmbedded
+  updatedAt: string
+  createdAt: string
 }

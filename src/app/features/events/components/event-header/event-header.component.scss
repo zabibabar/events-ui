@@ -1,6 +1,5 @@
 .event-header {
   display: flex;
-  gap: 32px;
 }
 
 .event-header__main {
@@ -25,12 +24,11 @@
     }
   }
 
-  &__tabs {
-    margin-bottom: 24px;
-    // position: -webkit-sticky;
-    // position: sticky;
-    // top: 16px;
-  }
+  // &__tabs {
+  // position: -webkit-sticky;
+  // position: sticky;
+  // top: 16px;
+  // }
 }
 
 .event-header__side {
