@@ -31,6 +31,7 @@ import { EventTimeLocationComponent } from './components/event-time-location/eve
 import { MatButtonToggleModule } from '@angular/material/button-toggle'
 import { EventGoingButtonComponent } from './components/event-going-button/event-going-button.component'
 import { UsersModule } from '../users/users.module'
+import { EventDescriptionComponent } from './components/event-description/event-description.component'
 
 @NgModule({
   imports: [
@@ -66,8 +67,15 @@ import { UsersModule } from '../users/users.module'
     EventOptionsMenuComponent,
     EventUpsertFormComponent,
     EventTimeLocationComponent,
-    EventGoingButtonComponent
+    EventGoingButtonComponent,
+    EventDescriptionComponent
   ],
-  exports: [EventListComponent, EventHeaderComponent, EventCreateButtonComponent, EventHeaderComponent]
+  exports: [
+    EventListComponent,
+    EventHeaderComponent,
+    EventCreateButtonComponent,
+    EventHeaderComponent,
+    EventDescriptionComponent
+  ]
 })
 export class EventsModule {}

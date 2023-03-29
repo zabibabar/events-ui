@@ -11,7 +11,7 @@ import { selectCurrentEvent, selectGoingAttendeesForCurrentEvent } from '../../s
 })
 export class EventHeaderComponent {
   links: NavLink[] = [
-    { label: 'Home', link: 'home' },
+    { label: 'Details', link: 'home' },
     { label: 'Attendees', link: 'attendees' }
   ]
 

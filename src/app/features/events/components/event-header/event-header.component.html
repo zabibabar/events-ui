@@ -3,7 +3,7 @@
     <img class="event-header__main__picture" [src]="event.picture" />
     <div class="event-header__main__details">
       <div class="event-header__main__details__time mat-body-1">{{ event.timeStart | date: 'E, LLL d, h:mm a' }}</div>
-      <div class="event-header__main__details__name mat-headline-5">{{ event.name }}</div>
+      <div class="event-header__main__details__name mat-headline-2">{{ event.name }}</div>
       <app-user-avatar-group
         class="event-header__main__details__description"
         [users]="(goingAttendees$ | async)!"
@@ -25,6 +25,10 @@
       </nav>
       <mat-divider></mat-divider>
     </div>
+
+    <mat-tab-nav-panel #tabPanel>
+      <ng-content></ng-content>
+    </mat-tab-nav-panel>
   </div>
   <div class="event-header__side">
     <app-event-going-button [event]="event"></app-event-going-button>
@@ -45,6 +49,3 @@
   </div>
   <app-event-options-menu #menu="eventOptionsMenu" [event]="event"></app-event-options-menu>
 </div>
-<mat-tab-nav-panel #tabPanel>
-  <ng-content></ng-content>
-</mat-tab-nav-panel>
