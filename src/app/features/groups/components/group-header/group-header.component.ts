@@ -10,10 +10,9 @@ import { selectCurrentGroup } from '../../store/group.selectors'
 })
 export class GroupHeaderComponent {
   links: NavLink[] = [
-    { label: 'About', link: 'home' },
+    { label: 'Details', link: 'home' },
     { label: 'Events', link: 'events' },
-    { label: 'Members', link: 'members' },
-    { label: 'Photos', link: 'photos' }
+    { label: 'Members', link: 'members' }
   ]
   activeLink = this.links[0]
 

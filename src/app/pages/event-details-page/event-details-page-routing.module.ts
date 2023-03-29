@@ -24,8 +24,8 @@ const routes: Routes = [
           import('../event-attendees-page/event-attendees-page.module').then((m) => m.EventAttendeesPageModule)
       },
       {
-        path: 'photos',
-        loadChildren: () => import('../event-photos-page/event-photos-page.module').then((m) => m.EventPhotosPageModule)
+        path: '**',
+        redirectTo: 'home'
       }
     ]
   }

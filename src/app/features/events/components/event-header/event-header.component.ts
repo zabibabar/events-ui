@@ -12,8 +12,7 @@ import { selectCurrentEvent, selectGoingAttendeesCountForCurrentEvent } from '..
 export class EventHeaderComponent {
   links: NavLink[] = [
     { label: 'Home', link: 'home' },
-    { label: 'Attendees', link: 'attendees' },
-    { label: 'Photos', link: 'photos' }
+    { label: 'Attendees', link: 'attendees' }
   ]
 
   event$ = this.store.select(selectCurrentEvent)

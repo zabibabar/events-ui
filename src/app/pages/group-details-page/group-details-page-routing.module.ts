@@ -28,8 +28,8 @@ const routes: Routes = [
           import('../group-members-page/group-members-page.module').then((m) => m.GroupMembersPageModule)
       },
       {
-        path: 'photos',
-        loadChildren: () => import('../group-photos-page/group-photos-page.module').then((m) => m.GroupPhotosPageModule)
+        path: '**',
+        redirectTo: 'home'
       }
     ]
   }
