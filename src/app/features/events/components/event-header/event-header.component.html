@@ -6,7 +6,7 @@
       <div class="event-header__main__details__name mat-headline-5">{{ event.name }}</div>
       <app-user-avatar-group
         class="event-header__main__details__description"
-        [users]="event.attendees"
+        [users]="(goingAttendees$ | async)!"
       ></app-user-avatar-group>
     </div>
 
