@@ -28,8 +28,9 @@ import { MatDividerModule } from '@angular/material/divider'
 import { CoreModule } from 'src/app/core/core.module'
 import { MatTabsModule } from '@angular/material/tabs'
 import { EventTimeLocationComponent } from './components/event-time-location/event-time-location.component'
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatButtonToggleModule } from '@angular/material/button-toggle'
 import { EventGoingButtonComponent } from './components/event-going-button/event-going-button.component'
+import { UsersModule } from '../users/users.module'
 
 @NgModule({
   imports: [
@@ -51,6 +52,7 @@ import { EventGoingButtonComponent } from './components/event-going-button/event
     FormsModule,
     DialogFormModule,
     DialogModule,
+    UsersModule,
     ReactiveFormsModule,
     StoreModule.forFeature(eventFeatureSelector, eventReducer),
     EffectsModule.forFeature([EventEffects])

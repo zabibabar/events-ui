@@ -4,7 +4,10 @@
     <div class="event-header__main__details">
       <div class="event-header__main__details__time mat-body-1">{{ event.timeStart | date: 'E, LLL d, h:mm a' }}</div>
       <div class="event-header__main__details__name mat-headline-5">{{ event.name }}</div>
-      <div class="event-header__main__details__description">{{ attendeeCount$ | async }} attendees</div>
+      <app-user-avatar-group
+        class="event-header__main__details__description"
+        [users]="event.attendees"
+      ></app-user-avatar-group>
     </div>
 
     <div class="event-header__main__tabs">
