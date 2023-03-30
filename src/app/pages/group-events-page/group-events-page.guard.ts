@@ -3,16 +3,16 @@ import { CanActivate } from '@angular/router'
 import { Actions, ofType } from '@ngrx/effects'
 import { Store } from '@ngrx/store'
 import { Observable, first, map } from 'rxjs'
-import { FetchCurrentEvent, FetchOneEventActions } from 'src/app/features/events/store/event.actions'
+import { FetchEventsByCurrentGroupActions } from 'src/app/features/events/store/event.actions'
 
 @Injectable()
-export class EventDetailsPageGuard implements CanActivate {
+export class GroupEventsPageGuard implements CanActivate {
   constructor(private store: Store, private actions$: Actions) {}
 
   canActivate(): Observable<boolean> {
-    this.store.dispatch(FetchCurrentEvent())
+    this.store.dispatch(FetchEventsByCurrentGroupActions.fetchEventsByCurrentGroup())
     return this.actions$.pipe(
-      ofType(FetchOneEventActions.fetchOneEventSuccess),
+      ofType(FetchEventsByCurrentGroupActions.fetchEventsByCurrentGroupSuccess),
       first(),
       map(() => true)
     )

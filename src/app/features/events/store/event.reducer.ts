@@ -6,7 +6,6 @@ import * as EventActions from './event.actions'
 export const eventFeatureSelector = 'events'
 
 export interface EventStoreState extends EntityState<Event> {
-  selectedEventId: string | null
   loading: boolean
   error: string | null
 }
@@ -17,7 +16,6 @@ export const adapter: EntityAdapter<Event> = createEntityAdapter<Event>({
 })
 
 const initialState: EventStoreState = adapter.getInitialState({
-  selectedEventId: null,
   loading: false,
   error: null
 })

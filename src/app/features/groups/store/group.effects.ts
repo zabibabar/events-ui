@@ -6,7 +6,7 @@ import { routerNavigatedAction } from '@ngrx/router-store'
 import { Store } from '@ngrx/store'
 import { forkJoin, of } from 'rxjs'
 import { map, exhaustMap, catchError, tap, mergeMap, filter, switchMap } from 'rxjs/operators'
-import { selectQueryParam } from 'src/app/core/store/router.selectors'
+import { selectQueryParam, selectRouteParams } from 'src/app/core/store/router.selectors'
 import { DialogType } from 'src/app/shared/dialog/dialog-type.enum'
 import { DialogService } from 'src/app/shared/dialog/dialog.service'
 import { UploadImageComponent } from 'src/app/shared/upload-image/upload-image'
@@ -40,6 +40,15 @@ export class GroupEffects {
           catchError((error) => of(GroupActions.FetchAllGroupsActions.fetchAllGroupsError({ error })))
         )
       )
+    )
+  })
+
+  fetchCurrentGroup$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(GroupActions.FetchCurrentGroup),
+      concatLatestFrom(() => this.store.select(selectRouteParams)),
+      filter(([, { groupId }]) => !!groupId),
+      map(([, { groupId }]) => GroupActions.FetchOneGroupActions.fetchOneGroup({ groupId }))
     )
   })
 

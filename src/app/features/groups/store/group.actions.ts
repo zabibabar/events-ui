@@ -76,3 +76,4 @@ export const UploadGroupPictureActions = createActionGroup({
 })
 
 export const CloseUpsertGroupFormDialog = createAction('[Groups] Close Upsert Group Form Dialog')
+export const FetchCurrentGroup = createAction('[Groups] Fetch Current Group')

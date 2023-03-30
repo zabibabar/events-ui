@@ -15,7 +15,6 @@ export const adapter: EntityAdapter<Group> = createEntityAdapter<Group>({
 })
 
 const initialState: GroupStoreState = adapter.getInitialState({
-  selectedGroupId: null,
   loading: false,
   error: null
 })

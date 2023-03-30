@@ -83,3 +83,4 @@ export const UploadEventPictureActions = createActionGroup({
 })
 
 export const CloseUpsertEventFormDialog = createAction('[Events] Close Upsert Event Form Dialog')
+export const FetchCurrentEvent = createAction('[Events] Fetch Current Event')

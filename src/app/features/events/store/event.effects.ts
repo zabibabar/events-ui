@@ -3,7 +3,7 @@ import { MatDialogRef } from '@angular/material/dialog'
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects'
 import { Store } from '@ngrx/store'
 import { of } from 'rxjs'
-import { map, exhaustMap, catchError, tap, mergeMap } from 'rxjs/operators'
+import { map, exhaustMap, catchError, tap, mergeMap, filter } from 'rxjs/operators'
 import { selectRouteParams } from 'src/app/core/store/router.selectors'
 import { DialogType } from 'src/app/shared/dialog/dialog-type.enum'
 import { DialogService } from 'src/app/shared/dialog/dialog.service'
@@ -43,6 +43,7 @@ export class EventEffects {
     return this.actions$.pipe(
       ofType(EventActions.FetchEventsByCurrentGroupActions.fetchEventsByCurrentGroup),
       concatLatestFrom(() => this.store.select(selectRouteParams)),
+      filter(([, { groupId }]) => !!groupId),
       exhaustMap(([, { groupId }]) =>
         this.eventApiService.getEventsByGroup(groupId).pipe(
           map((events) => EventActions.FetchEventsByCurrentGroupActions.fetchEventsByCurrentGroupSuccess({ events })),
@@ -51,6 +52,15 @@ export class EventEffects {
           )
         )
       )
+    )
+  })
+
+  fetchCurrentEvent$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(EventActions.FetchCurrentEvent),
+      concatLatestFrom(() => this.store.select(selectRouteParams)),
+      filter(([, { eventId }]) => !!eventId),
+      map(([, { eventId }]) => EventActions.FetchOneEventActions.fetchOneEvent({ eventId }))
     )
   })
 
