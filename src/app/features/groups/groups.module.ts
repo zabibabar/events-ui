@@ -29,6 +29,8 @@ import { EventsModule } from '../events/events.module'
 import { GroupMemberListComponent } from './components/group-member-list/group-member-list.component'
 import { GroupMemberComponent } from './components/group-member/group-member.component'
 import { UsersModule } from '../users/users.module'
+import { CardModule } from 'src/app/shared/card/card.module'
+import { GroupDescriptionComponent } from './components/group-description/group-description.component'
 
 @NgModule({
   imports: [
@@ -51,6 +53,7 @@ import { UsersModule } from '../users/users.module'
     ReactiveFormsModule,
     EventsModule,
     UsersModule,
+    CardModule,
     StoreModule.forFeature(groupFeatureSelector, groupReducer),
     EffectsModule.forFeature([GroupEffects])
   ],
@@ -63,8 +66,15 @@ import { UsersModule } from '../users/users.module'
     GroupOptionsMenuComponent,
     GroupUpsertFormComponent,
     GroupMemberListComponent,
-    GroupMemberComponent
+    GroupMemberComponent,
+    GroupDescriptionComponent
   ],
-  exports: [GroupListComponent, GroupHeaderComponent, GroupCreateButtonComponent, GroupMemberListComponent]
+  exports: [
+    GroupListComponent,
+    GroupHeaderComponent,
+    GroupCreateButtonComponent,
+    GroupMemberListComponent,
+    GroupDescriptionComponent
+  ]
 })
 export class GroupsModule {}
