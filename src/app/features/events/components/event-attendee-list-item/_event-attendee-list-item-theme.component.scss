@@ -5,7 +5,7 @@
   $color-config: mat.get-color-config($theme);
   $foreground-palette: map.get($color-config, 'foreground');
 
-  .group-member {
+  .event-attendee-list-item {
     &__details__joined,
     &__options__icon {
       color: mat.get-color-from-palette($foreground-palette, 'secondary-text');

@@ -3,6 +3,8 @@
 @use '../../app/features/groups/components/group-header/_group-header-theme.component' as group-header;
 @use '../../app/features/events/components/event-header/_event-header-theme.component' as event-header;
 @use '../../app/features/events/components/event-going-button/_event-going-button-theme.component' as event-going-button;
+@use '../../app/features/events/components/event-attendee-list-item/_event-attendee-list-item-theme.component' as
+  event-attendee-list-item;
 @use '../../app/features/events/components/event-time-location/_event-time-location-theme.component' as
   event-time-location;
 @use '../../app/features/groups/components/group-member/_group-member-theme.component' as group-member;
@@ -21,6 +23,7 @@
   @include event.theme($theme, $typography-config);
   @include event-header.theme($theme, $typography-config);
   @include event-going-button.theme($theme, $typography-config);
+  @include event-attendee-list-item.theme($theme, $typography-config);
   @include card.theme($theme, $typography-config);
   @include event-time-location.theme($theme, $typography-config);
   @include group.theme($theme, $typography-config);
