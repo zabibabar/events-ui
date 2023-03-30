@@ -34,6 +34,8 @@ import { UsersModule } from '../users/users.module'
 import { EventDescriptionComponent } from './components/event-description/event-description.component'
 import { EventAttendeeGridComponent } from './components/event-attendee-grid/event-attendee-grid.component'
 import { CardModule } from 'src/app/shared/card/card.module'
+import { EventAttendeeListComponent } from './components/event-attendee-list/event-attendee-list.component'
+import { EventAttendeeListItemComponent } from './components/event-attendee-list-item/event-attendee-list-item.component'
 
 @NgModule({
   imports: [
@@ -72,7 +74,9 @@ import { CardModule } from 'src/app/shared/card/card.module'
     EventTimeLocationComponent,
     EventGoingButtonComponent,
     EventDescriptionComponent,
-    EventAttendeeGridComponent
+    EventAttendeeGridComponent,
+    EventAttendeeListComponent,
+    EventAttendeeListItemComponent
   ],
   exports: [
     EventListComponent,
@@ -80,7 +84,8 @@ import { CardModule } from 'src/app/shared/card/card.module'
     EventCreateButtonComponent,
     EventHeaderComponent,
     EventDescriptionComponent,
-    EventAttendeeGridComponent
+    EventAttendeeGridComponent,
+    EventAttendeeListComponent
   ]
 })
 export class EventsModule {}

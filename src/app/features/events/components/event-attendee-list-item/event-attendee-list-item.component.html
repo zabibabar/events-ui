@@ -1,0 +1,18 @@
+<div class="event-attendee-list-item" *ngIf="attendee?.user as user">
+  <img class="event-attendee-list-item__picture" [src]="user.picture" alt="User Image" />
+  <div class="event-attendee-list-item__details">
+    <div class="event-attendee-list-item__details__name mat-body-1">{{ user.name }}</div>
+    <div class="event-attendee-list-item__details__joined">Responded {{ attendee.createdAt | date: 'LLL d, yyy' }}</div>
+  </div>
+  <div class="flex-spacer"></div>
+  <button class="event-attendee-list-item__options" mat-icon-button [matMenuTriggerFor]="menu">
+    <mat-icon class="event-attendee-list-item__options__icon">more_vert</mat-icon>
+  </button>
+</div>
+
+<mat-menu #menu="matMenu">
+  <button mat-menu-item>
+    <mat-icon>exit_to_app</mat-icon>
+    <span>Remove</span>
+  </button>
+</mat-menu>

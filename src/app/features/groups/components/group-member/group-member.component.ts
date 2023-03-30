@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core'
-import { Store } from '@ngrx/store'
 import { Member } from '../../interfaces/member'
 
 @Component({
@@ -9,6 +8,4 @@ import { Member } from '../../interfaces/member'
 })
 export class GroupMemberComponent {
   @Input() groupMember: Member
-
-  constructor(private store: Store) {}
 }
