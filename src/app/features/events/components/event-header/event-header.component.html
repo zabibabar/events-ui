@@ -5,9 +5,11 @@
       <div class="event-header__main__details__time mat-body-1">{{ event.timeStart | date: 'E, LLL d, h:mm a' }}</div>
       <div class="event-header__main__details__name mat-headline-2">{{ event.name }}</div>
       <app-user-avatar-group
+        *ngIf="(goingAttendees$ | async)!.length > 0; else noAttendees"
         class="event-header__main__details__description"
         [users]="(goingAttendees$ | async)!"
       ></app-user-avatar-group>
+      <ng-template #noAttendees>No Attendees</ng-template>
     </div>
 
     <div class="event-header__main__tabs">

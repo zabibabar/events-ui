@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component, Input, OnChanges } from '@angular/core'
 import { UserEmbedded } from '../../interfaces/user-embedded'
 
 @Component({
@@ -6,14 +6,14 @@ import { UserEmbedded } from '../../interfaces/user-embedded'
   templateUrl: './user-avatar-group.component.html',
   styleUrls: ['./user-avatar-group.component.scss']
 })
-export class UserAvatarGroupComponent implements OnInit {
+export class UserAvatarGroupComponent implements OnChanges {
   @Input() users: { user?: UserEmbedded }[] = []
   @Input() max = 3
   @Input() appearance: 'stack' | 'grid' = 'stack'
   visibleUsers: UserEmbedded[] = []
   moreUserCount = 0
 
-  ngOnInit(): void {
+  ngOnChanges(): void {
     this.visibleUsers = this.users.slice(0, this.max).map(({ user }) => user as UserEmbedded)
     this.moreUserCount = Math.max(0, this.users.length - this.max)
   }
