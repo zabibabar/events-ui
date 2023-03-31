@@ -1,0 +1,28 @@
+.group-member-grid {
+  padding-bottom: 32px;
+  display: block;
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+
+    &__item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 16px;
+      text-align: center;
+      border-radius: 8px;
+      border: 1px solid rgba($color: #000, $alpha: 0.06);
+      overflow-wrap: anywhere;
+
+      &__image {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        margin-bottom: 12px;
+      }
+    }
+  }
+}

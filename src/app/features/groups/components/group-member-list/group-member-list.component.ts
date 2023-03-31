@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms'
 import { Store } from '@ngrx/store'
 import { debounceTime, distinctUntilChanged, filter, map, merge, Observable, startWith, switchMap } from 'rxjs'
 import { Member } from 'src/app/features/groups/interfaces/member'
-import { selectCurrentGroupMembers } from '../../store/group.selectors'
+import { selectMembersForCurrentGroup } from '../../store/group.selectors'
 
 @Component({
   selector: 'app-group-member-list',
@@ -12,7 +12,7 @@ import { selectCurrentGroupMembers } from '../../store/group.selectors'
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GroupMemberListComponent implements OnInit {
-  private groupMembers$: Observable<Member[]> = this.store.select(selectCurrentGroupMembers)
+  private groupMembers$: Observable<Member[]> = this.store.select(selectMembersForCurrentGroup)
   membersCount$ = this.groupMembers$.pipe(map((members) => members.length))
   filter = new FormControl('', { nonNullable: true })
   filteredGroupMembers$: Observable<Member[]>

@@ -1,0 +1,14 @@
+<card class="group-member-grid" *ngIf="visibleMembers$ | async as members">
+  <card-header>
+    <div class="mat-headline-6">Members ({{ members.length }})</div>
+    <a routerLink="../members">See all</a>
+  </card-header>
+  <div class="group-member-grid__grid">
+    <div class="group-member-grid__grid__item" *ngFor="let m of members">
+      <ng-container *ngIf="m">
+        <img class="group-member-grid__grid__item__image" [src]="m.user?.picture" [alt]="m.user?.name" />
+        <div class="group-member-grid__grid__item__name mat-body-1">{{ m.user?.name }}</div>
+      </ng-container>
+    </div>
+  </div>
+</card>

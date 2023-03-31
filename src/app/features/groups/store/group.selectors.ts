@@ -20,7 +20,7 @@ export const selectCurrentGroup = createSelector(
 export const selectGroupById = (props: { groupId: string }) =>
   createSelector(selectGroupEntities, (groupEntities: Dictionary<Group>) => groupEntities[props.groupId])
 
-export const selectCurrentGroupMembers = createSelector(
+export const selectMembersForCurrentGroup = createSelector(
   selectCurrentGroup,
   (group: Group | undefined) => group?.members ?? []
 )

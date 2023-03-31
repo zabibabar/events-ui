@@ -31,6 +31,7 @@ import { GroupMemberComponent } from './components/group-member/group-member.com
 import { UsersModule } from '../users/users.module'
 import { CardModule } from 'src/app/shared/card/card.module'
 import { GroupDescriptionComponent } from './components/group-description/group-description.component'
+import { GroupMemberGridComponent } from './components/group-member-grid/group-member-grid.component'
 
 @NgModule({
   imports: [
@@ -67,14 +68,16 @@ import { GroupDescriptionComponent } from './components/group-description/group-
     GroupUpsertFormComponent,
     GroupMemberListComponent,
     GroupMemberComponent,
-    GroupDescriptionComponent
+    GroupDescriptionComponent,
+    GroupMemberGridComponent
   ],
   exports: [
     GroupListComponent,
     GroupHeaderComponent,
     GroupCreateButtonComponent,
     GroupMemberListComponent,
-    GroupDescriptionComponent
+    GroupDescriptionComponent,
+    GroupMemberGridComponent
   ]
 })
 export class GroupsModule {}
