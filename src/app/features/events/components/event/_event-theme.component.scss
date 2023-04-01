@@ -6,10 +6,13 @@
   $primary-palette: map.get($color-config, 'primary');
   $foreground-palette: map.get($color-config, 'foreground');
   $background-palette: map.get($color-config, 'background');
+  $is-dark: map.get($color-config, 'is-dark');
+  $green-palette: mat.define-palette(mat.$green-palette);
+  $light-green-palette: mat.define-palette(mat.$light-green-palette);
 
   .event {
     &__picture {
-      background-color: mat.get-color-from-palette($background-palette, status-bar);
+      background-color: mat.get-color-from-palette($background-palette, app-bar);
     }
 
     &__body {
@@ -25,8 +28,23 @@
         color: mat.get-color-from-palette($foreground-palette, secondary-text);
       }
 
-      &__going {
+      &__footer {
         color: mat.get-color-from-palette($foreground-palette, secondary-text);
+
+        &__button {
+          background-color: mat.get-color-from-palette($background-palette, app-bar);
+          color: mat.get-color-from-palette($foreground-palette, text);
+
+          &--going {
+            mat-icon {
+              @if $is-dark {
+                color: mat.get-color-from-palette($light-green-palette, 500);
+              } @else {
+                color: mat.get-color-from-palette($green-palette, 500);
+              }
+            }
+          }
+        }
       }
     }
   }

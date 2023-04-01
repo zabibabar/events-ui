@@ -5,8 +5,8 @@ export interface Event {
   groupId: string
   name: string
   picture: string
-  timeStart: Date
-  timeEnd: Date
+  timeStart: string
+  timeEnd: string
   address: string
   description?: string
   attendees: Attendee[]

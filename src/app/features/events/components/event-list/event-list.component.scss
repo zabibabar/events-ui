@@ -1,6 +1,6 @@
 .event-list {
   display: grid;
   gap: 24px;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 264px), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
   grid-template-rows: auto;
 }

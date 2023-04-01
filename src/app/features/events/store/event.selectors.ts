@@ -32,10 +32,10 @@ export const selectCurrentUserAsEventAttendee = ({ eventId }: { eventId: string 
     currentEvent?.attendees.find(({ id }) => user?.id === id)
   )
 
-export const selectGoingAttendeesCountForEvent = ({ eventId }: { eventId: string }) =>
+export const selectGoingAttendeesForEvent = ({ eventId }: { eventId: string }) =>
   createSelector(
     selectEventById({ eventId }),
-    (event: Event | undefined) => event?.attendees.filter(({ isGoing }) => isGoing).length ?? 0
+    (event: Event | undefined) => event?.attendees.filter(({ isGoing }) => isGoing) ?? []
   )
 
 export const selectGoingAttendeesCountForCurrentEvent = createSelector(
@@ -57,3 +57,21 @@ export const selectCurrentEventDescription = createSelector(
   selectCurrentEvent,
   (event: Event | undefined) => event?.description ?? ''
 )
+
+export const selectUpcomingEventsByCurrentGroup = (props: { limit: number }) =>
+  createSelector(selectEventsByCurrentGroup, (events) => {
+    const currentDate = new Date().getTime()
+    return events
+      .filter(({ timeEnd }) => new Date(timeEnd).getTime() > currentDate)
+      .sort((a: Event, b: Event) => new Date(a.timeStart).getTime() - new Date(b.timeStart).getTime())
+      .slice(0, props.limit)
+  })
+
+export const selectPastEventsByCurrentGroup = (props: { limit: number }) =>
+  createSelector(selectEventsByCurrentGroup, (events) => {
+    const currentDate = new Date().getTime()
+    return events
+      .filter(({ timeEnd }) => new Date(timeEnd).getTime() < currentDate)
+      .sort((a: Event, b: Event) => new Date(b.timeStart).getTime() - new Date(a.timeStart).getTime())
+      .slice(0, props.limit)
+  })

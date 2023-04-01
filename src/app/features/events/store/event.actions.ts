@@ -5,6 +5,7 @@ import { AttendeeUpdateDto } from '../dtos/attendee-update-dto'
 import { Event } from '../interfaces/event'
 import { EventUpdateDto } from '../dtos/event-update-dto'
 import { Attendee } from '../interfaces/attendee'
+import { EventRequestFilterOptions } from '../interfaces/event-request-filter-options'
 
 export const FetchAllEventsActions = createActionGroup({
   source: 'Events',
@@ -18,7 +19,7 @@ export const FetchAllEventsActions = createActionGroup({
 export const FetchEventsByCurrentGroupActions = createActionGroup({
   source: 'Events',
   events: {
-    'Fetch Events By Current Group': emptyProps(),
+    'Fetch Events By Current Group': props<{ filterOptions: EventRequestFilterOptions }>(),
     'Fetch Events By Current Group Error': props<{ error: string }>(),
     'Fetch Events By Current Group Success': props<{ events: Event[] }>()
   }

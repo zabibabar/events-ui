@@ -6,6 +6,7 @@ import { Attendee } from '../interfaces/attendee'
 import { EventCreateDto } from '../dtos/event-create-dto'
 import { EventUpdateDto } from '../dtos/event-update-dto'
 import { AttendeeUpdateDto } from '../dtos/attendee-update-dto'
+import { EventRequestFilterOptions } from '../interfaces/event-request-filter-options'
 
 @Injectable({
   providedIn: 'root'
@@ -17,8 +18,8 @@ export class EventApiService {
     return this.httpClient.get<Event[]>('events')
   }
 
-  getEventsByGroup(groupId: string): Observable<Event[]> {
-    const params = new HttpParams({ fromObject: { groupId } })
+  getEventsByGroup(groupId: string, filterOptions: EventRequestFilterOptions): Observable<Event[]> {
+    const params = new HttpParams({ fromObject: { groupId, ...filterOptions, currentDate: new Date().toISOString() } })
     return this.httpClient.get<Event[]>(`events/`, { params })
   }
 

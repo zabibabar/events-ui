@@ -12,6 +12,9 @@
 .dark-theme {
   @include mat.all-component-themes(dark-theme.$theme);
   @include components.theme(dark-theme.$theme, type.$typography, dark-theme.$variants);
+  a {
+    color: mat.get-color-from-palette(dark-theme.$accent);
+  }
 }
 
 html,
@@ -22,6 +25,10 @@ body {
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
+}
+
+a {
+  color: mat.get-color-from-palette(light-theme.$accent);
 }
 
 .flex-spacer {

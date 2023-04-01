@@ -1,4 +1,4 @@
-<div class="event mat-elevation-z1" [routerLink]="[event.id]">
+<div class="event mat-elevation-z1" [routerLink]="['/groups', event.groupId, 'events', event.id]">
   <img class="event__picture" [src]="event.picture" />
   <div class="event__body">
     <div class="event__body__header">
@@ -6,8 +6,31 @@
       <div class="mat-subtitle-1">{{ event.name }}</div>
     </div>
 
-    <div class="event__body__going">
-      <div>{{ attendeeCount$ | async }} attendees</div>
+    <div class="event__body__footer">
+      <ng-container *ngIf="attendees$ | async as attendees">
+        <app-user-avatar-group [users]="attendees" [max]="3"></app-user-avatar-group>
+        <div>{{ attendees.length }} going</div>
+      </ng-container>
+      <div class="flex-spacer"></div>
+      <div *ngIf="currentUserAsAttendee$ | async as userAttendee">
+        <button mat-stroked-button *ngIf="userAttendee.isGoing === undefined">Attend</button>
+        <div
+          class="event__body__footer__button"
+          [ngClass]="{ 'event__body__footer__button--not-going': !userAttendee.isGoing }"
+          *ngIf="!userAttendee.isGoing"
+        >
+          <mat-icon color="warn">cancel</mat-icon>
+          <span> Not Going</span>
+        </div>
+        <div
+          class="event__body__footer__button"
+          [ngClass]="{ 'event__body__footer__button--going': userAttendee.isGoing }"
+          *ngIf="userAttendee.isGoing"
+        >
+          <mat-icon>check_circle</mat-icon>
+          <span> Going</span>
+        </div>
+      </div>
       <!-- <app-event-going-button [event]="event"></app-event-going-button> -->
     </div>
   </div>

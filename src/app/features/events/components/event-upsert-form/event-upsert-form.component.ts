@@ -12,8 +12,8 @@ import { CloseUpsertEventFormDialog } from '../../store/event.actions'
 type EventUpsertFormType = FormGroup<{
   name: FormControl<string | null>
   description: FormControl<string | null>
-  timeStart: FormControl<Date | null>
-  timeEnd: FormControl<Date | null>
+  timeStart: FormControl<string | null>
+  timeEnd: FormControl<string | null>
   address: FormControl<string | null>
 }>
 
@@ -42,8 +42,8 @@ export class EventUpsertFormComponent implements OnInit {
     this.eventUpsertForm = this.fb.group({
       name: ['', Validators.required],
       description: [''],
-      timeStart: [new Date(), Validators.required],
-      timeEnd: [new Date(), Validators.required],
+      timeStart: [new Date().toString(), Validators.required],
+      timeEnd: [new Date().toString(), Validators.required],
       address: ['', Validators.required]
     })
 
@@ -58,17 +58,17 @@ export class EventUpsertFormComponent implements OnInit {
       const newEvent = {
         ...formValue,
         groupId: group.id,
-        timeStart: this.setHourTo(this.eventUpsertForm.get('timeStart')?.value as Date | string, 19),
-        timeEnd: this.setHourTo(this.eventUpsertForm.get('timeEnd')?.value as Date | string, 22)
+        timeStart: this.setHourTo(this.eventUpsertForm.get('timeStart')?.value as string, 19),
+        timeEnd: this.setHourTo(this.eventUpsertForm.get('timeEnd')?.value as string, 22)
       }
 
       this.onSubmit(newEvent)
     })
   }
 
-  setHourTo(date: Date | string, hour: number): Date {
+  setHourTo(date: Date | string, hour: number): string {
     if (typeof date === 'string') date = new Date(date)
-    return new Date(date.setHours(hour))
+    return new Date(date.setHours(hour)).toString()
   }
 
   onCancel(): void {

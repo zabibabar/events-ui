@@ -1,7 +1,7 @@
 <app-page-container class="group-header" *ngIf="group$ | async as group">
   <img class="group-header__picture" [src]="group.picture" />
   <div class="group-header__details">
-    <div class="group-header__details__name mat-headline-5">{{ group.name }}</div>
+    <div class="group-header__details__name mat-headline-2">{{ group.name }}</div>
     <div class="flex-spacer"></div>
     <div class="flex-spacer"></div>
     <app-event-create-button></app-event-create-button>

@@ -6,14 +6,12 @@ import { Observable, first, map } from 'rxjs'
 import { FetchEventsByCurrentGroupActions } from 'src/app/features/events/store/event.actions'
 
 @Injectable()
-export class GroupEventsPageGuard implements CanActivate {
+export class GroupHomePageGuard implements CanActivate {
   constructor(private store: Store, private actions$: Actions) {}
 
   canActivate(): Observable<boolean> {
     this.store.dispatch(
-      FetchEventsByCurrentGroupActions.fetchEventsByCurrentGroup({
-        filterOptions: { upcomingLimit: 10, pastLimit: 10 }
-      })
+      FetchEventsByCurrentGroupActions.fetchEventsByCurrentGroup({ filterOptions: { upcomingLimit: 4, pastLimit: 1 } })
     )
     return this.actions$.pipe(
       ofType(FetchEventsByCurrentGroupActions.fetchEventsByCurrentGroupSuccess),

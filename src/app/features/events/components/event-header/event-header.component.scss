@@ -5,6 +5,8 @@
 .event-header__main {
   min-width: 440px;
   max-width: 100%;
+  flex-shrink: 0;
+  flex-grow: 1;
 
   &__picture {
     width: 100%;

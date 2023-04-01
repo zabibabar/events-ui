@@ -44,8 +44,8 @@ export class EventEffects {
       ofType(EventActions.FetchEventsByCurrentGroupActions.fetchEventsByCurrentGroup),
       concatLatestFrom(() => this.store.select(selectRouteParams)),
       filter(([, { groupId }]) => !!groupId),
-      exhaustMap(([, { groupId }]) =>
-        this.eventApiService.getEventsByGroup(groupId).pipe(
+      exhaustMap(([{ filterOptions }, { groupId }]) =>
+        this.eventApiService.getEventsByGroup(groupId, filterOptions).pipe(
           map((events) => EventActions.FetchEventsByCurrentGroupActions.fetchEventsByCurrentGroupSuccess({ events })),
           catchError((error) =>
             of(EventActions.FetchEventsByCurrentGroupActions.fetchEventsByCurrentGroupError({ error }))
