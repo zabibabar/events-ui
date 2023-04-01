@@ -7,7 +7,14 @@ const routes: Routes = [
   {
     path: '',
     children: [
-      { path: '', component: GroupEventsPageComponent, canActivate: [GroupEventsPageGuard] },
+      {
+        path: '',
+        canActivateChild: [GroupEventsPageGuard],
+        children: [
+          { path: '', component: GroupEventsPageComponent },
+          { path: 'past', component: GroupEventsPageComponent, data: { past: true } }
+        ]
+      },
       {
         path: ':eventId',
         loadChildren: () =>

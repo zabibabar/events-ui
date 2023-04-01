@@ -1,0 +1,18 @@
+:host {
+  display: flex;
+}
+
+.group-events-page__side {
+  margin-right: 64px;
+  flex-basis: 320px;
+  flex-shrink: 0;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 24px;
+  height: 100%;
+}
+
+.group-events-page__main {
+  flex-grow: 1;
+  margin-bottom: 32px;
+}

@@ -1,1 +1,16 @@
-<app-event-list [events]="(events$ | async) || []"></app-event-list>
+<ng-container *ngIf="events$ | async as events">
+  <div class="group-events-page__side">
+    <card>
+      <mat-nav-list>
+        <a mat-list-item [activated]="!isPastPage" [routerLink]="['/groups', events[0].groupId, 'events']">
+          Upcoming
+        </a>
+        <a mat-list-item [activated]="isPastPage" [routerLink]="['/groups', events[0].groupId, 'events', 'past']">
+          Past
+        </a>
+      </mat-nav-list>
+    </card>
+  </div>
+
+  <app-event-list class="group-events-page__main" [events]="events"></app-event-list>
+</ng-container>

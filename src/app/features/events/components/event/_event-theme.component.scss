@@ -3,7 +3,7 @@
 
 @mixin color($theme) {
   $color-config: mat.get-color-config($theme);
-  $primary-palette: map.get($color-config, 'primary');
+  $primary-palette: map.get($color-config, 'accent');
   $foreground-palette: map.get($color-config, 'foreground');
   $background-palette: map.get($color-config, 'background');
   $is-dark: map.get($color-config, 'is-dark');
@@ -11,13 +11,13 @@
   $light-green-palette: mat.define-palette(mat.$light-green-palette);
 
   .event {
+    background-color: mat.get-color-from-palette($background-palette, card);
+
     &__picture {
-      background-color: mat.get-color-from-palette($background-palette, app-bar);
+      background-color: mat.get-color-from-palette($background-palette, card);
     }
 
     &__body {
-      background-color: mat.get-color-from-palette($background-palette, card);
-
       &__header {
         &__time {
           color: mat.get-color-from-palette($primary-palette, 'default');

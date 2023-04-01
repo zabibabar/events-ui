@@ -1,9 +1,16 @@
-<div class="event mat-elevation-z1" [routerLink]="['/groups', event.groupId, 'events', event.id]">
-  <img class="event__picture" [src]="event.picture" />
+<div class="event" [routerLink]="['/groups', event.groupId, 'events', event.id]">
+  <img
+    class="event__picture"
+    [src]="event.picture || 'https://res.cloudinary.com/dmtvchdf2/image/upload/v1679443870/cld-sample-2.jpg'"
+  />
   <div class="event__body">
     <div class="event__body__header">
       <div class="event__body__header__time mat-body-1">{{ event.timeStart | date: 'E, LLL d, h:mm a' }}</div>
-      <div class="mat-subtitle-1">{{ event.name }}</div>
+      <div class="mat-headline-6">{{ event.name }}</div>
+    </div>
+
+    <div class="event__body__details">
+      <div>{{ event.description }}</div>
     </div>
 
     <div class="event__body__footer">
