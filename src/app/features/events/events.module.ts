@@ -36,6 +36,7 @@ import { EventAttendeeGridComponent } from './components/event-attendee-grid/eve
 import { CardModule } from 'src/app/shared/card/card.module'
 import { EventAttendeeListComponent } from './components/event-attendee-list/event-attendee-list.component'
 import { EventAttendeeListItemComponent } from './components/event-attendee-list-item/event-attendee-list-item.component'
+import { SectionModule } from 'src/app/shared/section/section.module'
 
 @NgModule({
   imports: [
@@ -60,6 +61,7 @@ import { EventAttendeeListItemComponent } from './components/event-attendee-list
     UsersModule,
     ReactiveFormsModule,
     CardModule,
+    SectionModule,
     StoreModule.forFeature(eventFeatureSelector, eventReducer),
     EffectsModule.forFeature([EventEffects])
   ],

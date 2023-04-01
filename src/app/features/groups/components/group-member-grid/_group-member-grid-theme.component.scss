@@ -5,9 +5,9 @@
   $color-config: mat.get-color-config($theme);
   $background-palette: map.get($color-config, 'background');
 
-  //   .group-member-list {
-  //     background-color: mat.get-color-from-palette($background-palette, card);
-  //   }
+  .group-member-grid__grid__item {
+    background-color: mat.get-color-from-palette($background-palette, 'card');
+  }
 }
 
 @mixin typography($typography-config) {

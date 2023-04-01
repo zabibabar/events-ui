@@ -1,20 +1,20 @@
 <div class="group-home-page__main">
   <app-group-description></app-group-description>
 
-  <section class="group-home-page__main__section">
-    <div class="group-home-page__main__section__header">
-      <div class="group-home-page__main__heading mat-headline-6">Upcoming Events</div>
+  <app-section class="group-home-page__main__section">
+    <app-section-header>
+      <div class="mat-headline-6">Upcoming Events</div>
       <a routerLink="../events">See all</a>
-    </div>
+    </app-section-header>
     <app-event-list [events]="(upcomingEvents$ | async)!"></app-event-list>
-  </section>
+  </app-section>
 
-  <section class="group-home-page__main__section">
-    <div class="group-home-page__main__section__header">
-      <div class="group-home-page__main__heading mat-headline-6">Past Events</div>
+  <app-section class="group-home-page__main__section">
+    <app-section-header>
+      <div class="mat-headline-6">Past Events</div>
       <a routerLink="../events">See all</a>
-    </div>
+    </app-section-header>
     <app-event-list [events]="(pastEvents$ | async)!"></app-event-list>
-  </section>
+  </app-section>
 </div>
 <app-group-member-grid class="group-home-page__side"></app-group-member-grid>

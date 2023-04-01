@@ -32,6 +32,7 @@ import { UsersModule } from '../users/users.module'
 import { CardModule } from 'src/app/shared/card/card.module'
 import { GroupDescriptionComponent } from './components/group-description/group-description.component'
 import { GroupMemberGridComponent } from './components/group-member-grid/group-member-grid.component'
+import { SectionModule } from 'src/app/shared/section/section.module'
 
 @NgModule({
   imports: [
@@ -55,6 +56,7 @@ import { GroupMemberGridComponent } from './components/group-member-grid/group-m
     EventsModule,
     UsersModule,
     CardModule,
+    SectionModule,
     StoreModule.forFeature(groupFeatureSelector, groupReducer),
     EffectsModule.forFeature([GroupEffects])
   ],

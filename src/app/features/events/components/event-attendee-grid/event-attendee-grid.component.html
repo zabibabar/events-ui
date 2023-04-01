@@ -1,8 +1,8 @@
-<card class="event-attendee-grid" *ngIf="visibleAttendees$ | async as attendees">
-  <card-header>
+<app-section class="event-attendee-grid" *ngIf="visibleAttendees$ | async as attendees">
+  <app-section-header>
     <div class="mat-headline-6">Attendees ({{ attendees.length }})</div>
     <a routerLink="../attendees">See all</a>
-  </card-header>
+  </app-section-header>
   <div class="event-attendee-grid__grid">
     <div class="event-attendee-grid__grid__item" *ngFor="let a of attendees">
       <ng-container *ngIf="a">
@@ -11,4 +11,4 @@
       </ng-container>
     </div>
   </div>
-</card>
+</app-section>

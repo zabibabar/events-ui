@@ -5,9 +5,12 @@
 @use '../../app/features/events/components/event-going-button/_event-going-button-theme.component' as event-going-button;
 @use '../../app/features/events/components/event-attendee-list-item/_event-attendee-list-item-theme.component' as
   event-attendee-list-item;
+@use '../../app/features/events/components/event-attendee-grid/_event-attendee-grid-theme.component' as
+  event-attendee-grid;
 @use '../../app/features/events/components/event-time-location/_event-time-location-theme.component' as
   event-time-location;
 @use '../../app/features/groups/components/group-member/_group-member-theme.component' as group-member;
+@use '../../app/features/groups/components/group-member-grid/_group-member-grid-theme.component' as group-member-grid;
 @use '../../app/features/users/components/user-avatar-group/_user-avatar-group-theme.component' as user-avatar-group;
 @use '../../app/features/groups/components/group-member-list/_group-member-list-theme.component' as group-member-list;
 @use '../../app/core/components/toolbar/_toolbar-theme.component' as toolbar;
@@ -24,11 +27,13 @@
   @include event-header.theme($theme, $typography-config);
   @include event-going-button.theme($theme, $typography-config);
   @include event-attendee-list-item.theme($theme, $typography-config);
+  @include event-attendee-grid.theme($theme, $typography-config);
   @include card.theme($theme, $typography-config);
   @include event-time-location.theme($theme, $typography-config);
   @include group.theme($theme, $typography-config);
   @include group-header.theme($theme, $typography-config);
   @include group-member.theme($theme, $typography-config);
+  @include group-member-grid.theme($theme, $typography-config);
   @include group-member-list.theme($theme, $typography-config);
   @include user-avatar-group.theme($theme, $typography-config);
   @include toolbar.theme($theme, $typography-config);

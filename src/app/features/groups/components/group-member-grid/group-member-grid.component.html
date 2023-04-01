@@ -1,8 +1,8 @@
-<card class="group-member-grid" *ngIf="visibleMembers$ | async as members">
-  <card-header>
+<app-section class="group-member-grid" *ngIf="visibleMembers$ | async as members">
+  <app-section-header>
     <div class="mat-headline-6">Members ({{ members.length }})</div>
     <a routerLink="../members">See all</a>
-  </card-header>
+  </app-section-header>
   <div class="group-member-grid__grid">
     <div class="group-member-grid__grid__item" *ngFor="let m of members">
       <ng-container *ngIf="m">
@@ -11,4 +11,4 @@
       </ng-container>
     </div>
   </div>
-</card>
+</app-section>
