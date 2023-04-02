@@ -1,7 +1,7 @@
 import { Dictionary } from '@ngrx/entity'
 import { createFeatureSelector, createSelector } from '@ngrx/store'
 import { selectRouteParams } from 'src/app/core/store/router.selectors'
-import { selectCurrentUser } from '../../users/store/user/user.selectors'
+import { selectCurrentUser, selectCurrentUserId } from '../../users/store/user/user.selectors'
 import { Event } from '../interfaces/event'
 import { adapter, eventFeatureSelector, EventStoreState } from './event.reducer'
 
@@ -73,5 +73,17 @@ export const selectPastEventsByCurrentGroup = (props: { limit: number }) =>
     return events
       .filter(({ timeEnd }) => new Date(timeEnd).getTime() < currentDate)
       .sort((a: Event, b: Event) => new Date(b.timeStart).getTime() - new Date(a.timeStart).getTime())
+      .slice(0, props.limit)
+  })
+
+export const selectUpcomingEventsByCurrentUser = (props: { limit: number }) =>
+  createSelector(selectCurrentUserId, selectAllEvents, (userId, events) => {
+    const currentDate = new Date().getTime()
+    return events
+      .filter(
+        ({ attendees, timeEnd }) =>
+          new Date(timeEnd).getTime() > currentDate && attendees.some(({ id }) => id === userId)
+      )
+      .sort((a: Event, b: Event) => new Date(a.timeStart).getTime() - new Date(b.timeStart).getTime())
       .slice(0, props.limit)
   })

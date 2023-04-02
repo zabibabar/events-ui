@@ -1,8 +1,17 @@
-<app-page-container>
-  <div class="home-page-header">
-    <h1>Groups</h1>
-    <a routerLink="/groups">See all</a>
-  </div>
+<app-page-container class="home-page">
+  <app-section class="home-page__section">
+    <app-section-header>
+      <h1>Your Groups</h1>
+      <a routerLink="/groups">See all</a>
+    </app-section-header>
+    <app-group-list></app-group-list>
+  </app-section>
 
-  <app-group-list></app-group-list>
+  <app-section class="home-page__section" *ngIf="events$ | async as events">
+    <app-section-header>
+      <h1>Upcoming Events</h1>
+      <a routerLink="/events">See all</a>
+    </app-section-header>
+    <app-event-list [events]="events"></app-event-list>
+  </app-section>
 </app-page-container>

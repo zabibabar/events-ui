@@ -10,7 +10,7 @@ import { EventRequestFilterOptions } from '../interfaces/event-request-filter-op
 export const FetchAllEventsActions = createActionGroup({
   source: 'Events',
   events: {
-    'Fetch All Events': emptyProps(),
+    'Fetch All Events': props<{ filterOptions: EventRequestFilterOptions }>(),
     'Fetch All Events Error': props<{ error: string }>(),
     'Fetch All Events Success': props<{ events: Event[] }>()
   }

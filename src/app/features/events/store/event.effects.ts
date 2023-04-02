@@ -30,8 +30,8 @@ export class EventEffects {
   fetchAllEvents$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(EventActions.FetchAllEventsActions.fetchAllEvents),
-      exhaustMap(() =>
-        this.eventApiService.getAllEvents().pipe(
+      exhaustMap(({ filterOptions }) =>
+        this.eventApiService.getAllEvents(filterOptions).pipe(
           map((events) => EventActions.FetchAllEventsActions.fetchAllEventsSuccess({ events })),
           catchError((error) => of(EventActions.FetchAllEventsActions.fetchAllEventsError({ error })))
         )

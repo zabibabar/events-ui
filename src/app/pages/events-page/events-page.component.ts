@@ -11,6 +11,6 @@ export class EventsPageComponent implements OnInit {
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.store.dispatch(FetchAllEventsActions.fetchAllEvents())
+    this.store.dispatch(FetchAllEventsActions.fetchAllEvents({ filterOptions: { upcomingLimit: 10 } }))
   }
 }

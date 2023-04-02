@@ -14,8 +14,9 @@ import { EventRequestFilterOptions } from '../interfaces/event-request-filter-op
 export class EventApiService {
   constructor(private httpClient: HttpClient) {}
 
-  getAllEvents(): Observable<Event[]> {
-    return this.httpClient.get<Event[]>('events')
+  getAllEvents(filterOptions: EventRequestFilterOptions): Observable<Event[]> {
+    const params = new HttpParams({ fromObject: { ...filterOptions, currentDate: new Date().toISOString() } })
+    return this.httpClient.get<Event[]>('events', { params })
   }
 
   getEventsByGroup(groupId: string, filterOptions: EventRequestFilterOptions): Observable<Event[]> {
