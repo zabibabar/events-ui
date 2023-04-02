@@ -1,7 +1,8 @@
 .toolbar {
-  padding: 12px 32px;
+  padding: 0px 32px;
   display: flex;
   align-items: center;
+  grid-gap: 16px;
 
   &__appName {
     &__logo {

@@ -1,4 +1,4 @@
-<div class="group" [routerLink]="group.id">
+<div class="group" [routerLink]="['/groups', group.id]">
   <img class="group__picture" [src]="group.picture" />
   <div class="group__desc">
     <div class="mat-body-1">{{ group.name }}</div>

@@ -12,7 +12,7 @@
   <app-section class="group-home-page__main__section">
     <app-section-header>
       <div class="mat-headline-6">Past Events</div>
-      <a routerLink="../events">See all</a>
+      <a routerLink="../events/past">See all</a>
     </app-section-header>
     <app-event-list [events]="(pastEvents$ | async)!"></app-event-list>
   </app-section>
