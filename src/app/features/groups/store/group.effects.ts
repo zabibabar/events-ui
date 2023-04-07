@@ -35,8 +35,8 @@ export class GroupEffects {
   fetchAllGroups$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(GroupActions.FetchAllGroupsActions.fetchAllGroups),
-      exhaustMap(() =>
-        this.groupApiService.getAllGroups().pipe(
+      exhaustMap(({ filterOptions }) =>
+        this.groupApiService.getAllGroups(filterOptions).pipe(
           map((groups) => GroupActions.FetchAllGroupsActions.fetchAllGroupsSuccess({ groups })),
           catchError((error) => of(GroupActions.FetchAllGroupsActions.fetchAllGroupsError({ error })))
         )

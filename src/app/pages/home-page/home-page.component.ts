@@ -13,7 +13,7 @@ export class HomePageComponent {
 
   constructor(private store: Store) {
     // eslint-disable-next-line @ngrx/avoid-dispatching-multiple-actions-sequentially
-    this.store.dispatch(FetchAllGroupsActions.fetchAllGroups())
+    this.store.dispatch(FetchAllGroupsActions.fetchAllGroups({ filterOptions: { limit: 4 } }))
     // eslint-disable-next-line @ngrx/avoid-dispatching-multiple-actions-sequentially
     this.store.dispatch(FetchAllEventsActions.fetchAllEvents({ filterOptions: { upcomingLimit: 4 } }))
   }

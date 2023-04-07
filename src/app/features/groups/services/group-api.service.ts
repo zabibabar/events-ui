@@ -5,6 +5,7 @@ import { Group } from '../interfaces/group'
 import { Member } from '../interfaces/member'
 import { GroupCreateDto } from '../dtos/group-create-dto'
 import { GroupUpdateDto } from '../dtos/group-update-dto'
+import { GroupRequestFilterOptions } from '../interfaces/group-request-filter-options'
 
 @Injectable({
   providedIn: 'root'
@@ -12,8 +13,9 @@ import { GroupUpdateDto } from '../dtos/group-update-dto'
 export class GroupApiService {
   constructor(private httpClient: HttpClient) {}
 
-  getAllGroups(): Observable<Group[]> {
-    return this.httpClient.get<Group[]>('groups')
+  getAllGroups(filterOptions: GroupRequestFilterOptions): Observable<Group[]> {
+    const params = new HttpParams({ fromObject: { ...filterOptions, currentDate: new Date().toISOString() } })
+    return this.httpClient.get<Group[]>('groups', { params })
   }
 
   getGroupById(groupId: string): Observable<Group> {

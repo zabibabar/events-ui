@@ -11,6 +11,6 @@ export class GroupsPageComponent implements OnInit {
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.store.dispatch(FetchAllGroupsActions.fetchAllGroups())
+    this.store.dispatch(FetchAllGroupsActions.fetchAllGroups({ filterOptions: { limit: 20 } }))
   }
 }
