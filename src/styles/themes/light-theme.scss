@@ -2,8 +2,8 @@
 @use '../typography.scss' as type;
 
 // Light theme
-$primary: mat.define-palette(mat.$indigo-palette, 500, 50, 700);
-$accent: mat.define-palette(mat.$orange-palette, 800);
+$primary: mat.define-palette(mat.$orange-palette, 500);
+$accent: mat.define-palette(mat.$lime-palette, 700);
 $warn: mat.define-palette(mat.$red-palette, 700);
 $success: mat.define-palette(mat.$green-palette);
 $info: mat.define-palette(mat.$blue-palette);

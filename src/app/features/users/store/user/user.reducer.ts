@@ -61,7 +61,7 @@ export const userReducer: ActionReducer<UserStoreState, Action> = createReducer(
     (state, { user }): UserStoreState => adapter.upsertOne(user, { ...state, error: null, loading: false })
   ),
   on(UpdateUserActions.updateUserError, (state, { error }): UserStoreState => ({ ...state, error, loading: false })),
-  on(UploadUserPictureActions.uploadUserPictureLoading, (state): UserStoreState => ({ ...state, loading: true })),
+  on(UploadUserPictureActions.uploadUserPicture, (state): UserStoreState => ({ ...state, loading: true })),
   on(
     UploadUserPictureActions.uploadUserPictureSuccess,
     (state, { userId: id, imageUrl }): UserStoreState =>

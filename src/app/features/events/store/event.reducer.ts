@@ -81,7 +81,7 @@ export const eventReducer: ActionReducer<EventStoreState, Action> = createReduce
     (state, { error }): EventStoreState => ({ ...state, error, loading: false })
   ),
   on(
-    EventActions.UploadEventPictureActions.uploadEventPictureLoading,
+    EventActions.UploadEventPictureActions.uploadEventPicture,
     (state): EventStoreState => ({ ...state, loading: true })
   ),
   on(

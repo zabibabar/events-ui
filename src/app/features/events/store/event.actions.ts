@@ -77,7 +77,6 @@ export const UploadEventPictureActions = createActionGroup({
   events: {
     'Open Upload Event Picture Dialog': props<{ data: UploadImageData }>(),
     'Upload Event Picture': props<{ eventId: string; imageFile: File }>(),
-    'Upload Event Picture Loading': emptyProps(),
     'Upload Event Picture Error': props<{ error: string }>(),
     'Upload Event Picture Success': props<{ eventId: string; imageUrl: string }>()
   }
