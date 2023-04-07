@@ -9,13 +9,14 @@ import { map, exhaustMap, catchError, tap, mergeMap, filter, switchMap } from 'r
 import { selectQueryParam, selectRouteParams } from 'src/app/core/store/router.selectors'
 import { DialogType } from 'src/app/shared/dialog/dialog-type.enum'
 import { DialogService } from 'src/app/shared/dialog/dialog.service'
+import { ToastService } from 'src/app/shared/toast'
 import { UploadImageComponent } from 'src/app/shared/upload-image/upload-image'
 import { GroupUpsertFormComponent } from '../components/group-upsert-form/group-upsert-form.component'
 import { GroupCreateDto } from '../dtos/group-create-dto'
 import { GroupUpsertDialogData } from '../interfaces/group-upsert-dialog-data'
 import { GroupApiService } from '../services/group-api.service'
 import * as GroupActions from './group.actions'
-import { selectGroupById } from './group.selectors'
+import { selectCurrentGroup, selectGroupById } from './group.selectors'
 
 @Injectable()
 export class GroupEffects {
@@ -27,13 +28,13 @@ export class GroupEffects {
     private store: Store,
     private groupApiService: GroupApiService,
     private dialog: DialogService,
-    private router: Router
+    private router: Router,
+    private toast: ToastService
   ) {}
 
   fetchAllGroups$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(GroupActions.FetchAllGroupsActions.fetchAllGroups),
-      tap({ next: GroupActions.FetchAllGroupsActions.fetchAllGroupsLoading }),
       exhaustMap(() =>
         this.groupApiService.getAllGroups().pipe(
           map((groups) => GroupActions.FetchAllGroupsActions.fetchAllGroupsSuccess({ groups })),
@@ -55,7 +56,6 @@ export class GroupEffects {
   fetchOneGroup$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(GroupActions.FetchOneGroupActions.fetchOneGroup),
-      tap({ next: GroupActions.FetchOneGroupActions.fetchOneGroupLoading }),
       exhaustMap(({ groupId }) =>
         this.groupApiService.getGroupById(groupId).pipe(
           map((group) => GroupActions.FetchOneGroupActions.fetchOneGroupSuccess({ group })),
@@ -86,11 +86,16 @@ export class GroupEffects {
   createGroup$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(GroupActions.CreateGroupActions.createGroup),
-      tap({ next: GroupActions.CreateGroupActions.createGroupLoading }),
       exhaustMap(({ group }) =>
         this.groupApiService.createGroup(group).pipe(
           map((group) => GroupActions.CreateGroupActions.createGroupSuccess({ group })),
-          catchError((error) => of(GroupActions.CreateGroupActions.createGroupError({ error })))
+          tap(() => this.toast.success('Group Created Successfully!')),
+          tap(({ group }) => this.router.navigate(['groups', group.id])),
+          catchError((error) =>
+            of(GroupActions.CreateGroupActions.createGroupError({ error })).pipe(
+              tap(() => this.toast.error('Error Creating Group! Try Again Later'))
+            )
+          )
         )
       )
     )
@@ -99,7 +104,6 @@ export class GroupEffects {
   updateGroup$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(GroupActions.UpdateGroupActions.updateGroup),
-      tap({ next: GroupActions.UpdateGroupActions.updateGroupLoading }),
       mergeMap(({ groupId, group }) =>
         this.groupApiService.updateGroup(groupId, group).pipe(
           map((group) => GroupActions.UpdateGroupActions.updateGroupSuccess({ group })),
@@ -115,9 +119,9 @@ export class GroupEffects {
       switchMap((action) => {
         const groupDeleteDialogRef = this.dialog.openConfirmationDialog({
           type: 'error',
-          title: 'You are about to archive a group?',
+          title: 'You are about to delete a group?',
           message: 'You will not be able to create new events or add new members to this group',
-          primaryCTA: 'Archive Group'
+          primaryCTA: 'Delete Group'
         })
 
         return forkJoin([of(action), groupDeleteDialogRef.afterClosed()])
@@ -126,7 +130,13 @@ export class GroupEffects {
       mergeMap(([{ groupId }]) =>
         this.groupApiService.deleteGroup(groupId).pipe(
           map(() => GroupActions.DeleteGroupActions.deleteGroupSuccess({ groupId })),
-          catchError((error) => of(GroupActions.DeleteGroupActions.deleteGroupError({ error })))
+          tap(() => this.toast.success('Group Deleted Successfully!')),
+          tap(() => this.router.navigate(['groups'])),
+          catchError((error) =>
+            of(GroupActions.DeleteGroupActions.deleteGroupError({ error })).pipe(
+              tap(() => this.toast.error('Error Deleting Group! Try Again Later'))
+            )
+          )
         )
       )
     )
@@ -229,4 +239,34 @@ export class GroupEffects {
     },
     { dispatch: false }
   )
+
+  addGroupMember$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(GroupActions.AddGroupMemberActions.addGroupMember),
+      concatLatestFrom(() => this.store.select(selectCurrentGroup)),
+      filter(([, group]) => !!group),
+      map(([{ userId }, group]) => ({ userId, groupId: group?.id as string })),
+      mergeMap(({ groupId, userId }) =>
+        this.groupApiService.addGroupMember(groupId, userId).pipe(
+          map((members) => GroupActions.AddGroupMemberActions.addGroupMemberSuccess({ groupId, members })),
+          catchError((error) => of(GroupActions.AddGroupMemberActions.addGroupMemberError({ error })))
+        )
+      )
+    )
+  })
+
+  removeGroupMember$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(GroupActions.RemoveGroupMemberActions.removeGroupMember),
+      concatLatestFrom(() => this.store.select(selectCurrentGroup)),
+      filter(([, group]) => !!group),
+      map(([{ userId }, group]) => ({ userId, groupId: group?.id as string })),
+      mergeMap(({ userId, groupId }) =>
+        this.groupApiService.removeGroupMember(groupId, userId).pipe(
+          map((members) => GroupActions.RemoveGroupMemberActions.removeGroupMemberSuccess({ groupId, members })),
+          catchError((error) => of(GroupActions.RemoveGroupMemberActions.removeGroupMemberError({ error })))
+        )
+      )
+    )
+  })
 }

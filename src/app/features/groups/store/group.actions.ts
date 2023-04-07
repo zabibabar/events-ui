@@ -3,12 +3,12 @@ import { UploadImageData } from 'src/app/shared/upload-image/upload-image-data'
 import { GroupCreateDto } from '../dtos/group-create-dto'
 import { GroupUpdateDto } from '../dtos/group-update-dto'
 import { Group } from '../interfaces/group'
+import { Member } from '../interfaces/member'
 
 export const FetchAllGroupsActions = createActionGroup({
   source: 'Groups',
   events: {
     'Fetch All Groups': emptyProps(),
-    'Fetch All Groups Loading': emptyProps(),
     'Fetch All Groups Error': props<{ error: string }>(),
     'Fetch All Groups Success': props<{ groups: Group[] }>()
   }
@@ -18,7 +18,6 @@ export const FetchOneGroupActions = createActionGroup({
   source: 'Groups',
   events: {
     'Fetch One Group': props<{ groupId: string }>(),
-    'Fetch One Group Loading': emptyProps(),
     'Fetch One Group Error': props<{ error: string }>(),
     'Fetch One Group Success': props<{ group: Group }>()
   }
@@ -29,7 +28,6 @@ export const CreateGroupActions = createActionGroup({
   events: {
     'Open Create Group Dialog': emptyProps(),
     'Create Group': props<{ group: GroupCreateDto }>(),
-    'Create Group Loading': emptyProps(),
     'Create Group Error': props<{ error: string }>(),
     'Create Group Success': props<{ group: Group }>()
   }
@@ -40,7 +38,6 @@ export const UpdateGroupActions = createActionGroup({
   events: {
     'Open Update Group Dialog': props<{ groupId: string }>(),
     'Update Group': props<{ groupId: string; group: GroupUpdateDto }>(),
-    'Update Group Loading': emptyProps(),
     'Update Group Error': props<{ error: string }>(),
     'Update Group Success': props<{ group: Group }>()
   }
@@ -50,7 +47,6 @@ export const DeleteGroupActions = createActionGroup({
   source: 'Groups',
   events: {
     'Delete Group': props<{ groupId: string }>(),
-    'Delete Group Loading': emptyProps(),
     'Delete Group Error': props<{ error: string }>(),
     'Delete Group Success': props<{ groupId: string }>()
   }
@@ -69,9 +65,26 @@ export const UploadGroupPictureActions = createActionGroup({
   events: {
     'Open Upload Group Picture Dialog': props<{ data: UploadImageData }>(),
     'Upload Group Picture': props<{ groupId: string; imageFile: File }>(),
-    'Upload Group Picture Loading': emptyProps(),
     'Upload Group Picture Error': props<{ error: string }>(),
     'Upload Group Picture Success': props<{ groupId: string; imageUrl: string }>()
+  }
+})
+
+export const AddGroupMemberActions = createActionGroup({
+  source: 'Group Members',
+  events: {
+    'Add Group Member': props<{ groupId: string; userId: string }>(),
+    'Add Group Member Error': props<{ error: string }>(),
+    'Add Group Member Success': props<{ groupId: string; members: Member[] }>()
+  }
+})
+
+export const RemoveGroupMemberActions = createActionGroup({
+  source: 'Group Members',
+  events: {
+    'Remove Group Member': props<{ userId: string }>(),
+    'Remove Group Member Error': props<{ error: string }>(),
+    'Remove Group Member Success': props<{ groupId: string; members: Member[] }>()
   }
 })
 

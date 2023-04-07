@@ -51,7 +51,7 @@ export class GroupApiService {
     return this.httpClient.post<Member[]>(`groups/${groupId}/members`, userId)
   }
 
-  removeGroupMember(groupId: string, userId: string): Observable<void> {
-    return this.httpClient.delete<void>(`groups/${groupId}/members/${userId}`)
+  removeGroupMember(groupId: string, userId: string): Observable<Member[]> {
+    return this.httpClient.delete<Member[]>(`groups/${groupId}/members/${userId}`)
   }
 }

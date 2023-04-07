@@ -11,7 +11,7 @@ import { ToastComponent } from './toast.component'
     CommonModule,
     MatIconModule,
     MatButtonModule,
-    ToastrModule.forRoot({ timeOut: 100000, toastComponent: ToastComponent, toastClass: 'toast', tapToDismiss: false })
+    ToastrModule.forRoot({ timeOut: 3200, toastComponent: ToastComponent, toastClass: 'toast', tapToDismiss: false })
   ],
   declarations: [ToastComponent]
 })
