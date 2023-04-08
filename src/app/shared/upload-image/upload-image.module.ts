@@ -8,7 +8,7 @@ import { NgxFileDropModule } from 'ngx-file-drop'
 import { ImageCropperModule } from 'ngx-image-cropper'
 import { DialogFormModule } from '../dialog-form/dialog-form.module'
 import { UploadImageComponent } from './upload-image'
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
+import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module'
 
 @NgModule({
   declarations: [UploadImageComponent],
@@ -21,7 +21,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
     DialogFormModule,
     NgxFileDropModule,
     ImageCropperModule,
-    MatProgressSpinnerModule
+    LoadingSpinnerModule
   ]
 })
 export class UploadImageModule {}

@@ -15,10 +15,7 @@
           <mat-icon class="ngx-file-drop__content__body" color="primary">upload</mat-icon>
           <div class="mat-body-1">Drag and drop your file to upload, or</div>
           <button *ngIf="!isUploading" mat-stroked-button (click)="openFileSelector()">Browse Files</button>
-          <button *ngIf="isUploading" mat-stroked-button>
-            Loading... <mat-icon><mat-spinner [diameter]="18"></mat-spinner></mat-icon>
-          </button>
-
+          <button *ngIf="isUploading" mat-stroked-button>Loading... <loading-spinner></loading-spinner></button>
           <div class="mat-caption">You can upload png and jpg files.</div>
         </div>
       </ng-template>

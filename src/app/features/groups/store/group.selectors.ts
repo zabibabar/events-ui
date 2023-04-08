@@ -11,6 +11,8 @@ export const selectGroupState = createFeatureSelector<GroupStoreState>(groupFeat
 
 export const selectGroupEntities = createSelector(selectGroupState, selectEntities)
 export const selectAllGroups = createSelector(selectGroupState, selectAll)
+export const selectIsLoading = createSelector(selectGroupState, (state) => state.loading)
+
 export const selectCurrentGroup = createSelector(
   selectGroupEntities,
   selectRouteParam('groupId'),
