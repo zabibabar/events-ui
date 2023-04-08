@@ -20,8 +20,12 @@
     <mat-icon>exit_to_app</mat-icon>
     <span>Remove From Group</span>
   </button>
-  <button mat-menu-item *ngIf="!groupMember.isOrganizer" (click)="makeGroupOrganizer()">
+  <button mat-menu-item *ngIf="!groupMember.isOrganizer" (click)="updateGroupMember(groupMember.id, true)">
     <mat-icon>social_leaderboard</mat-icon>
     <span>Make Group Organizer</span>
+  </button>
+  <button mat-menu-item *ngIf="currentUser$ | async as currentUser" (click)="updateGroupMember(currentUser.id, false)">
+    <mat-icon>exit_to_app</mat-icon>
+    <span>Remove Yourself As Group Organizer</span>
   </button>
 </mat-menu>

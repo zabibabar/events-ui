@@ -98,6 +98,19 @@ export const groupReducer: ActionReducer<GroupStoreState, Action> = createReduce
     (state, { error }): GroupStoreState => ({ ...state, error, loading: false })
   ),
   on(
+    GroupActions.UpdateGroupMemberActions.updateGroupMember,
+    (state): GroupStoreState => ({ ...state, loading: true })
+  ),
+  on(
+    GroupActions.UpdateGroupMemberActions.updateGroupMemberSuccess,
+    (state, { groupId: id, members }): GroupStoreState =>
+      adapter.updateOne({ id, changes: { members } }, { ...state, error: null, loading: false })
+  ),
+  on(
+    GroupActions.UpdateGroupMemberActions.updateGroupMemberError,
+    (state, { error }): GroupStoreState => ({ ...state, error, loading: false })
+  ),
+  on(
     GroupActions.RemoveGroupMemberActions.removeGroupMember,
     (state): GroupStoreState => ({ ...state, loading: true })
   ),

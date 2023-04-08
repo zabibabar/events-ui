@@ -89,5 +89,14 @@ export const RemoveGroupMemberActions = createActionGroup({
   }
 })
 
+export const UpdateGroupMemberActions = createActionGroup({
+  source: 'Group Members',
+  events: {
+    'Update Group Member': props<{ userId: string; updates: { isOrganizer: boolean } }>(),
+    'Update Group Member Error': props<{ error: string }>(),
+    'Update Group Member Success': props<{ groupId: string; members: Member[] }>()
+  }
+})
+
 export const CloseUpsertGroupFormDialog = createAction('[Groups] Close Upsert Group Form Dialog')
 export const FetchCurrentGroup = createAction('[Groups] Fetch Current Group')

@@ -49,11 +49,15 @@ export class GroupApiService {
     return this.httpClient.get<Member[]>(`groups/${groupId}/members`)
   }
 
-  addGroupMember(groupId: string, userId: string): Observable<Member[]> {
-    return this.httpClient.post<Member[]>(`groups/${groupId}/members`, userId)
+  addGroupMember(groupId: string, memberId: string): Observable<Member[]> {
+    return this.httpClient.post<Member[]>(`groups/${groupId}/members`, memberId)
   }
 
-  removeGroupMember(groupId: string, userId: string): Observable<Member[]> {
-    return this.httpClient.delete<Member[]>(`groups/${groupId}/members/${userId}`)
+  updateGroupMember(groupId: string, memberId: string, isOrganizer: boolean): Observable<Member[]> {
+    return this.httpClient.patch<Member[]>(`groups/${groupId}/members/${memberId}`, { isOrganizer })
+  }
+
+  removeGroupMember(groupId: string, memberId: string): Observable<Member[]> {
+    return this.httpClient.delete<Member[]>(`groups/${groupId}/members/${memberId}`)
   }
 }

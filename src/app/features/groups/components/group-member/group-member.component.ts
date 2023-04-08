@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core'
 import { Member } from '../../interfaces/member'
 import { Store } from '@ngrx/store'
-import { RemoveGroupMemberActions } from '../../store/group.actions'
+import { RemoveGroupMemberActions, UpdateGroupMemberActions } from '../../store/group.actions'
 import { selectCurrentUserAsGroupMember } from '../../store/group.selectors'
 
 @Component({
@@ -20,7 +20,7 @@ export class GroupMemberComponent {
     this.store.dispatch(RemoveGroupMemberActions.removeGroupMember({ userId: this.groupMember.id }))
   }
 
-  makeGroupOrganizer(): void {
-    return
+  updateGroupMember(memberId: string, isOrganizer: boolean): void {
+    this.store.dispatch(UpdateGroupMemberActions.updateGroupMember({ userId: memberId, updates: { isOrganizer } }))
   }
 }

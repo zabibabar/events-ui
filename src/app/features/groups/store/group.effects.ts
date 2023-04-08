@@ -255,6 +255,21 @@ export class GroupEffects {
     )
   })
 
+  updateGroupMember$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(GroupActions.UpdateGroupMemberActions.updateGroupMember),
+      concatLatestFrom(() => this.store.select(selectCurrentGroup)),
+      filter(([, group]) => !!group),
+      map(([action, group]) => ({ ...action, groupId: group?.id as string })),
+      mergeMap(({ userId, groupId, updates }) =>
+        this.groupApiService.updateGroupMember(groupId, userId, updates.isOrganizer).pipe(
+          map((members) => GroupActions.UpdateGroupMemberActions.updateGroupMemberSuccess({ groupId, members })),
+          catchError((error) => of(GroupActions.UpdateGroupMemberActions.updateGroupMemberError({ error })))
+        )
+      )
+    )
+  })
+
   removeGroupMember$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(GroupActions.RemoveGroupMemberActions.removeGroupMember),
