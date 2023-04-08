@@ -24,6 +24,7 @@ import { DialogModule } from 'src/app/shared/dialog/dialog.module'
 import { RouterModule } from '@angular/router'
 import { MatTabsModule } from '@angular/material/tabs'
 import { MatDividerModule } from '@angular/material/divider'
+import { MatChipsModule } from '@angular/material/chips'
 import { CoreModule } from 'src/app/core/core.module'
 import { EventsModule } from '../events/events.module'
 import { GroupMemberListComponent } from './components/group-member-list/group-member-list.component'
@@ -46,6 +47,7 @@ import { SectionModule } from 'src/app/shared/section/section.module'
     MatFormFieldModule,
     MatInputModule,
     MatDialogModule,
+    MatChipsModule,
     MatMenuModule,
     MatTabsModule,
     MatDividerModule,

@@ -2,6 +2,7 @@
   <img class="group-member__picture" [src]="user.picture" alt="User Image" />
   <div class="group-member__details">
     <div class="group-member__details__name mat-body-1">{{ user.name }}</div>
+    <div *ngIf="groupMember.isOrganizer"><mat-chip highlighted disableRipple=""> Organizer </mat-chip></div>
     <div class="group-member__details__joined">Joined {{ groupMember.createdAt | date: 'LLL d, yyy' }}</div>
   </div>
   <div class="flex-spacer"></div>
@@ -21,11 +22,15 @@
     <span>Remove From Group</span>
   </button>
   <button mat-menu-item *ngIf="!groupMember.isOrganizer" (click)="updateGroupMember(groupMember.id, true)">
-    <mat-icon>social_leaderboard</mat-icon>
+    <mat-icon>arrow_upward</mat-icon>
     <span>Make Group Organizer</span>
   </button>
-  <button mat-menu-item *ngIf="currentUser$ | async as currentUser" (click)="updateGroupMember(currentUser.id, false)">
-    <mat-icon>exit_to_app</mat-icon>
+  <button
+    mat-menu-item
+    *ngIf="(currentUser$ | async)?.id === groupMember.id"
+    (click)="updateGroupMember(groupMember.id, false)"
+  >
+    <mat-icon>arrow_downward</mat-icon>
     <span>Remove Yourself As Group Organizer</span>
   </button>
 </mat-menu>
