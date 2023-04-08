@@ -63,10 +63,19 @@ export const DeleteEventActions = createActionGroup({
   }
 })
 
+export const AddEventAttendeeActions = createActionGroup({
+  source: 'Events',
+  events: {
+    'Add Event Attendee': props<{ eventId: string; userId: string }>(),
+    'Add Event Attendee Error': props<{ error: string }>(),
+    'Add Event Attendee Success': props<{ eventId: string; attendees: Attendee[] }>()
+  }
+})
+
 export const UpdateEventAttendeeActions = createActionGroup({
   source: 'Events',
   events: {
-    'Update Event Attendee': props<{ eventId: string; attendee: AttendeeUpdateDto }>(),
+    'Update Event Attendee': props<{ eventId: string; attendeeId: string; changes: AttendeeUpdateDto }>(),
     'Update Event Attendee Error': props<{ error: string }>(),
     'Update Event Attendee Success': props<{ eventId: string; attendees: Attendee[] }>()
   }

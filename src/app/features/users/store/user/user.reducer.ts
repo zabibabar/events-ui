@@ -14,7 +14,7 @@ export const userFeatureSelector = 'users'
 export interface UserStoreState extends EntityState<User> {
   loading: boolean
   error: string | null
-  currentUserId: string
+  currentUserId: string | null
 }
 
 export const adapter: EntityAdapter<User> = createEntityAdapter<User>({
@@ -24,7 +24,7 @@ export const adapter: EntityAdapter<User> = createEntityAdapter<User>({
 const initialState: UserStoreState = adapter.getInitialState({
   loading: false,
   error: null,
-  currentUserId: ''
+  currentUserId: null
 })
 
 export const userReducer: ActionReducer<UserStoreState, Action> = createReducer(

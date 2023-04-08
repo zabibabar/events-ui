@@ -54,7 +54,13 @@ export class EventApiService {
     return this.httpClient.get<Attendee[]>(`events/${eventId}/attendees`)
   }
 
-  updateEventAttendee(eventId: string, update: AttendeeUpdateDto): Observable<Attendee[]> {
-    return this.httpClient.put<Attendee[]>(`events/${eventId}/attendees`, update)
+  addEventAttendee(eventId: string, userId: string): Observable<Attendee[]> {
+    const body = { userId, currentDate: new Date().toISOString() }
+    return this.httpClient.post<Attendee[]>(`events/${eventId}/attendees/`, body)
+  }
+
+  updateEventAttendee(eventId: string, attendeeId: string, changes: AttendeeUpdateDto): Observable<Attendee[]> {
+    const body = { ...changes, currentDate: new Date().toISOString() }
+    return this.httpClient.patch<Attendee[]>(`events/${eventId}/attendees/${attendeeId}`, body)
   }
 }

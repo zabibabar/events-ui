@@ -1,23 +1,57 @@
-<mat-button-toggle-group
-  class="event-going-button"
-  *ngIf="attendee$ | async as attendee"
-  (change)="isGoingChanged$.next($event.value)"
-  [value]="attendee.isGoing"
->
-  <mat-button-toggle
-    class="event-going-button__button"
-    [ngClass]="{ 'event-going-button__button--going': attendee.isGoing }"
-    [value]="true"
-  >
-    <mat-icon class="event-going-button__button__icon">check</mat-icon>
-    <span class="event-going-button__button__label">Going</span>
-  </mat-button-toggle>
-  <mat-button-toggle
-    class="event-going-button__button"
-    [value]="false"
-    [ngClass]="{ 'event-going-button__button--not-going': !attendee.isGoing }"
-  >
-    <mat-icon class="event-going-button__button__icon">close</mat-icon>
-    <span class="event-going-button__button__label">Not Going</span>
-  </mat-button-toggle>
-</mat-button-toggle-group>
+<ng-container *ngIf="!hasEventPassed; else pastEvent">
+  <ng-container *ngIf="attendee$ | async as attendee; else notAttendingYet">
+    <button
+      mat-flat-button
+      *ngIf="attendee.isGoing"
+      color="accent"
+      class="event-going-button"
+      [matMenuTriggerFor]="goingMenu"
+    >
+      <mat-icon>check</mat-icon>
+      <span>Going</span>
+      <mat-icon iconPositionEnd>expand_more</mat-icon>
+    </button>
+    <button
+      mat-flat-button
+      *ngIf="!attendee.isGoing"
+      color="warn"
+      class="event-going-button"
+      [matMenuTriggerFor]="notGoingMenu"
+    >
+      <mat-icon>close</mat-icon>
+      <span>Not Going</span>
+      <mat-icon iconPositionEnd>expand_more</mat-icon>
+    </button>
+
+    <mat-menu #goingMenu="matMenu">
+      <button mat-menu-item (click)="changeGoingStatus(attendee.id, false)">
+        <mat-icon>close</mat-icon>
+        <span>Change to Not Going</span>
+      </button>
+    </mat-menu>
+
+    <mat-menu #notGoingMenu="matMenu">
+      <button mat-menu-item (click)="changeGoingStatus(attendee.id, true)">
+        <mat-icon>check</mat-icon>
+        <span>Change to Going</span>
+      </button>
+    </mat-menu>
+  </ng-container>
+
+  <ng-template #notAttendingYet>
+    <button
+      *ngIf="currentUserId | async as userId"
+      mat-stroked-button
+      class="event-going-button"
+      color="primary"
+      (click)="attendEvent(userId)"
+    >
+      Attend
+    </button>
+  </ng-template>
+</ng-container>
+
+<ng-template #pastEvent>
+  <div *ngIf="(attendee$ | async)?.isGoing">You went to this event</div>
+  <div *ngIf="!(attendee$ | async)?.isGoing">You did not attend this event</div>
+</ng-template>
