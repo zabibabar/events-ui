@@ -1,7 +1,7 @@
 import { Component } from '@angular/core'
 import { Store } from '@ngrx/store'
 import { NavLink } from 'src/app/core/types/nav-link'
-import { selectCurrentGroup } from '../../store/group.selectors'
+import { selectCurrentGroup, selectIsCurrentGroupMemberOrganizer } from '../../store/group.selectors'
 
 @Component({
   selector: 'app-group-header',
@@ -17,6 +17,7 @@ export class GroupHeaderComponent {
   activeLink = this.links[0]
 
   group$ = this.store.select(selectCurrentGroup)
+  isCurrentGroupMemberOrganizer$ = this.store.select(selectIsCurrentGroupMemberOrganizer)
 
   constructor(private store: Store) {}
 }

@@ -34,6 +34,7 @@ import { CardModule } from 'src/app/shared/card/card.module'
 import { GroupDescriptionComponent } from './components/group-description/group-description.component'
 import { GroupMemberGridComponent } from './components/group-member-grid/group-member-grid.component'
 import { SectionModule } from 'src/app/shared/section/section.module'
+import { GroupOrganizerOptionsMenuComponent } from './components/group-organizer-options-menu/group-organizer-options-menu.component'
 
 @NgModule({
   imports: [
@@ -73,7 +74,8 @@ import { SectionModule } from 'src/app/shared/section/section.module'
     GroupMemberListComponent,
     GroupMemberComponent,
     GroupDescriptionComponent,
-    GroupMemberGridComponent
+    GroupMemberGridComponent,
+    GroupOrganizerOptionsMenuComponent
   ],
   exports: [
     GroupListComponent,

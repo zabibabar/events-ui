@@ -3,20 +3,8 @@
     <mat-icon>content_copy</mat-icon>
     <span>Copy Invite Link</span>
   </button>
-  <button mat-menu-item (click)="changeGroupPicture()">
-    <mat-icon>image</mat-icon>
-    <span>Change Group Picture</span>
-  </button>
-  <button mat-menu-item (click)="updateGroup()">
-    <mat-icon>edit</mat-icon>
-    <span>Update</span>
-  </button>
-  <button mat-menu-item>
+  <button mat-menu-item *ngIf="userId$ | async as userId" (click)="leaveGroup(userId)">
     <mat-icon>exit_to_app</mat-icon>
     <span>Leave Group</span>
-  </button>
-  <button mat-menu-item (click)="deleteGroup()">
-    <mat-icon>delete</mat-icon>
-    <span>Delete</span>
   </button>
 </mat-menu>
