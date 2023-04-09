@@ -14,6 +14,8 @@ import { EventUpsertDialogData } from '../interfaces/event-upsert-dialog-data'
 import { EventApiService } from '../services/event-api.service'
 import * as EventActions from './event.actions'
 import { selectEventById } from './event.selectors'
+import { ToastService } from 'src/app/shared/toast'
+import { Router } from '@angular/router'
 
 @Injectable()
 export class EventEffects {
@@ -24,7 +26,9 @@ export class EventEffects {
     private actions$: Actions,
     private store: Store,
     private eventApiService: EventApiService,
-    private dialog: DialogService
+    private dialog: DialogService,
+    private toast: ToastService,
+    private router: Router
   ) {}
 
   fetchAllEvents$ = createEffect(() => {
@@ -82,6 +86,8 @@ export class EventEffects {
       exhaustMap(({ event }) =>
         this.eventApiService.createEvent(event).pipe(
           map((event) => EventActions.CreateEventActions.createEventSuccess({ event })),
+          tap(() => this.toast.success('Event Created Successfully!')),
+          tap(({ event }) => this.router.navigate(['events', event.id])),
           catchError((error) => of(EventActions.CreateEventActions.createEventError({ error })))
         )
       )
@@ -94,6 +100,7 @@ export class EventEffects {
       mergeMap(({ eventId, event }) =>
         this.eventApiService.updateEvent(eventId, event).pipe(
           map((event) => EventActions.UpdateEventActions.updateEventSuccess({ event })),
+          tap(() => this.toast.success('Event Updated Successfully!')),
           catchError((error) => of(EventActions.UpdateEventActions.updateEventError({ error })))
         )
       )
@@ -106,6 +113,8 @@ export class EventEffects {
       mergeMap(({ eventId }) =>
         this.eventApiService.deleteEvent(eventId).pipe(
           map(() => EventActions.DeleteEventActions.deleteEventSuccess({ eventId })),
+          tap(() => this.toast.success('Event Deleted Successfully!')),
+          tap(() => this.router.navigate(['events'])),
           catchError((error) => of(EventActions.DeleteEventActions.deleteEventError({ error })))
         )
       )
@@ -184,6 +193,7 @@ export class EventEffects {
       mergeMap(({ eventId, imageFile }) =>
         this.eventApiService.uploadEventPicture(eventId, imageFile).pipe(
           map((imageUrl) => EventActions.UploadEventPictureActions.uploadEventPictureSuccess({ eventId, imageUrl })),
+          tap(() => this.toast.success('Event Picture Updated Successfully!')),
           catchError((error) => of(EventActions.UploadEventPictureActions.uploadEventPictureError({ error })))
         )
       )
@@ -216,6 +226,7 @@ export class EventEffects {
       mergeMap(({ eventId, userId }) =>
         this.eventApiService.addEventAttendee(eventId, userId).pipe(
           map((attendees) => EventActions.AddEventAttendeeActions.addEventAttendeeSuccess({ eventId, attendees })),
+          tap(() => this.toast.success('RSVP Was Updated Successfully!')),
           catchError((error) => of(EventActions.AddEventAttendeeActions.addEventAttendeeError({ error })))
         )
       )
@@ -230,6 +241,7 @@ export class EventEffects {
           map((attendees) =>
             EventActions.UpdateEventAttendeeActions.updateEventAttendeeSuccess({ eventId, attendees })
           ),
+          tap(() => this.toast.success('RSVP Was Updated Successfully!')),
           catchError((error) => of(EventActions.UpdateEventAttendeeActions.updateEventAttendeeError({ error })))
         )
       )

@@ -73,6 +73,7 @@ export class GroupEffects {
       exhaustMap(([, inviteCode]) =>
         this.groupApiService.addToGroupViaInviteCode(inviteCode ?? '').pipe(
           map((group) => GroupActions.AddToGroupViaInviteCodeActions.addToGroupViaInviteCodeSuccess({ group })),
+          tap(() => this.toast.success('Added To Group Successfully!')),
           tap(({ group }) => this.router.navigate(['/groups', group.id])),
           catchError((error) =>
             of(GroupActions.AddToGroupViaInviteCodeActions.addToGroupViaInviteCodeError({ error }))
@@ -107,6 +108,7 @@ export class GroupEffects {
       mergeMap(({ groupId, group }) =>
         this.groupApiService.updateGroup(groupId, group).pipe(
           map((group) => GroupActions.UpdateGroupActions.updateGroupSuccess({ group })),
+          tap(() => this.toast.success('Group Updated Successfully!')),
           catchError((error) => of(GroupActions.UpdateGroupActions.updateGroupError({ error })))
         )
       )
@@ -214,6 +216,7 @@ export class GroupEffects {
       mergeMap(({ groupId, imageFile }) =>
         this.groupApiService.uploadGroupPicture(groupId, imageFile).pipe(
           map((imageUrl) => GroupActions.UploadGroupPictureActions.uploadGroupPictureSuccess({ groupId, imageUrl })),
+          tap(() => this.toast.success('Group Picture Updated Successfully!')),
           catchError((error) => of(GroupActions.UploadGroupPictureActions.uploadGroupPictureError({ error })))
         )
       )
@@ -249,6 +252,7 @@ export class GroupEffects {
       mergeMap(({ groupId, userId }) =>
         this.groupApiService.addGroupMember(groupId, userId).pipe(
           map((members) => GroupActions.AddGroupMemberActions.addGroupMemberSuccess({ groupId, members })),
+          tap(() => this.toast.success('Group Member Added Successfully!')),
           catchError((error) => of(GroupActions.AddGroupMemberActions.addGroupMemberError({ error })))
         )
       )
@@ -264,6 +268,7 @@ export class GroupEffects {
       mergeMap(({ userId, groupId, updates }) =>
         this.groupApiService.updateGroupMember(groupId, userId, updates.isOrganizer).pipe(
           map((members) => GroupActions.UpdateGroupMemberActions.updateGroupMemberSuccess({ groupId, members })),
+          tap(() => this.toast.success('Group Member Updated Successfully!')),
           catchError((error) => of(GroupActions.UpdateGroupMemberActions.updateGroupMemberError({ error })))
         )
       )
@@ -275,10 +280,23 @@ export class GroupEffects {
       ofType(GroupActions.RemoveGroupMemberActions.removeGroupMember),
       concatLatestFrom(() => this.store.select(selectCurrentGroup)),
       filter(([, group]) => !!group),
+      switchMap(([action, group]) => {
+        const groupDeleteDialogRef = this.dialog.openConfirmationDialog({
+          type: 'error',
+          title: `You are about to leave ${group?.name}?`,
+          message: 'You will not be able to view events in this group anymore!',
+          primaryCTA: 'Delete Group'
+        })
+
+        return forkJoin([of(action), of(group), groupDeleteDialogRef.afterClosed()])
+      }),
+      filter(([, , isConfirmed]) => !!isConfirmed),
       map(([{ userId }, group]) => ({ userId, groupId: group?.id as string })),
       mergeMap(({ userId, groupId }) =>
         this.groupApiService.removeGroupMember(groupId, userId).pipe(
           map((members) => GroupActions.RemoveGroupMemberActions.removeGroupMemberSuccess({ groupId, members })),
+          tap(() => this.toast.success('Left Group Successfully!')),
+          tap(() => this.router.navigate(['groups'])),
           catchError((error) => of(GroupActions.RemoveGroupMemberActions.removeGroupMemberError({ error })))
         )
       )

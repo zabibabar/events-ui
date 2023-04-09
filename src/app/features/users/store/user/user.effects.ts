@@ -21,6 +21,7 @@ import {
   CloseUpdateUserFormDialog
 } from './user.actions'
 import { selectUserById } from './user.selectors'
+import { ToastService } from 'src/app/shared/toast'
 
 @Injectable()
 export class UserEffects {
@@ -31,7 +32,8 @@ export class UserEffects {
     private actions$: Actions,
     private store: Store,
     private userApiService: UserApiService,
-    private dialog: DialogService
+    private dialog: DialogService,
+    private toast: ToastService
   ) {}
 
   fetchOneUser$ = createEffect(() => {
@@ -78,6 +80,7 @@ export class UserEffects {
       mergeMap(({ userId, changes }) =>
         this.userApiService.updateUser(userId, changes).pipe(
           map((user) => UpdateUserActions.updateUserSuccess({ user })),
+          tap(() => this.toast.success('User Updated Successfully!')),
           catchError((error) => of(UpdateUserActions.updateUserError({ error })))
         )
       )
@@ -126,6 +129,7 @@ export class UserEffects {
       mergeMap(({ userId, imageFile }) =>
         this.userApiService.uploadUserPicture(userId, imageFile).pipe(
           map((imageUrl) => UploadUserPictureActions.uploadUserPictureSuccess({ userId, imageUrl })),
+          tap(() => this.toast.success('User Picture Updated Successfully!')),
           catchError((error) => of(UploadUserPictureActions.uploadUserPictureError({ error })))
         )
       )
