@@ -6,11 +6,11 @@
   flex-basis: 50ch;
   flex-shrink: 0;
   flex-grow: 1;
+}
 
-  &__section {
-    margin: 32px 0px;
-    display: block;
-  }
+.group-home-page__section {
+  margin: 32px 0px;
+  display: block;
 }
 
 .group-home-page__side {

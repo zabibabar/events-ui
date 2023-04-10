@@ -1,22 +1,18 @@
-import { Component } from '@angular/core'
-import { Store } from '@ngrx/store'
-import { map, Observable } from 'rxjs'
+import { Component, Input, OnInit } from '@angular/core'
 import { Member } from '../../interfaces/member'
-import { selectMembersForCurrentGroup } from '../../store/group.selectors'
 
 @Component({
   selector: 'app-group-member-grid',
   templateUrl: './group-member-grid.component.html',
   styleUrls: ['./group-member-grid.component.scss']
 })
-export class GroupMemberGridComponent {
-  private readonly max = 8
-  goingMembers$: Observable<Member[]> = this.store.select(selectMembersForCurrentGroup)
+export class GroupMemberGridComponent implements OnInit {
+  @Input() groupMembers: Member[]
+  @Input() max = 8
 
-  visibleMembers$: Observable<Member[]> = this.goingMembers$.pipe(
-    // map((a) => Array.from({ length: 9 }, () => a[0])),
-    map((a) => a.slice(0, this.max))
-  )
+  visibleMembers: Member[]
 
-  constructor(private store: Store) {}
+  ngOnInit(): void {
+    this.visibleMembers = this.groupMembers.slice(0, this.max)
+  }
 }

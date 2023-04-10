@@ -27,6 +27,11 @@ export const selectMembersForCurrentGroup = createSelector(
   (group: Group | undefined) => group?.members ?? []
 )
 
+export const selectOrganizersForCurrentGroup = createSelector(
+  selectCurrentGroup,
+  (group: Group | undefined) => group?.members.filter(({ isOrganizer }) => isOrganizer) ?? []
+)
+
 export const selectCurrentUserAsGroupMember = createSelector(
   selectCurrentGroup,
   selectCurrentUser,
