@@ -32,6 +32,16 @@ export const selectOrganizersForCurrentGroup = createSelector(
   (group: Group | undefined) => group?.members.filter(({ isOrganizer }) => isOrganizer) ?? []
 )
 
+export const selectUpcomingEventCountForCurrentGroup = createSelector(
+  selectGroupState,
+  (state) => state.currentGroupUpcomingEventCount
+)
+
+export const selectPastEventCountForCurrentGroup = createSelector(
+  selectGroupState,
+  (state) => state.currentGroupPastEventCount
+)
+
 export const selectCurrentUserAsGroupMember = createSelector(
   selectCurrentGroup,
   selectCurrentUser,

@@ -57,8 +57,8 @@ export class GroupEffects {
     return this.actions$.pipe(
       ofType(GroupActions.FetchOneGroupActions.fetchOneGroup),
       exhaustMap(({ groupId }) =>
-        this.groupApiService.getGroupById(groupId).pipe(
-          map((group) => GroupActions.FetchOneGroupActions.fetchOneGroupSuccess({ group })),
+        forkJoin(this.groupApiService.getGroupById(groupId), this.groupApiService.getEventCountByGroupId(groupId)).pipe(
+          map(([group, count]) => GroupActions.FetchOneGroupActions.fetchOneGroupSuccess({ group, count })),
           catchError((error) => of(GroupActions.FetchOneGroupActions.fetchOneGroupError({ error })))
         )
       )

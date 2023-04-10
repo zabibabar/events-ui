@@ -11,7 +11,9 @@ import { Member } from 'src/app/features/groups/interfaces/member'
 import {
   selectCurrentGroup,
   selectMembersForCurrentGroup,
-  selectOrganizersForCurrentGroup
+  selectOrganizersForCurrentGroup,
+  selectPastEventCountForCurrentGroup,
+  selectUpcomingEventCountForCurrentGroup
 } from 'src/app/features/groups/store/group.selectors'
 
 @Component({
@@ -25,6 +27,8 @@ export class GroupHomePageComponent {
   upcomingEvents$: Observable<Event[]> = this.store.select(selectUpcomingEventsByCurrentGroup({ limit: 4 }))
   groupMembers$: Observable<Member[]> = this.store.select(selectMembersForCurrentGroup)
   groupOrganizers$: Observable<Member[]> = this.store.select(selectOrganizersForCurrentGroup)
+  upcomingEventCount$: Observable<number | undefined> = this.store.select(selectUpcomingEventCountForCurrentGroup)
+  pastEventCount$: Observable<number | undefined> = this.store.select(selectPastEventCountForCurrentGroup)
 
   constructor(private store: Store) {}
 }

@@ -8,6 +8,8 @@ export const groupFeatureSelector = 'groups'
 export interface GroupStoreState extends EntityState<Group> {
   loading: boolean
   error: string | null
+  currentGroupUpcomingEventCount?: number
+  currentGroupPastEventCount?: number
 }
 
 export const adapter: EntityAdapter<Group> = createEntityAdapter<Group>({
@@ -33,7 +35,14 @@ export const groupReducer: ActionReducer<GroupStoreState, Action> = createReduce
   on(GroupActions.FetchOneGroupActions.fetchOneGroup, (state): GroupStoreState => ({ ...state, loading: true })),
   on(
     GroupActions.FetchOneGroupActions.fetchOneGroupSuccess,
-    (state, { group }): GroupStoreState => adapter.upsertOne(group, { ...state, error: null, loading: false })
+    (state, { group, count }): GroupStoreState =>
+      adapter.upsertOne(group, {
+        ...state,
+        error: null,
+        loading: false,
+        currentGroupUpcomingEventCount: count.upcoming,
+        currentGroupPastEventCount: count.past
+      })
   ),
   on(
     GroupActions.FetchOneGroupActions.fetchOneGroupError,

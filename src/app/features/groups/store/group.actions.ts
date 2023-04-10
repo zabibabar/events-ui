@@ -5,6 +5,7 @@ import { GroupUpdateDto } from '../dtos/group-update-dto'
 import { Group } from '../interfaces/group'
 import { Member } from '../interfaces/member'
 import { GroupRequestFilterOptions } from '../interfaces/group-request-filter-options'
+import { EventCountResponseDTO } from '../../events/dtos/event-count-response.dto'
 
 export const FetchAllGroupsActions = createActionGroup({
   source: 'Groups',
@@ -20,7 +21,7 @@ export const FetchOneGroupActions = createActionGroup({
   events: {
     'Fetch One Group': props<{ groupId: string }>(),
     'Fetch One Group Error': props<{ error: string }>(),
-    'Fetch One Group Success': props<{ group: Group }>()
+    'Fetch One Group Success': props<{ group: Group; count: EventCountResponseDTO }>()
   }
 })
 

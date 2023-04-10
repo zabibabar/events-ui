@@ -4,7 +4,7 @@
 
     <app-section class="group-home-page__section">
       <app-section-header>
-        <div class="mat-headline-6">Upcoming Events</div>
+        <div class="mat-headline-6">Upcoming Events ({{ upcomingEventCount$ | async }})</div>
         <a routerLink="../events">See all</a>
       </app-section-header>
       <app-event-list [events]="(upcomingEvents$ | async)!"></app-event-list>
@@ -12,7 +12,7 @@
 
     <app-section class="group-home-page__section">
       <app-section-header>
-        <div class="mat-headline-6">Past Events</div>
+        <div class="mat-headline-6">Past Events ({{ pastEventCount$ | async }})</div>
         <a routerLink="../events/past">See all</a>
       </app-section-header>
       <app-event-list [events]="(pastEvents$ | async)!"></app-event-list>
