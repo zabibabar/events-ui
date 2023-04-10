@@ -42,7 +42,7 @@ export const selectGoingAttendeesForEvent = ({ eventId }: { eventId: string }) =
 
 export const selectGoingAttendeesCountForCurrentEvent = createSelector(
   selectCurrentEvent,
-  (event: Event | undefined) => event?.attendees.filter(({ isGoing }) => isGoing).length ?? 0
+  (event: Event | undefined) => event?.goingAttendeesCount ?? 0
 )
 
 export const selectGoingAttendeesForCurrentEvent = createSelector(

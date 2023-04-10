@@ -7,4 +7,6 @@ export interface Group {
   inviteCode: string
   description?: string
   members: Member[]
+  membersCount: number
+  organizersCount: number
 }

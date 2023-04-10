@@ -1,36 +1,38 @@
-<div class="group-home-page__main">
-  <app-group-description></app-group-description>
+<ng-container *ngIf="currentGroup$ | async as group">
+  <div class="group-home-page__main">
+    <app-group-description></app-group-description>
 
-  <app-section class="group-home-page__section">
-    <app-section-header>
-      <div class="mat-headline-6">Upcoming Events</div>
-      <a routerLink="../events">See all</a>
-    </app-section-header>
-    <app-event-list [events]="(upcomingEvents$ | async)!"></app-event-list>
-  </app-section>
+    <app-section class="group-home-page__section">
+      <app-section-header>
+        <div class="mat-headline-6">Upcoming Events</div>
+        <a routerLink="../events">See all</a>
+      </app-section-header>
+      <app-event-list [events]="(upcomingEvents$ | async)!"></app-event-list>
+    </app-section>
 
-  <app-section class="group-home-page__section">
-    <app-section-header>
-      <div class="mat-headline-6">Past Events</div>
-      <a routerLink="../events/past">See all</a>
-    </app-section-header>
-    <app-event-list [events]="(pastEvents$ | async)!"></app-event-list>
-  </app-section>
-</div>
-<div class="group-home-page__side">
-  <app-section class="group-home-page__section">
-    <app-section-header>
-      <div class="mat-headline-6">Organizers</div>
-      <a routerLink="../members">See all</a>
-    </app-section-header>
-    <app-group-member-grid [groupMembers]="(groupOrganizers$ | async)!"></app-group-member-grid>
-  </app-section>
+    <app-section class="group-home-page__section">
+      <app-section-header>
+        <div class="mat-headline-6">Past Events</div>
+        <a routerLink="../events/past">See all</a>
+      </app-section-header>
+      <app-event-list [events]="(pastEvents$ | async)!"></app-event-list>
+    </app-section>
+  </div>
+  <div class="group-home-page__side">
+    <app-section class="group-home-page__section">
+      <app-section-header>
+        <div class="mat-headline-6">Organizers ({{ group.organizersCount }})</div>
+        <a routerLink="../members">See all</a>
+      </app-section-header>
+      <app-group-member-grid [groupMembers]="(groupOrganizers$ | async)!"></app-group-member-grid>
+    </app-section>
 
-  <app-section class="group-home-page__section">
-    <app-section-header>
-      <div class="mat-headline-6">Members</div>
-      <a routerLink="../members">See all</a>
-    </app-section-header>
-    <app-group-member-grid [groupMembers]="(groupMembers$ | async)!"></app-group-member-grid>
-  </app-section>
-</div>
+    <app-section class="group-home-page__section">
+      <app-section-header>
+        <div class="mat-headline-6">Members ({{ group.membersCount }})</div>
+        <a routerLink="../members">See all</a>
+      </app-section-header>
+      <app-group-member-grid [groupMembers]="(groupMembers$ | async)!"></app-group-member-grid>
+    </app-section>
+  </div>
+</ng-container>

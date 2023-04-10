@@ -10,4 +10,7 @@ export interface Event {
   address: string
   description?: string
   attendees: Attendee[]
+  attendeesCount: number
+  goingAttendeesCount: number
+  notGoingAttendeesCount: number
 }
