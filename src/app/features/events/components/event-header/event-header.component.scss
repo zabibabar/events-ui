@@ -42,23 +42,4 @@
   display: flex;
   flex-direction: column;
   gap: 32px;
-
-  &__group {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-
-    &__image {
-      width: 112px;
-      height: 56px;
-      object-fit: cover;
-      border-radius: 4px;
-    }
-
-    &__details {
-      &__name {
-        margin-bottom: 4px;
-      }
-    }
-  }
 }

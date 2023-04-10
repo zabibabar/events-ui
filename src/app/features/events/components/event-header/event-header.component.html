@@ -37,18 +37,8 @@
     <button mat-flat-button [matMenuTriggerFor]="menu.menu" *ngIf="isCurrentGroupMemberOrganizer$ | async">
       <mat-icon> expand_more </mat-icon> Edit Event
     </button>
-    <card *ngIf="group$ | async as group" [routerLink]="['/groups', group.id]">
-      <div class="event-header__side__group">
-        <img class="event-header__side__group__image" [src]="group.picture" alt="Group Picture" />
-        <div class="event-header__side__group__details">
-          <div class="event-header__side__group__details__name mat-body-1">{{ group.name }}</div>
-          <div class="event-header__side__group__details__members-count">{{ group.members.length }} members</div>
-          <a [routerLink]="['/groups', group.id, 'events']" class="event-header__side__group__details__see-more=events"
-            >See more events</a
-          >
-        </div>
-      </div>
-    </card>
+    <app-event-organizer-card></app-event-organizer-card>
+    <app-event-group-card></app-event-group-card>
     <app-event-time-location [event]="event"></app-event-time-location>
   </div>
   <app-event-options-menu #menu="eventOptionsMenu" [event]="event"></app-event-options-menu>

@@ -1,0 +1,9 @@
+<ng-container *ngIf="(organizers$ | async)! as organizers">
+  <card *ngIf="organizers[0] as organizer" class="event-organizer-card" routerLink="./attendees">
+    <img class="event-organizer-card__image" [src]="organizer.user?.picture" alt="Group Picture" />
+    <div class="event-organizer-card__details">
+      <div>Hosted By</div>
+      <div class="event-organizer-card__details__name mat-body-1">{{ organizer.user?.name }}</div>
+    </div>
+  </card>
+</ng-container>

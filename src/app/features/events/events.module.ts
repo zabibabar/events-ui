@@ -37,6 +37,9 @@ import { CardModule } from 'src/app/shared/card/card.module'
 import { EventAttendeeListComponent } from './components/event-attendee-list/event-attendee-list.component'
 import { EventAttendeeListItemComponent } from './components/event-attendee-list-item/event-attendee-list-item.component'
 import { SectionModule } from 'src/app/shared/section/section.module'
+import { EventGroupCardComponent } from './components/event-group-card/event-group-card.component'
+import { EventOrganizerCardComponent } from './components/event-organizer-card/event-organizer-card.component'
+import { MatChipsModule } from '@angular/material/chips'
 
 @NgModule({
   imports: [
@@ -55,6 +58,7 @@ import { SectionModule } from 'src/app/shared/section/section.module'
     MatDividerModule,
     MatTabsModule,
     MatButtonToggleModule,
+    MatChipsModule,
     FormsModule,
     DialogFormModule,
     DialogModule,
@@ -78,7 +82,9 @@ import { SectionModule } from 'src/app/shared/section/section.module'
     EventDescriptionComponent,
     EventAttendeeGridComponent,
     EventAttendeeListComponent,
-    EventAttendeeListItemComponent
+    EventAttendeeListItemComponent,
+    EventGroupCardComponent,
+    EventOrganizerCardComponent
   ],
   exports: [
     EventListComponent,

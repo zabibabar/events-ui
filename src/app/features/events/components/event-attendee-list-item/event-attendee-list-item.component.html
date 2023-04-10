@@ -2,7 +2,8 @@
   <img class="event-attendee-list-item__picture" [src]="user.picture" alt="User Image" />
   <div class="event-attendee-list-item__details">
     <div class="event-attendee-list-item__details__name mat-body-1">{{ user.name }}</div>
-    <div class="event-attendee-list-item__details__joined">Responded {{ attendee.createdAt | date: 'LLL d, yyy' }}</div>
+    <div *ngIf="attendee.isOrganizer"><mat-chip highlighted disableRipple> Organizer </mat-chip></div>
+    <div class="event-attendee-list-item__details__joined">{{ attendee.createdAt | date: 'LLL d, yyy' }}</div>
   </div>
   <div class="flex-spacer"></div>
   <button class="event-attendee-list-item__options" mat-icon-button [matMenuTriggerFor]="menu">
