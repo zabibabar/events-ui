@@ -1,0 +1,10 @@
+<card *ngIf="group$ | async as group" class="event-group-card" [routerLink]="['/groups', group.id]">
+  <img class="event-group-card__image" [src]="group.picture" alt="Group Picture" />
+  <div class="event-group-card__details">
+    <div class="event-group-card__details__name mat-body-1">{{ group.name }}</div>
+    <div class="event-group-card__details__members-count">{{ group.members.length }} members</div>
+    <a [routerLink]="['/groups', group.id, 'events']" class="event-group-card__details__see-more=events"
+      >See more events</a
+    >
+  </div>
+</card>

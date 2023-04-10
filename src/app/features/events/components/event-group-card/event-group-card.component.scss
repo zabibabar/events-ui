@@ -1,0 +1,19 @@
+.event-group-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  cursor: pointer;
+
+  &__image {
+    width: 112px;
+    height: 56px;
+    object-fit: cover;
+    border-radius: 4px;
+  }
+
+  &__details {
+    &__name {
+      margin-bottom: 4px;
+    }
+  }
+}
