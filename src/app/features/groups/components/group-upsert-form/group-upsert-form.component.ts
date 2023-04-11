@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { Store } from '@ngrx/store'
 import { GroupUpsertDialogData } from '../../interfaces/group-upsert-dialog-data'
 import { CloseUpsertGroupFormDialog } from '../../store/group.actions'
+import { selectIsLoadingGroupAction } from '../../store/group.selectors'
 
 @Component({
   selector: 'app-group-upsert-form',
@@ -19,6 +20,8 @@ export class GroupUpsertFormComponent implements OnInit {
   groupCreateForm: FormGroup<{
     name: FormControl<string | null>
   }>
+
+  isSubmitting$ = this.store.select(selectIsLoadingGroupAction)
 
   constructor(
     private fb: FormBuilder,

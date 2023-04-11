@@ -40,6 +40,7 @@ import { SectionModule } from 'src/app/shared/section/section.module'
 import { EventGroupCardComponent } from './components/event-group-card/event-group-card.component'
 import { EventOrganizerCardComponent } from './components/event-organizer-card/event-organizer-card.component'
 import { MatChipsModule } from '@angular/material/chips'
+import { LoadingSpinnerModule } from 'src/app/shared/loading-spinner/loading-spinner.module'
 
 @NgModule({
   imports: [
@@ -66,6 +67,7 @@ import { MatChipsModule } from '@angular/material/chips'
     ReactiveFormsModule,
     CardModule,
     SectionModule,
+    LoadingSpinnerModule,
     StoreModule.forFeature(eventFeatureSelector, eventReducer),
     EffectsModule.forFeature([EventEffects])
   ],

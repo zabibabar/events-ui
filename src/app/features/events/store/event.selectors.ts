@@ -14,7 +14,7 @@ export const selectEventEntities = createSelector(selectEventState, selectEntiti
 export const selectAllEvents = createSelector(selectEventState, selectAll)
 export const selectEventTotal = createSelector(selectEventState, selectTotal)
 
-export const selectIsLoading = createSelector(selectEventState, (state: EventStoreState) => state.loading)
+export const selectIsLoadingEventAction = createSelector(selectEventState, (state: EventStoreState) => state.loading)
 
 export const selectCurrentEvent = createSelector(
   selectEventEntities,

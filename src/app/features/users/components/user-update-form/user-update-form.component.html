@@ -25,6 +25,7 @@
       color="primary"
       (click)="submit()"
       [disabled]="userUpdateForm.invalid || userUpdateForm.pristine"
+      [loadingSpinner]="(isSubmitting$ | async)!"
     >
       {{ submitText }}
     </button>

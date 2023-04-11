@@ -9,7 +9,7 @@ export const selectUserState = createFeatureSelector<UserStoreState>(userFeature
 
 export const selectUserEntities = createSelector(selectUserState, selectEntities)
 export const selectCurrentUserId = createSelector(selectUserState, (state) => state.currentUserId)
-export const selectIsLoading = createSelector(selectUserState, (state) => state.loading)
+export const selectIsLoadingUserAction = createSelector(selectUserState, (state) => state.loading)
 
 export const selectCurrentUser = createSelector(selectCurrentUserId, selectUserEntities, (userId, userEntities) =>
   userId !== null ? userEntities[userId] : undefined

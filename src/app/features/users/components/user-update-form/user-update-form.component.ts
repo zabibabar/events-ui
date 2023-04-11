@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store'
 import { UserUpdateDto } from '../../dtos/user-update-dto'
 import { UserUpdateDialogData } from '../../interfaces/user-update-form-dialog'
 import { CloseUpdateUserFormDialog } from '../../store/user/user.actions'
+import { selectIsLoadingUserAction } from '../../store/user/user.selectors'
 
 type UserUpdateFormType = FormGroup<{
   firstName: FormControl<string>
@@ -24,6 +25,7 @@ export class UserUpdateFormComponent implements OnInit {
   submitText = this.data.submitText
 
   userUpdateForm: UserUpdateFormType
+  isSubmitting$ = this.store.select(selectIsLoadingUserAction)
 
   constructor(
     private fb: FormBuilder,

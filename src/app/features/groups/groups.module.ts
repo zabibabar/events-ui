@@ -35,6 +35,7 @@ import { GroupDescriptionComponent } from './components/group-description/group-
 import { GroupMemberGridComponent } from './components/group-member-grid/group-member-grid.component'
 import { SectionModule } from 'src/app/shared/section/section.module'
 import { GroupOrganizerOptionsMenuComponent } from './components/group-organizer-options-menu/group-organizer-options-menu.component'
+import { LoadingSpinnerModule } from 'src/app/shared/loading-spinner/loading-spinner.module'
 
 @NgModule({
   imports: [
@@ -60,6 +61,7 @@ import { GroupOrganizerOptionsMenuComponent } from './components/group-organizer
     UsersModule,
     CardModule,
     SectionModule,
+    LoadingSpinnerModule,
     StoreModule.forFeature(groupFeatureSelector, groupReducer),
     EffectsModule.forFeature([GroupEffects])
   ],

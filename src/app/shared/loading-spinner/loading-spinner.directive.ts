@@ -18,6 +18,7 @@ import { MatIcon } from '@angular/material/icon'
 export class LoadingSpinnerDirective implements OnChanges {
   @Input('loadingSpinner') isLoading: boolean
   @Input() color: ThemePalette = 'primary'
+  @Input() spinnerPositionEnd = false
   private icon: ComponentRef<MatIcon> | null
 
   constructor(
@@ -55,7 +56,7 @@ export class LoadingSpinnerDirective implements OnChanges {
     this.renderer.insertBefore(
       this.elementRef.nativeElement,
       this.icon.instance._elementRef.nativeElement,
-      this.elementRef.nativeElement.firstChild
+      this.elementRef.nativeElement.children[this.spinnerPositionEnd ? 2 : 0]
     )
   }
 

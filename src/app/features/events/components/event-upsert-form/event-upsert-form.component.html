@@ -38,6 +38,7 @@
       color="primary"
       (click)="submit()"
       [disabled]="eventUpsertForm.invalid || eventUpsertForm.pristine"
+      [loadingSpinner]="(isSubmitting$ | async)!"
     >
       {{ submitText }}
     </button>

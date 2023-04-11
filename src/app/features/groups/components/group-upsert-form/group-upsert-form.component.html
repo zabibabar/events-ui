@@ -11,7 +11,13 @@
   </div>
   <div dialog-form-footer>
     <button mat-button (click)="onCancel()">Cancel</button>
-    <button mat-flat-button color="primary" (click)="submit()" [disabled]="groupCreateForm.invalid">
+    <button
+      mat-flat-button
+      color="primary"
+      (click)="submit()"
+      [disabled]="groupCreateForm.invalid"
+      [loadingSpinner]="(isSubmitting$ | async)!"
+    >
       {{ submitText }}
     </button>
   </div>

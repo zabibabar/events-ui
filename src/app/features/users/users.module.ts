@@ -21,6 +21,7 @@ import { MatInputModule } from '@angular/material/input'
 import { UserUpdateFormComponent } from './components/user-update-form/user-update-form.component'
 import { ReactiveFormsModule } from '@angular/forms'
 import { UserAvatarGroupComponent } from './components/user-avatar-group/user-avatar-group.component'
+import { LoadingSpinnerModule } from 'src/app/shared/loading-spinner/loading-spinner.module'
 
 @NgModule({
   declarations: [UserAvatarGroupComponent, UserDropdownComponent, UserThemeToggleComponent, UserUpdateFormComponent],
@@ -47,7 +48,8 @@ import { UserAvatarGroupComponent } from './components/user-avatar-group/user-av
         redirect_uri: location.origin,
         scope: 'openid profile email'
       }
-    })
+    }),
+    LoadingSpinnerModule
   ],
   providers: [
     {

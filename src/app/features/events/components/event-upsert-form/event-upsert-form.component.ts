@@ -8,6 +8,7 @@ import { selectCurrentGroup } from 'src/app/features/groups/store/group.selector
 import { EventCreateDto } from '../../dtos/event-create-dto'
 import { EventUpsertDialogData } from '../../interfaces/event-upsert-dialog-data'
 import { CloseUpsertEventFormDialog } from '../../store/event.actions'
+import { selectIsLoadingEventAction } from '../../store/event.selectors'
 
 type EventUpsertFormType = FormGroup<{
   name: FormControl<string | null>
@@ -31,6 +32,7 @@ export class EventUpsertFormComponent implements OnInit {
   eventUpsertForm: EventUpsertFormType
 
   currentGroup$: Observable<Group | undefined> = this.store.select(selectCurrentGroup)
+  isSubmitting$ = this.store.select(selectIsLoadingEventAction)
 
   constructor(
     private fb: FormBuilder,
