@@ -162,7 +162,6 @@ export class GroupUiEffects {
     () => {
       return this.actions$.pipe(
         ofType(
-          CloseUpsertGroupFormDialog,
           DeleteGroupActions.deleteGroupError,
           DeleteGroupActions.deleteGroupSuccess,
           RemoveGroupMemberActions.removeGroupMemberError,

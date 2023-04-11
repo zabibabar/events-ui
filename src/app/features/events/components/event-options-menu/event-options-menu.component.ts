@@ -36,6 +36,6 @@ export class EventOptionsMenuComponent {
   }
 
   deleteEvent(): void {
-    this.store.dispatch(DeleteEventActions.deleteEvent({ eventId: this.event.id }))
+    this.store.dispatch(DeleteEventActions.openDeleteEventDialog({ eventId: this.event.id }))
   }
 }

@@ -57,6 +57,7 @@ export const UpdateEventActions = createActionGroup({
 export const DeleteEventActions = createActionGroup({
   source: 'Events',
   events: {
+    'Open Delete Event Dialog': props<{ eventId: string }>(),
     'Delete Event': props<{ eventId: string }>(),
     'Delete Event Error': props<{ error: string }>(),
     'Delete Event Success': props<{ eventId: string }>()

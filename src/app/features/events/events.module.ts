@@ -5,7 +5,7 @@ import { EventComponent } from './components/event/event.component'
 import { HttpClientModule } from '@angular/common/http'
 import { StoreModule } from '@ngrx/store'
 import { EffectsModule } from '@ngrx/effects'
-import { EventEffects } from './store/event.effects'
+import { EventApiEffects } from './store/event-api.effects'
 import { eventFeatureSelector, eventReducer } from './store/event.reducer'
 import { CommonModule } from '@angular/common'
 import { EventCreateButtonComponent } from './components/event-create-button/event-create-button.component'
@@ -41,6 +41,7 @@ import { EventGroupCardComponent } from './components/event-group-card/event-gro
 import { EventOrganizerCardComponent } from './components/event-organizer-card/event-organizer-card.component'
 import { MatChipsModule } from '@angular/material/chips'
 import { LoadingSpinnerModule } from 'src/app/shared/loading-spinner/loading-spinner.module'
+import { EventUiEffects } from './store/event-ui.effects'
 
 @NgModule({
   imports: [
@@ -69,7 +70,7 @@ import { LoadingSpinnerModule } from 'src/app/shared/loading-spinner/loading-spi
     SectionModule,
     LoadingSpinnerModule,
     StoreModule.forFeature(eventFeatureSelector, eventReducer),
-    EffectsModule.forFeature([EventEffects])
+    EffectsModule.forFeature([EventApiEffects, EventUiEffects])
   ],
   providers: [],
   declarations: [
