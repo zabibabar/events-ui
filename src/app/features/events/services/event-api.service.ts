@@ -7,6 +7,7 @@ import { EventCreateDto } from '../dtos/event-create-dto'
 import { EventUpdateDto } from '../dtos/event-update-dto'
 import { AttendeeUpdateDto } from '../dtos/attendee-update-dto'
 import { EventRequestFilterOptions } from '../interfaces/event-request-filter-options'
+import { EventCountResponseDTO } from '../dtos/event-count-response.dto'
 
 @Injectable({
   providedIn: 'root'
@@ -20,8 +21,13 @@ export class EventApiService {
   }
 
   getEventsByGroup(groupId: string, filterOptions: EventRequestFilterOptions): Observable<Event[]> {
-    const params = new HttpParams({ fromObject: { groupId, ...filterOptions, currentDate: new Date().toISOString() } })
-    return this.httpClient.get<Event[]>(`events/`, { params })
+    const params = new HttpParams({ fromObject: { ...filterOptions, currentDate: new Date().toISOString() } })
+    return this.httpClient.get<Event[]>(`events/group/${groupId}`, { params })
+  }
+
+  getEventCountByGroupId(groupId: string): Observable<EventCountResponseDTO> {
+    const params = new HttpParams({ fromObject: { currentDate: new Date().toISOString() } })
+    return this.httpClient.get<EventCountResponseDTO>(`events/group/${groupId}/count`, { params })
   }
 
   getEventById(eventId: string): Observable<Event> {

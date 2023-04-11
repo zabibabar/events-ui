@@ -6,7 +6,6 @@ import { Member } from '../interfaces/member'
 import { GroupCreateDto } from '../dtos/group-create-dto'
 import { GroupUpdateDto } from '../dtos/group-update-dto'
 import { GroupRequestFilterOptions } from '../interfaces/group-request-filter-options'
-import { EventCountResponseDTO } from '../../events/dtos/event-count-response.dto'
 
 @Injectable({
   providedIn: 'root'
@@ -60,10 +59,5 @@ export class GroupApiService {
 
   removeGroupMember(groupId: string, memberId: string): Observable<Member[]> {
     return this.httpClient.delete<Member[]>(`groups/${groupId}/members/${memberId}`)
-  }
-
-  getEventCountByGroupId(groupId: string): Observable<EventCountResponseDTO> {
-    const params = new HttpParams({ fromObject: { groupId, currentDate: new Date().toISOString() } })
-    return this.httpClient.get<EventCountResponseDTO>(`events/count`, { params })
   }
 }

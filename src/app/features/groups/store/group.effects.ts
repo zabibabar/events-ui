@@ -17,6 +17,7 @@ import { GroupUpsertDialogData } from '../interfaces/group-upsert-dialog-data'
 import { GroupApiService } from '../services/group-api.service'
 import * as GroupActions from './group.actions'
 import { selectCurrentGroup, selectGroupById } from './group.selectors'
+import { EventApiService } from '../../events/services/event-api.service'
 
 @Injectable()
 export class GroupEffects {
@@ -27,6 +28,7 @@ export class GroupEffects {
     private actions$: Actions,
     private store: Store,
     private groupApiService: GroupApiService,
+    private eventApiService: EventApiService,
     private dialog: DialogService,
     private router: Router,
     private toast: ToastService
@@ -57,8 +59,11 @@ export class GroupEffects {
     return this.actions$.pipe(
       ofType(GroupActions.FetchOneGroupActions.fetchOneGroup),
       exhaustMap(({ groupId }) =>
-        forkJoin(this.groupApiService.getGroupById(groupId), this.groupApiService.getEventCountByGroupId(groupId)).pipe(
-          map(([group, count]) => GroupActions.FetchOneGroupActions.fetchOneGroupSuccess({ group, count })),
+        forkJoin([
+          this.eventApiService.getEventCountByGroupId(groupId),
+          this.groupApiService.getGroupById(groupId)
+        ]).pipe(
+          map(([count, group]) => GroupActions.FetchOneGroupActions.fetchOneGroupSuccess({ group, count })),
           catchError((error) => of(GroupActions.FetchOneGroupActions.fetchOneGroupError({ error })))
         )
       )
