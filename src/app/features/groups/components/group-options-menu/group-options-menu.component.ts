@@ -1,7 +1,6 @@
 import { Component, Input, ViewChild } from '@angular/core'
 import { MatMenu } from '@angular/material/menu'
 import { Store } from '@ngrx/store'
-import { DialogService } from 'src/app/shared/dialog/dialog.service'
 import { Group } from '../../interfaces/group'
 import { RemoveGroupMemberActions } from '../../store/group.actions'
 import { selectCurrentUserId } from 'src/app/features/users/store/user/user.selectors'
@@ -18,13 +17,13 @@ export class GroupOptionsMenuComponent {
 
   userId$ = this.store.select(selectCurrentUserId)
 
-  constructor(private store: Store, private dialog: DialogService) {}
+  constructor(private store: Store) {}
 
   copyInviteLink(): void {
     navigator.clipboard.writeText(`${location.origin}/groups/join?inviteCode=${this.group.inviteCode}`)
   }
 
   leaveGroup(userId: string): void {
-    this.store.dispatch(RemoveGroupMemberActions.removeGroupMember({ userId }))
+    this.store.dispatch(RemoveGroupMemberActions.openRemoveGroupMemberDialog({ userId }))
   }
 }

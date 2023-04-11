@@ -23,7 +23,7 @@ export class GroupOrganizerOptionsMenuComponent {
   }
 
   deleteGroup(): void {
-    this.store.dispatch(DeleteGroupActions.deleteGroup({ groupId: this.group.id }))
+    this.store.dispatch(DeleteGroupActions.openDeleteGroupDialog({ groupId: this.group.id }))
   }
 
   changeGroupPicture(): void {

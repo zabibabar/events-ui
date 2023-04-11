@@ -31,7 +31,7 @@ export class GroupApiService {
   }
 
   deleteGroup(groupId: string): Observable<void> {
-    return this.httpClient.delete<void>(`groups/${groupId}`)
+    return this.httpClient.delete<void>(`groups/${groupId}`, { body: { currentDate: new Date() } })
   }
 
   uploadGroupPicture(groupId: string, image: File): Observable<string> {

@@ -48,6 +48,7 @@ export const UpdateGroupActions = createActionGroup({
 export const DeleteGroupActions = createActionGroup({
   source: 'Groups',
   events: {
+    'Open Delete Group Dialog': props<{ groupId: string }>(),
     'Delete Group': props<{ groupId: string }>(),
     'Delete Group Error': props<{ error: string }>(),
     'Delete Group Success': props<{ groupId: string }>()
@@ -84,7 +85,8 @@ export const AddGroupMemberActions = createActionGroup({
 export const RemoveGroupMemberActions = createActionGroup({
   source: 'Group Members',
   events: {
-    'Remove Group Member': props<{ userId: string }>(),
+    'Open Remove Group Member Dialog': props<{ userId: string }>(),
+    'Remove Group Member': props<{ groupId: string; userId: string }>(),
     'Remove Group Member Error': props<{ error: string }>(),
     'Remove Group Member Success': props<{ groupId: string; members: Member[] }>()
   }

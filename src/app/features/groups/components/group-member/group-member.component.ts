@@ -17,7 +17,7 @@ export class GroupMemberComponent {
   constructor(private store: Store) {}
 
   removeGroupMember(): void {
-    this.store.dispatch(RemoveGroupMemberActions.removeGroupMember({ userId: this.groupMember.id }))
+    this.store.dispatch(RemoveGroupMemberActions.openRemoveGroupMemberDialog({ userId: this.groupMember.id }))
   }
 
   updateGroupMember(memberId: string, isOrganizer: boolean): void {

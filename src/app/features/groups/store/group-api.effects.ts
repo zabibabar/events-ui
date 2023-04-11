@@ -1,35 +1,24 @@
 import { Injectable } from '@angular/core'
-import { MatDialogRef } from '@angular/material/dialog'
 import { Router } from '@angular/router'
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects'
 import { routerNavigatedAction } from '@ngrx/router-store'
 import { Store } from '@ngrx/store'
 import { forkJoin, of } from 'rxjs'
-import { map, exhaustMap, catchError, tap, mergeMap, filter, switchMap } from 'rxjs/operators'
+import { map, exhaustMap, catchError, tap, mergeMap, filter } from 'rxjs/operators'
 import { selectQueryParam, selectRouteParams } from 'src/app/core/store/router.selectors'
-import { DialogType } from 'src/app/shared/dialog/dialog-type.enum'
-import { DialogService } from 'src/app/shared/dialog/dialog.service'
 import { ToastService } from 'src/app/shared/toast'
-import { UploadImageComponent } from 'src/app/shared/upload-image/upload-image'
-import { GroupUpsertFormComponent } from '../components/group-upsert-form/group-upsert-form.component'
-import { GroupCreateDto } from '../dtos/group-create-dto'
-import { GroupUpsertDialogData } from '../interfaces/group-upsert-dialog-data'
 import { GroupApiService } from '../services/group-api.service'
 import * as GroupActions from './group.actions'
-import { selectCurrentGroup, selectGroupById } from './group.selectors'
+import { selectCurrentGroup } from './group.selectors'
 import { EventApiService } from '../../events/services/event-api.service'
 
 @Injectable()
-export class GroupEffects {
-  private groupUpsertFormDialogRef: MatDialogRef<GroupUpsertFormComponent>
-  private groupImageUploadDialogRef: MatDialogRef<UploadImageComponent>
-
+export class GroupApiEffects {
   constructor(
     private actions$: Actions,
     private store: Store,
     private groupApiService: GroupApiService,
     private eventApiService: EventApiService,
-    private dialog: DialogService,
     private router: Router,
     private toast: ToastService
   ) {}
@@ -123,18 +112,7 @@ export class GroupEffects {
   deleteGroup$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(GroupActions.DeleteGroupActions.deleteGroup),
-      switchMap((action) => {
-        const groupDeleteDialogRef = this.dialog.openConfirmationDialog({
-          type: 'error',
-          title: 'You are about to delete a group?',
-          message: 'You will not be able to create new events or add new members to this group',
-          primaryCTA: 'Delete Group'
-        })
-
-        return forkJoin([of(action), groupDeleteDialogRef.afterClosed()])
-      }),
-      filter(([, isConfirmed]) => !!isConfirmed),
-      mergeMap(([{ groupId }]) =>
+      mergeMap(({ groupId }) =>
         this.groupApiService.deleteGroup(groupId).pipe(
           map(() => GroupActions.DeleteGroupActions.deleteGroupSuccess({ groupId })),
           tap(() => this.toast.success('Group Deleted Successfully!')),
@@ -149,72 +127,6 @@ export class GroupEffects {
     )
   })
 
-  openGroupCreateFormDialog$ = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(GroupActions.CreateGroupActions.openCreateGroupDialog),
-        tap(
-          () =>
-            (this.groupUpsertFormDialogRef = this.dialog.openForm<GroupUpsertFormComponent, GroupUpsertDialogData>(
-              GroupUpsertFormComponent,
-              {
-                type: DialogType.FORM,
-                data: {
-                  title: 'Create New Group',
-                  submitText: 'Create',
-                  onSubmit: (group) =>
-                    // eslint-disable-next-line @ngrx/no-dispatch-in-effects
-                    this.store.dispatch(GroupActions.CreateGroupActions.createGroup({ group: group as GroupCreateDto }))
-                }
-              }
-            ))
-        )
-      )
-    },
-    { dispatch: false }
-  )
-
-  openGroupUpdateFormDialog$ = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(GroupActions.UpdateGroupActions.openUpdateGroupDialog),
-        concatLatestFrom(({ groupId }) => this.store.select(selectGroupById({ groupId }))),
-        tap(
-          ([{ groupId }, group]) =>
-            (this.groupUpsertFormDialogRef = this.dialog.openForm<GroupUpsertFormComponent, GroupUpsertDialogData>(
-              GroupUpsertFormComponent,
-              {
-                type: DialogType.FORM,
-                data: {
-                  group,
-                  title: 'Edit Group',
-                  submitText: 'Save Changes',
-                  onSubmit: (group) =>
-                    // eslint-disable-next-line @ngrx/no-dispatch-in-effects
-                    this.store.dispatch(GroupActions.UpdateGroupActions.updateGroup({ groupId, group }))
-                }
-              }
-            ))
-        )
-      )
-    },
-    { dispatch: false }
-  )
-
-  closeGroupUpsertFormDialog$ = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(
-          GroupActions.CloseUpsertGroupFormDialog,
-          GroupActions.CreateGroupActions.createGroupSuccess,
-          GroupActions.UpdateGroupActions.updateGroupSuccess
-        ),
-        tap(() => this.groupUpsertFormDialogRef.close())
-      )
-    },
-    { dispatch: false }
-  )
-
   uploadGroupPicture$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(GroupActions.UploadGroupPictureActions.uploadGroupPicture),
@@ -227,26 +139,6 @@ export class GroupEffects {
       )
     )
   })
-
-  openUploadGroupPictureDialog$ = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(GroupActions.UploadGroupPictureActions.openUploadGroupPictureDialog),
-        tap((action) => (this.groupImageUploadDialogRef = this.dialog.openUploadImage(action.data)))
-      )
-    },
-    { dispatch: false }
-  )
-
-  closeUploadGroupPictureDialog$ = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(GroupActions.UploadGroupPictureActions.uploadGroupPictureSuccess),
-        tap(() => this.groupImageUploadDialogRef.close())
-      )
-    },
-    { dispatch: false }
-  )
 
   addGroupMember$ = createEffect(() => {
     return this.actions$.pipe(
@@ -283,20 +175,6 @@ export class GroupEffects {
   removeGroupMember$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(GroupActions.RemoveGroupMemberActions.removeGroupMember),
-      concatLatestFrom(() => this.store.select(selectCurrentGroup)),
-      filter(([, group]) => !!group),
-      switchMap(([action, group]) => {
-        const groupDeleteDialogRef = this.dialog.openConfirmationDialog({
-          type: 'error',
-          title: `You are about to leave ${group?.name}?`,
-          message: 'You will not be able to view events in this group anymore!',
-          primaryCTA: 'Leave Group'
-        })
-
-        return forkJoin([of(action), of(group), groupDeleteDialogRef.afterClosed()])
-      }),
-      filter(([, , isConfirmed]) => !!isConfirmed),
-      map(([{ userId }, group]) => ({ userId, groupId: group?.id as string })),
       mergeMap(({ userId, groupId }) =>
         this.groupApiService.removeGroupMember(groupId, userId).pipe(
           map((members) => GroupActions.RemoveGroupMemberActions.removeGroupMemberSuccess({ groupId, members })),

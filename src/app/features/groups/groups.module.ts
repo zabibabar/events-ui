@@ -5,7 +5,7 @@ import { GroupComponent } from './components/group/group.component'
 import { HttpClientModule } from '@angular/common/http'
 import { StoreModule } from '@ngrx/store'
 import { EffectsModule } from '@ngrx/effects'
-import { GroupEffects } from './store/group.effects'
+import { GroupApiEffects } from './store/group-api.effects'
 import { groupFeatureSelector, groupReducer } from './store/group.reducer'
 import { CommonModule } from '@angular/common'
 import { GroupCreateButtonComponent } from './components/group-create-button/group-create-button.component'
@@ -36,6 +36,7 @@ import { GroupMemberGridComponent } from './components/group-member-grid/group-m
 import { SectionModule } from 'src/app/shared/section/section.module'
 import { GroupOrganizerOptionsMenuComponent } from './components/group-organizer-options-menu/group-organizer-options-menu.component'
 import { LoadingSpinnerModule } from 'src/app/shared/loading-spinner/loading-spinner.module'
+import { GroupUiEffects } from './store/group-ui.effects'
 
 @NgModule({
   imports: [
@@ -63,7 +64,7 @@ import { LoadingSpinnerModule } from 'src/app/shared/loading-spinner/loading-spi
     SectionModule,
     LoadingSpinnerModule,
     StoreModule.forFeature(groupFeatureSelector, groupReducer),
-    EffectsModule.forFeature([GroupEffects])
+    EffectsModule.forFeature([GroupApiEffects, GroupUiEffects])
   ],
   providers: [],
   declarations: [
