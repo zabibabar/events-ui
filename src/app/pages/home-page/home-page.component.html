@@ -7,11 +7,11 @@
     <app-group-list></app-group-list>
   </app-section>
 
-  <app-section class="home-page__section" *ngIf="events$ | async as events">
+  <app-section class="home-page__section">
     <app-section-header>
       <h1>Upcoming Events</h1>
       <a routerLink="/events">See all</a>
     </app-section-header>
-    <app-event-list [events]="events"></app-event-list>
+    <app-event-list [events]="(events$ | async)!"></app-event-list>
   </app-section>
 </app-page-container>

@@ -290,7 +290,7 @@ export class GroupEffects {
           type: 'error',
           title: `You are about to leave ${group?.name}?`,
           message: 'You will not be able to view events in this group anymore!',
-          primaryCTA: 'Delete Group'
+          primaryCTA: 'Leave Group'
         })
 
         return forkJoin([of(action), of(group), groupDeleteDialogRef.afterClosed()])
@@ -301,7 +301,7 @@ export class GroupEffects {
         this.groupApiService.removeGroupMember(groupId, userId).pipe(
           map((members) => GroupActions.RemoveGroupMemberActions.removeGroupMemberSuccess({ groupId, members })),
           tap(() => this.toast.success('Left Group Successfully!')),
-          tap(() => this.router.navigate(['groups'])),
+          tap(() => this.router.navigate(['groups']).then(() => window.location.reload())),
           catchError((error) => of(GroupActions.RemoveGroupMemberActions.removeGroupMemberError({ error })))
         )
       )

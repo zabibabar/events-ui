@@ -9,7 +9,7 @@ import { FetchAllGroupsActions } from 'src/app/features/groups/store/group.actio
   styleUrls: ['./home-page.component.scss']
 })
 export class HomePageComponent {
-  events$ = this.store.select(selectUpcomingEventsByCurrentUser({ limit: 4 }))
+  events$ = this.store.select(selectUpcomingEventsByCurrentUser({ limit: 4, isAttending: false }))
 
   constructor(private store: Store) {
     // eslint-disable-next-line @ngrx/avoid-dispatching-multiple-actions-sequentially

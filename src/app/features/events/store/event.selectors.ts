@@ -83,14 +83,14 @@ export const selectPastEventsByCurrentGroup = (props: { limit: number }) =>
       .slice(0, props.limit)
   })
 
-export const selectUpcomingEventsByCurrentUser = (props: { limit: number }) =>
+export const selectUpcomingEventsByCurrentUser = (props: { limit: number; isAttending: boolean }) =>
   createSelector(selectCurrentUserId, selectAllEvents, (userId, events) => {
     const currentDate = new Date().getTime()
-    return events
-      .filter(
-        ({ attendees, timeEnd }) =>
-          new Date(timeEnd).getTime() > currentDate && attendees.some(({ id }) => id === userId)
-      )
+    let upcomingEvents = events.filter(({ timeEnd }) => new Date(timeEnd).getTime() > currentDate)
+    if (props.isAttending) upcomingEvents = events.filter(({ attendees }) => attendees.some(({ id }) => id === userId))
+
+    return upcomingEvents
+      .filter(({ timeEnd }) => new Date(timeEnd).getTime() > currentDate)
       .sort((a: Event, b: Event) => new Date(a.timeStart).getTime() - new Date(b.timeStart).getTime())
       .slice(0, props.limit)
   })
