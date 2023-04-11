@@ -5,9 +5,10 @@ import { MatDialogModule } from '@angular/material/dialog'
 import { MatDividerModule } from '@angular/material/divider'
 import { MatIconModule } from '@angular/material/icon'
 import { DialogConfirmationComponent } from './dialog-confirmation'
+import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module'
 
 @NgModule({
   declarations: [DialogConfirmationComponent],
-  imports: [MatDialogModule, CommonModule, MatDividerModule, MatButtonModule, MatIconModule]
+  imports: [MatDialogModule, CommonModule, MatDividerModule, MatButtonModule, MatIconModule, LoadingSpinnerModule]
 })
 export class DialogConfirmationModule {}
