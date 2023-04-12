@@ -10,7 +10,7 @@
 @include components.theme(light-theme.$theme, type.$typography, light-theme.$variants);
 
 .dark-theme {
-  @include mat.all-component-themes(dark-theme.$theme);
+  @include mat.all-component-colors(dark-theme.$theme);
   @include components.theme(dark-theme.$theme, type.$typography, dark-theme.$variants);
   a {
     color: mat.get-color-from-palette(dark-theme.$accent);
