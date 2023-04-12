@@ -32,7 +32,7 @@ export class GroupUpsertFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.groupCreateForm = this.fb.nonNullable.group({
-      name: ['', Validators.required],
+      name: ['', [Validators.required, Validators.maxLength(35)]],
       description: ['']
     })
 

@@ -41,7 +41,7 @@ export class EventUpsertFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.eventUpsertForm = this.fb.nonNullable.group({
-      name: ['', Validators.required],
+      name: ['', [Validators.required, Validators.maxLength(35)]],
       description: [''],
       timeStart: [new Date().toString(), Validators.required],
       timeEnd: [new Date().toString(), Validators.required],
