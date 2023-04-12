@@ -2,8 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { Store } from '@ngrx/store'
-import { Observable, take } from 'rxjs'
-import { Group } from 'src/app/features/groups/interfaces/group'
+import { take } from 'rxjs'
 import { selectCurrentGroup } from 'src/app/features/groups/store/group.selectors'
 import { EventCreateDto } from '../../dtos/event-create-dto'
 import { EventUpsertDialogData } from '../../interfaces/event-upsert-dialog-data'
@@ -11,11 +10,11 @@ import { CloseUpsertEventFormDialog } from '../../store/event.actions'
 import { selectIsLoadingEventAction } from '../../store/event.selectors'
 
 type EventUpsertFormType = FormGroup<{
-  name: FormControl<string | null>
-  description: FormControl<string | null>
-  timeStart: FormControl<string | null>
-  timeEnd: FormControl<string | null>
-  address: FormControl<string | null>
+  name: FormControl<string>
+  description: FormControl<string>
+  timeStart: FormControl<string>
+  timeEnd: FormControl<string>
+  address: FormControl<string>
 }>
 
 @Component({
@@ -31,7 +30,7 @@ export class EventUpsertFormComponent implements OnInit {
 
   eventUpsertForm: EventUpsertFormType
 
-  currentGroup$: Observable<Group | undefined> = this.store.select(selectCurrentGroup)
+  currentGroup$ = this.store.select(selectCurrentGroup)
   isSubmitting$ = this.store.select(selectIsLoadingEventAction)
 
   constructor(
@@ -41,7 +40,7 @@ export class EventUpsertFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.eventUpsertForm = this.fb.group({
+    this.eventUpsertForm = this.fb.nonNullable.group({
       name: ['', Validators.required],
       description: [''],
       timeStart: [new Date().toString(), Validators.required],

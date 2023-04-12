@@ -1,14 +1,17 @@
 <dialog-form>
   <dialog-form-title>{{ title }}</dialog-form-title>
 
-  <div dialog-form-body>
-    <form [formGroup]="groupCreateForm">
-      <mat-form-field>
-        <mat-label>Name</mat-label>
-        <input matInput formControlName="name" />
-      </mat-form-field>
-    </form>
-  </div>
+  <form dialog-form-body class="group-upsert-form" [formGroup]="groupCreateForm">
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Description</mat-label>
+      <textarea matInput formControlName="description"></textarea>
+    </mat-form-field>
+  </form>
   <div dialog-form-footer>
     <button mat-button (click)="onCancel()">Cancel</button>
     <button

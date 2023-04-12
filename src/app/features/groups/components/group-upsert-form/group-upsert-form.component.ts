@@ -18,7 +18,8 @@ export class GroupUpsertFormComponent implements OnInit {
   submitText = this.data.submitText
 
   groupCreateForm: FormGroup<{
-    name: FormControl<string | null>
+    name: FormControl<string>
+    description: FormControl<string>
   }>
 
   isSubmitting$ = this.store.select(selectIsLoadingGroupAction)
@@ -30,16 +31,17 @@ export class GroupUpsertFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.groupCreateForm = this.fb.group({
-      name: ['', Validators.required]
+    this.groupCreateForm = this.fb.nonNullable.group({
+      name: ['', Validators.required],
+      description: ['']
     })
 
     if (this.group) this.groupCreateForm?.patchValue(this.group)
   }
 
   submit(): void {
-    const { name } = this.groupCreateForm.value
-    this.onSubmit({ name: name as string })
+    const { name, description } = this.groupCreateForm.getRawValue()
+    this.onSubmit({ name, description })
   }
 
   onCancel(): void {
