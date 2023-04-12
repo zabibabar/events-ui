@@ -22,6 +22,7 @@ import { UserUpdateFormComponent } from './components/user-update-form/user-upda
 import { ReactiveFormsModule } from '@angular/forms'
 import { UserAvatarGroupComponent } from './components/user-avatar-group/user-avatar-group.component'
 import { LoadingSpinnerModule } from 'src/app/shared/loading-spinner/loading-spinner.module'
+import { environment } from 'src/environments/environment'
 
 @NgModule({
   declarations: [UserAvatarGroupComponent, UserDropdownComponent, UserThemeToggleComponent, UserUpdateFormComponent],
@@ -41,10 +42,10 @@ import { LoadingSpinnerModule } from 'src/app/shared/loading-spinner/loading-spi
     StoreModule.forFeature(userFeatureSelector, userReducer),
     EffectsModule.forFeature([UserAuthEffects, UserEffects]),
     AuthModule.forRoot({
-      domain: 'dev-r8n3bvy7.us.auth0.com',
-      clientId: 'yS5sBO76hm6CsDgY9aQcXmxxQKs90Lba',
+      domain: environment.domain,
+      clientId: environment.clientId,
       authorizationParams: {
-        audience: 'https://events-api.demo.com',
+        audience: environment.audience,
         redirect_uri: location.origin,
         scope: 'openid profile email'
       }

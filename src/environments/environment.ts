@@ -3,8 +3,12 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
-};
+  production: false,
+  restApiUrl: `api`,
+  domain: 'dev-r8n3bvy7.us.auth0.com',
+  clientId: 'yS5sBO76hm6CsDgY9aQcXmxxQKs90Lba',
+  audience: 'https://events-api.demo.com'
+}
 
 /*
  * For easier debugging in development mode, you can import the following file

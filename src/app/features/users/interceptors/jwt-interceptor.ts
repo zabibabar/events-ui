@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
 import { map, mergeMap } from 'rxjs/operators'
 import { UserAuthService } from '../services/user-auth.service'
+import { environment } from 'src/environments/environment'
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
@@ -16,7 +17,12 @@ export class JwtInterceptor implements HttpInterceptor {
     if (!this.isSameDomain(request)) return next(request)
 
     return this.userAuthService.getAccessToken().pipe(
-      map((token) => request.clone({ setHeaders: { Authorization: `Bearer ${token}` }, url: `api/${request.url}` })),
+      map((token) =>
+        request.clone({
+          setHeaders: { Authorization: `Bearer ${token}` },
+          url: `${environment.restApiUrl}/${request.url}`
+        })
+      ),
       mergeMap((authorizedRequest) => next(authorizedRequest))
     )
   }
