@@ -1,17 +1,8 @@
 .toolbar {
-  padding: 0px 32px;
-  display: flex;
-  align-items: center;
-  grid-gap: 16px;
-
   &__appName {
     &__logo {
       height: 48px;
       margin-right: 8px;
     }
-  }
-
-  &__nav-list__item {
-    margin-right: 8px;
   }
 }
