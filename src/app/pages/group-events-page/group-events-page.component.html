@@ -1,14 +1,21 @@
-<ng-container *ngIf="group$ | async as group">
+<div
+  class="group-events-page"
+  *ngIf="group$ | async as group"
+  [ngClass]="{ 'group-events-page--mobile': isMobile$ | async, 'group-events-page--desktop': !(isMobile$ | async)! }"
+>
   <div class="group-events-page__side">
     <card>
       <mat-nav-list>
-        <a mat-list-item [activated]="!isPastPage" [routerLink]="['/groups', group.id, 'events']"> Upcoming </a>
-        <a mat-list-item [activated]="isPastPage" [routerLink]="['/groups', group.id, 'events', 'past']"> Past </a>
+        <a mat-list-item [activated]="!isPastPage" [routerLink]="['/groups', group.id, 'events']">
+          Upcoming ({{ upcomingEventCount$ | async }})</a
+        >
+        <a mat-list-item [activated]="isPastPage" [routerLink]="['/groups', group.id, 'events', 'past']">
+          Past ({{ pastEventCount$ | async }})
+        </a>
       </mat-nav-list>
     </card>
   </div>
-</ng-container>
-
-<ng-container *ngIf="events$ | async as events">
-  <app-event-list class="group-events-page__main" [events]="events"></app-event-list>
-</ng-container>
+  <div class="group-events-page__main" *ngIf="events$ | async as events">
+    <app-event-list [events]="events"></app-event-list>
+  </div>
+</div>
