@@ -7,16 +7,15 @@
     <div class="event__body__header">
       <div class="event__body__header__time mat-body-1">{{ event.timeStart | date: 'E, LLL d, h:mm a' }}</div>
       <div class="mat-headline-6">{{ event.name }}</div>
-    </div>
-
-    <div class="event__body__details">
-      <p>{{ event.description }}</p>
+      <div class="event__body__header__address">
+        <mat-icon>location_on</mat-icon>
+        <span> {{ event.address }}</span>
+      </div>
     </div>
 
     <div class="event__body__footer">
       <ng-container *ngIf="attendees$ | async as attendees">
-        <app-user-avatar-group [users]="attendees" [max]="3"></app-user-avatar-group>
-        <div>{{ attendees.length }} going</div>
+        <app-user-avatar-group [users]="attendees" [max]="4"></app-user-avatar-group>
       </ng-container>
       <div class="flex-spacer"></div>
       <div *ngIf="currentUserAsAttendee$ | async as userAttendee">
@@ -38,7 +37,6 @@
           <span> Going</span>
         </div>
       </div>
-      <!-- <app-event-going-button [event]="event"></app-event-going-button> -->
     </div>
   </div>
 </div>

@@ -22,6 +22,10 @@
         &__time {
           color: mat.get-color-from-palette($primary-palette, 'default');
         }
+
+        &__address {
+          color: mat.get-color-from-palette($foreground-palette, secondary-text);
+        }
       }
 
       &__details {
