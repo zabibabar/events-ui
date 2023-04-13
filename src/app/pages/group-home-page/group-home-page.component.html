@@ -1,7 +1,10 @@
-<ng-container *ngIf="currentGroup$ | async as group">
+<div
+  class="group-home-page"
+  [ngClass]="{ 'group-home-page--desktop': isDesktop$ | async, 'group-home-page--tablet': !(isDesktop$ | async)! }"
+  *ngIf="currentGroup$ | async as group"
+>
   <div class="group-home-page__main">
     <app-group-description></app-group-description>
-
     <app-section class="group-home-page__section">
       <app-section-header>
         <div class="mat-headline-6">Upcoming Events ({{ upcomingEventCount$ | async }})</div>
@@ -18,13 +21,13 @@
       <app-event-list [events]="(pastEvents$ | async)!"></app-event-list>
     </app-section>
   </div>
-  <div class="group-home-page__side">
+  <div class="group-home-page__side" *ngIf="isDesktop$ | async">
     <app-section class="group-home-page__section">
       <app-section-header>
         <div class="mat-headline-6">Organizers ({{ group.organizersCount }})</div>
         <a routerLink="../members">See all</a>
       </app-section-header>
-      <app-group-member-grid [groupMembers]="(groupOrganizers$ | async)!"></app-group-member-grid>
+      <app-group-member-grid [groupMembers]="(groupOrganizers$ | async)!" [max]="3"></app-group-member-grid>
     </app-section>
 
     <app-section class="group-home-page__section">
@@ -32,7 +35,7 @@
         <div class="mat-headline-6">Members ({{ group.membersCount }})</div>
         <a routerLink="../members">See all</a>
       </app-section-header>
-      <app-group-member-grid [groupMembers]="(groupMembers$ | async)!"></app-group-member-grid>
+      <app-group-member-grid [groupMembers]="(groupMembers$ | async)!" [max]="6"></app-group-member-grid>
     </app-section>
   </div>
-</ng-container>
+</div>

@@ -1,6 +1,7 @@
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout'
 import { Component } from '@angular/core'
 import { Store } from '@ngrx/store'
-import { Observable } from 'rxjs'
+import { Observable, map } from 'rxjs'
 import { Event } from 'src/app/features/events/interfaces/event'
 import {
   selectPastEventsByCurrentGroup,
@@ -24,11 +25,16 @@ import {
 export class GroupHomePageComponent {
   currentGroup$: Observable<Group | undefined> = this.store.select(selectCurrentGroup)
   pastEvents$: Observable<Event[]> = this.store.select(selectPastEventsByCurrentGroup({ limit: 1 }))
-  upcomingEvents$: Observable<Event[]> = this.store.select(selectUpcomingEventsByCurrentGroup({ limit: 4 }))
+  upcomingEvents$: Observable<Event[]> = this.store.select(selectUpcomingEventsByCurrentGroup({ limit: 3 }))
   groupMembers$: Observable<Member[]> = this.store.select(selectMembersForCurrentGroup)
   groupOrganizers$: Observable<Member[]> = this.store.select(selectOrganizersForCurrentGroup)
   upcomingEventCount$: Observable<number | undefined> = this.store.select(selectUpcomingEventCountForCurrentGroup)
   pastEventCount$: Observable<number | undefined> = this.store.select(selectPastEventCountForCurrentGroup)
+  isDesktop$: Observable<boolean>
 
-  constructor(private store: Store) {}
+  constructor(private store: Store, breakpoint: BreakpointObserver) {
+    this.isDesktop$ = breakpoint
+      .observe([Breakpoints.Medium, Breakpoints.Large, Breakpoints.XLarge])
+      .pipe(map(({ matches }) => matches))
+  }
 }

@@ -8,10 +8,19 @@ import { GroupHomePageGuard } from './group-home-page.guard'
 import { EventsModule } from 'src/app/features/events/events.module'
 import { MatButtonModule } from '@angular/material/button'
 import { SectionModule } from 'src/app/shared/section/section.module'
+import { LayoutModule } from '@angular/cdk/layout'
 
 @NgModule({
   declarations: [GroupHomePageComponent],
-  imports: [GroupsModule, EventsModule, MatButtonModule, CommonModule, SectionModule, GroupHomePageRoutingModule],
+  imports: [
+    GroupsModule,
+    EventsModule,
+    MatButtonModule,
+    CommonModule,
+    SectionModule,
+    GroupHomePageRoutingModule,
+    LayoutModule
+  ],
   providers: [GroupHomePageGuard]
 })
 export class GroupHomePageModule {}
