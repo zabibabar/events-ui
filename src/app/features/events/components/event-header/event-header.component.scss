@@ -2,9 +2,9 @@
   display: flex;
 }
 
-.event-header__main {
-  min-width: 440px;
+.event-header .event-header__main {
   max-width: 100%;
+
   flex-grow: 1;
 
   &__picture {
@@ -14,27 +14,24 @@
   }
 
   &__details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
     padding: 24px 0px 16px 0px;
 
     &__name {
-      margin-bottom: 16px;
+      margin-bottom: 8px;
     }
 
     &__description {
       flex-basis: 100%;
     }
   }
-
-  // &__tabs {
-  // position: -webkit-sticky;
-  // position: sticky;
-  // top: 16px;
-  // }
 }
 
-.event-header__side {
+.event-header .event-header__side {
   margin-left: 72px;
-  min-width: 320px;
+  min-width: 288px;
   max-width: 360px;
   position: -webkit-sticky;
   position: sticky;

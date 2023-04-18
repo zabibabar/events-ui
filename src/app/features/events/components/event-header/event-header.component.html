@@ -1,4 +1,8 @@
-<div class="event-header" *ngIf="event$ | async as event">
+<div
+  class="event-header"
+  [ngClass]="{ 'event-header--desktop': isDesktop$ | async, 'event-header--mobile': !(isDesktop$ | async)! }"
+  *ngIf="event$ | async as event"
+>
   <div class="event-header__main">
     <img class="event-header__main__picture" [src]="event.picture" />
     <div class="event-header__main__details">
@@ -10,6 +14,17 @@
         [users]="(goingAttendees$ | async)!"
       ></app-user-avatar-group>
       <ng-template #noAttendees>No Attendees</ng-template>
+
+      <ng-container *ngIf="!(isDesktop$ | async)!">
+        <app-event-going-button [event]="event"></app-event-going-button>
+        <button mat-flat-button [matMenuTriggerFor]="menu.menu" *ngIf="isCurrentGroupMemberOrganizer$ | async">
+          <mat-icon> expand_more </mat-icon> Edit Event
+        </button>
+        <app-event-organizer-card></app-event-organizer-card>
+        <app-event-group-card></app-event-group-card>
+        <app-event-time-location [event]="event"></app-event-time-location>
+        <app-event-options-menu #menu="eventOptionsMenu" [event]="event"></app-event-options-menu>
+      </ng-container>
     </div>
 
     <div class="event-header__main__tabs">
@@ -32,7 +47,7 @@
       <ng-content></ng-content>
     </mat-tab-nav-panel>
   </div>
-  <div class="event-header__side">
+  <div class="event-header__side" *ngIf="isDesktop$ | async">
     <app-event-going-button [event]="event"></app-event-going-button>
     <button mat-flat-button [matMenuTriggerFor]="menu.menu" *ngIf="isCurrentGroupMemberOrganizer$ | async">
       <mat-icon> expand_more </mat-icon> Edit Event
@@ -40,6 +55,6 @@
     <app-event-organizer-card></app-event-organizer-card>
     <app-event-group-card></app-event-group-card>
     <app-event-time-location [event]="event"></app-event-time-location>
+    <app-event-options-menu #menu="eventOptionsMenu" [event]="event"></app-event-options-menu>
   </div>
-  <app-event-options-menu #menu="eventOptionsMenu" [event]="event"></app-event-options-menu>
 </div>

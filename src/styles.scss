@@ -29,6 +29,7 @@ body {
 
 a {
   color: mat.get-color-from-palette(light-theme.$accent);
+  text-decoration: none;
 }
 
 .flex-spacer {

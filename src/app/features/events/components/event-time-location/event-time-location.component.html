@@ -1,10 +1,14 @@
 <card>
   <div class="event-time-location">
     <div class="event-time-location__row">
+      <mat-icon class="event-time-location__row__icon">event</mat-icon>
+      <span class="event-time-location__row__value"> {{ event.timeStart | date: 'EEEE, MMMM d, y' }} </span>
+    </div>
+
+    <div class="event-time-location__row">
       <mat-icon class="event-time-location__row__icon">schedule</mat-icon>
       <span class="event-time-location__row__value">
-        {{ event.timeStart | date: 'EEEE, MMMM d, y' }} at {{ event.timeStart | date: 'h:mm a' }} to
-        {{ event.timeEnd | date: 'EEEE, MMMM d, y' }} at {{ event.timeEnd | date: 'h:mm a z' }}
+        {{ event.timeStart | date: 'h:mm a' }} - {{ event.timeEnd | date: 'h:mm a z' }}
       </span>
     </div>
 

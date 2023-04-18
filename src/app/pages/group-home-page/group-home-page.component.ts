@@ -30,11 +30,9 @@ export class GroupHomePageComponent {
   groupOrganizers$: Observable<Member[]> = this.store.select(selectOrganizersForCurrentGroup)
   upcomingEventCount$: Observable<number | undefined> = this.store.select(selectUpcomingEventCountForCurrentGroup)
   pastEventCount$: Observable<number | undefined> = this.store.select(selectPastEventCountForCurrentGroup)
-  isDesktop$: Observable<boolean>
+  isDesktop$ = this.breakpoints
+    .observe([Breakpoints.Medium, Breakpoints.Large, Breakpoints.XLarge])
+    .pipe(map(({ matches }) => matches))
 
-  constructor(private store: Store, breakpoint: BreakpointObserver) {
-    this.isDesktop$ = breakpoint
-      .observe([Breakpoints.Medium, Breakpoints.Large, Breakpoints.XLarge])
-      .pipe(map(({ matches }) => matches))
-  }
+  constructor(private store: Store, private breakpoints: BreakpointObserver) {}
 }
