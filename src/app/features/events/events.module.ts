@@ -8,7 +8,6 @@ import { EffectsModule } from '@ngrx/effects'
 import { EventApiEffects } from './store/event-api.effects'
 import { eventFeatureSelector, eventReducer } from './store/event.reducer'
 import { CommonModule } from '@angular/common'
-import { EventCreateButtonComponent } from './components/event-create-button/event-create-button.component'
 import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon'
 import { EventHeaderComponent } from './components/event-header/event-header.component'
@@ -76,7 +75,6 @@ import { EventUiEffects } from './store/event-ui.effects'
   declarations: [
     EventListComponent,
     EventComponent,
-    EventCreateButtonComponent,
     EventHeaderComponent,
     EventOptionsMenuComponent,
     EventUpsertFormComponent,
@@ -92,7 +90,6 @@ import { EventUiEffects } from './store/event-ui.effects'
   exports: [
     EventListComponent,
     EventHeaderComponent,
-    EventCreateButtonComponent,
     EventHeaderComponent,
     EventDescriptionComponent,
     EventAttendeeGridComponent,

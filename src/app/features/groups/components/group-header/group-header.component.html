@@ -1,28 +1,36 @@
 <app-page-container class="group-header" *ngIf="group$ | async as group">
   <img class="group-header__picture" [src]="group.picture" />
-  <div class="group-header__details">
+  <div
+    class="group-header__details"
+    [ngClass]="{
+      'group-header__details--mobile': isMobile$ | async,
+      'group-header__details--desktop': !(isMobile$ | async)!
+    }"
+  >
     <div class="group-header__details__name mat-headline-2">{{ group.name }}</div>
+    <app-user-avatar-group
+      class="group-header__details__members"
+      [users]="duplicateMembers(group.members)"
+      [max]="5"
+      routerLink="members"
+    ></app-user-avatar-group>
     <div class="flex-spacer"></div>
-    <div class="flex-spacer"></div>
-    <app-event-create-button *ngIf="isCurrentGroupMemberOrganizer$ | async"></app-event-create-button>
+    <button *ngIf="isCurrentGroupMemberOrganizer$ | async" mat-flat-button color="primary" (click)="createEvent()">
+      <mat-icon> add </mat-icon>
+      Create Event
+    </button>
     <button mat-button [matMenuTriggerFor]="OrganizerMenu.menu" *ngIf="isCurrentGroupMemberOrganizer$ | async">
       <mat-icon> edit </mat-icon> Organizer Options
     </button>
-    <app-group-organizer-options-menu
-      #OrganizerMenu="groupOrganizerOptionsMenu"
-      [group]="group"
-    ></app-group-organizer-options-menu>
-
     <button mat-icon-button [matMenuTriggerFor]="menu.menu">
       <mat-icon> more_vert </mat-icon>
     </button>
-    <app-group-options-menu #menu="groupOptionsMenu" [group]="group"></app-group-options-menu>
-    <app-user-avatar-group
-      class="group-header__details__members"
-      [users]="group.members"
-      routerLink="members"
-    ></app-user-avatar-group>
   </div>
+  <app-group-organizer-options-menu
+    #OrganizerMenu="groupOrganizerOptionsMenu"
+    [group]="group"
+  ></app-group-organizer-options-menu>
+  <app-group-options-menu #menu="groupOptionsMenu" [group]="group"></app-group-options-menu>
 
   <nav class="group-header__tabs" mat-tab-nav-bar [tabPanel]="tabPanel" mat-stretch-tabs="false" mat-align-tabs="start">
     <a

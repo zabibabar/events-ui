@@ -26,9 +26,7 @@ export class GroupEventsPageComponent {
   )
   upcomingEventCount$: Observable<number | undefined> = this.store.select(selectUpcomingEventCountForCurrentGroup)
   pastEventCount$: Observable<number | undefined> = this.store.select(selectPastEventCountForCurrentGroup)
-  isMobile$: Observable<boolean>
+  isMobile$ = this.breakpoints.observe(Breakpoints.XSmall).pipe(map(({ matches }) => matches))
 
-  constructor(private store: Store, private route: ActivatedRoute, breakpoints: BreakpointObserver) {
-    this.isMobile$ = breakpoints.observe(Breakpoints.XSmall).pipe(map(({ matches }) => matches))
-  }
+  constructor(private store: Store, private route: ActivatedRoute, private breakpoints: BreakpointObserver) {}
 }

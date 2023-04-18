@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { Store } from '@ngrx/store'
-import { Observable, map } from 'rxjs'
+import { Observable } from 'rxjs'
 import { Attendee } from '../../interfaces/attendee'
 import { Event } from '../../interfaces/event'
 import { selectCurrentUserAsEventAttendee, selectGoingAttendeesForEvent } from '../../store/event.selectors'
@@ -20,8 +20,6 @@ export class EventComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUserAsAttendee$ = this.store.select(selectCurrentUserAsEventAttendee({ eventId: this.event.id }))
-    this.attendees$ = this.store
-      .select(selectGoingAttendeesForEvent({ eventId: this.event.id }))
-      .pipe(map((a) => Array.from({ length: 10 }, () => a[0])))
+    this.attendees$ = this.store.select(selectGoingAttendeesForEvent({ eventId: this.event.id }))
   }
 }
