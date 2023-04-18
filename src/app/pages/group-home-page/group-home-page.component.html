@@ -10,7 +10,9 @@
         <div class="mat-headline-6">Upcoming Events ({{ upcomingEventCount$ | async }})</div>
         <a routerLink="../events">See all</a>
       </app-section-header>
-      <app-event-list [events]="(upcomingEvents$ | async)!"></app-event-list>
+      <app-event-list [events]="(upcomingEvents$ | async)!">
+        <div class="event-list--empty">No Upcoming events</div>
+      </app-event-list>
     </app-section>
 
     <app-section class="group-home-page__section">
@@ -18,7 +20,9 @@
         <div class="mat-headline-6">Past Events ({{ pastEventCount$ | async }})</div>
         <a routerLink="../events/past">See all</a>
       </app-section-header>
-      <app-event-list [events]="(pastEvents$ | async)!"></app-event-list>
+      <app-event-list [events]="(pastEvents$ | async)!">
+        <div class="event-list--empty">No Past events</div>
+      </app-event-list>
     </app-section>
   </div>
   <div class="group-home-page__side" *ngIf="isDesktop$ | async">

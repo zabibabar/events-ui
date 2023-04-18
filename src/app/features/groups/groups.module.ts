@@ -8,7 +8,6 @@ import { EffectsModule } from '@ngrx/effects'
 import { GroupApiEffects } from './store/group-api.effects'
 import { groupFeatureSelector, groupReducer } from './store/group.reducer'
 import { CommonModule } from '@angular/common'
-import { GroupCreateButtonComponent } from './components/group-create-button/group-create-button.component'
 import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon'
 import { GroupHeaderComponent } from './components/group-header/group-header.component'
@@ -70,7 +69,6 @@ import { GroupUiEffects } from './store/group-ui.effects'
   declarations: [
     GroupListComponent,
     GroupComponent,
-    GroupCreateButtonComponent,
     GroupHeaderComponent,
     GroupOptionsMenuComponent,
     GroupUpsertFormComponent,
@@ -83,7 +81,6 @@ import { GroupUiEffects } from './store/group-ui.effects'
   exports: [
     GroupListComponent,
     GroupHeaderComponent,
-    GroupCreateButtonComponent,
     GroupMemberListComponent,
     GroupDescriptionComponent,
     GroupMemberGridComponent

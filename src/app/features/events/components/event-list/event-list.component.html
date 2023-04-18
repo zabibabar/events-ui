@@ -1,3 +1,4 @@
 <div class="event-list">
   <app-event *ngFor="let event of events; trackBy: eventTrackBy" [event]="event"></app-event>
+  <ng-container *ngIf="events.length === 0"><ng-content select=".event-list--empty"></ng-content></ng-container>
 </div>

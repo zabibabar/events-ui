@@ -12,6 +12,8 @@
       <h1>Upcoming Events</h1>
       <a routerLink="/events">See all</a>
     </app-section-header>
-    <app-event-list [events]="(events$ | async)!"></app-event-list>
+    <app-event-list [events]="(events$ | async)!">
+      <div class="event-list--empty">No Upcoming events</div>
+    </app-event-list>
   </app-section>
 </app-page-container>

@@ -16,6 +16,8 @@
     </card>
   </div>
   <div class="group-events-page__main" *ngIf="events$ | async as events">
-    <app-event-list [events]="events"></app-event-list>
+    <app-event-list [events]="events">
+      <div class="event-list--empty">No {{ isPastPage ? 'Past' : 'Upcoming' }} events</div>
+    </app-event-list>
   </div>
 </div>
