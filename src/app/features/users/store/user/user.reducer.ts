@@ -8,6 +8,7 @@ import {
   UploadUserPictureActions
 } from './user.actions'
 import { User } from '../../interfaces/user'
+import { FetchOneGroupActions } from 'src/app/features/groups/store/group.actions'
 
 export const userFeatureSelector = 'users'
 
@@ -29,46 +30,41 @@ const initialState: UserStoreState = adapter.getInitialState({
 
 export const userReducer: ActionReducer<UserStoreState, Action> = createReducer(
   initialState,
-  on(FetchOneUserActions.fetchOneUser, (state): UserStoreState => ({ ...state, loading: true })),
   on(
-    FetchOneUserActions.fetchOneUserSuccess,
-    (state, { user }): UserStoreState => adapter.upsertOne(user, { ...state, error: null, loading: false })
+    FetchOneUserActions.fetchOneUser,
+    FetchCurrentUserActions.fetchCurrentUser,
+    CreateUserActions.createUser,
+    UpdateUserActions.updateUser,
+    UploadUserPictureActions.uploadUserPicture,
+    (state): UserStoreState => ({ ...state, loading: true })
   ),
   on(
     FetchOneUserActions.fetchOneUserError,
+    FetchCurrentUserActions.fetchCurrentUserError,
+    CreateUserActions.createUserError,
+    UpdateUserActions.updateUserError,
+    UploadUserPictureActions.uploadUserPictureError,
     (state, { error }): UserStoreState => ({ ...state, error, loading: false })
   ),
-  on(FetchCurrentUserActions.fetchCurrentUser, (state): UserStoreState => ({ ...state, loading: true })),
+  on(
+    FetchOneUserActions.fetchOneUserSuccess,
+    UpdateUserActions.updateUserSuccess,
+    (state, { user }): UserStoreState => adapter.upsertOne(user, { ...state, error: null, loading: false })
+  ),
   on(
     FetchCurrentUserActions.fetchCurrentUserSuccess,
-    (state, { user }): UserStoreState =>
-      adapter.upsertOne(user, { ...state, error: null, loading: false, currentUserId: user.id })
-  ),
-  on(
-    FetchCurrentUserActions.fetchCurrentUserError,
-    (state, { error }): UserStoreState => ({ ...state, error, loading: false })
-  ),
-  on(CreateUserActions.createUser, (state): UserStoreState => ({ ...state, loading: true })),
-  on(
     CreateUserActions.createUserSuccess,
     (state, { user }): UserStoreState =>
       adapter.upsertOne(user, { ...state, error: null, loading: false, currentUserId: user.id })
   ),
-  on(CreateUserActions.createUserError, (state, { error }): UserStoreState => ({ ...state, error, loading: false })),
-  on(UpdateUserActions.updateUser, (state): UserStoreState => ({ ...state, loading: true })),
-  on(
-    UpdateUserActions.updateUserSuccess,
-    (state, { user }): UserStoreState => adapter.upsertOne(user, { ...state, error: null, loading: false })
-  ),
-  on(UpdateUserActions.updateUserError, (state, { error }): UserStoreState => ({ ...state, error, loading: false })),
-  on(UploadUserPictureActions.uploadUserPicture, (state): UserStoreState => ({ ...state, loading: true })),
   on(
     UploadUserPictureActions.uploadUserPictureSuccess,
     (state, { userId: id, imageUrl }): UserStoreState =>
       adapter.updateOne({ id, changes: { picture: imageUrl } }, { ...state, error: null, loading: false })
   ),
   on(
-    UploadUserPictureActions.uploadUserPictureError,
-    (state, { error }): UserStoreState => ({ ...state, error, loading: false })
+    FetchOneGroupActions.fetchOneGroupSuccess,
+    (state, { group: { members } }): UserStoreState =>
+      adapter.upsertMany(members.filter(({ user }) => !!user).map(({ user }) => user) as User[], state)
   )
 )

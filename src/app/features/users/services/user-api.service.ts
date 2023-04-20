@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
 import { UserCreateDto } from '../dtos/user-create-dto'
 import { UserUpdateDto } from '../dtos/user-update-dto'
-import { User } from '../interfaces/user'
+import { CurrentUser, User } from '../interfaces/user'
 
 @Injectable({
   providedIn: 'root'
@@ -11,20 +11,20 @@ import { User } from '../interfaces/user'
 export class UserApiService {
   constructor(private httpClient: HttpClient) {}
 
-  createUser(user: UserCreateDto): Observable<User> {
-    return this.httpClient.post<User>('users', user)
+  createUser(user: UserCreateDto): Observable<CurrentUser> {
+    return this.httpClient.post<CurrentUser>('users', user)
   }
 
-  getUserByExternalId(externalId: string): Observable<User> {
-    return this.httpClient.get<User>(`users/external/${externalId}`)
+  getUserByExternalId(externalId: string): Observable<CurrentUser> {
+    return this.httpClient.get<CurrentUser>(`users/external/${externalId}`)
   }
 
   getUser(userId: string): Observable<User> {
     return this.httpClient.get<User>(`users/${userId}`)
   }
 
-  updateUser(userId: string, changes: UserUpdateDto): Observable<User> {
-    return this.httpClient.patch<User>(`users/${userId}`, changes)
+  updateUser(userId: string, changes: UserUpdateDto): Observable<CurrentUser> {
+    return this.httpClient.patch<CurrentUser>(`users/${userId}`, changes)
   }
 
   uploadUserPicture(userId: string, image: File): Observable<string> {

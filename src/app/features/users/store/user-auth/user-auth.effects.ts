@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core'
-import { Router } from '@angular/router'
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects'
 import { of } from 'rxjs'
 import { catchError, filter, map, switchMap, tap } from 'rxjs/operators'
@@ -11,7 +10,7 @@ import { UserAuthActions } from './user-auth.actions'
 
 @Injectable()
 export class UserAuthEffects implements OnInitEffects {
-  constructor(private actions$: Actions, private userAuthService: UserAuthService, private router: Router) {}
+  constructor(private actions$: Actions, private userAuthService: UserAuthService) {}
 
   ngrxOnInitEffects() {
     return UserAuthActions.init()

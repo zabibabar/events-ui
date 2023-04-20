@@ -2,7 +2,7 @@ import { createAction, createActionGroup, props } from '@ngrx/store'
 import { UploadImageData } from 'src/app/shared/upload-image/upload-image-data'
 import { UserCreateDto } from '../../dtos/user-create-dto'
 import { UserUpdateDto } from '../../dtos/user-update-dto'
-import { User } from '../../interfaces/user'
+import { CurrentUser, User } from '../../interfaces/user'
 
 export const FetchOneUserActions = createActionGroup({
   source: 'Users',
@@ -18,7 +18,7 @@ export const FetchCurrentUserActions = createActionGroup({
   events: {
     'Fetch Current User': props<{ externalId: string }>(),
     'Fetch Current User Error': props<{ error: string }>(),
-    'Fetch Current User Success': props<{ user: User }>()
+    'Fetch Current User Success': props<{ user: CurrentUser }>()
   }
 })
 
@@ -27,7 +27,7 @@ export const CreateUserActions = createActionGroup({
   events: {
     'Create User': props<{ user: UserCreateDto }>(),
     'Create User Error': props<{ error: string }>(),
-    'Create User Success': props<{ user: User }>()
+    'Create User Success': props<{ user: CurrentUser }>()
   }
 })
 
@@ -37,7 +37,7 @@ export const UpdateUserActions = createActionGroup({
     'Open Update User Dialog': props<{ userId: string }>(),
     'Update User': props<{ userId: string; changes: UserUpdateDto }>(),
     'Update User Error': props<{ error: string }>(),
-    'Update User Success': props<{ user: User }>()
+    'Update User Success': props<{ user: CurrentUser }>()
   }
 })
 

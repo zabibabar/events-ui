@@ -1,8 +1,8 @@
-import { UserEmbedded } from '../../users/interfaces/user-embedded'
+import { User } from '../../users/interfaces/user'
 
 export interface Member {
   id: string
   isOrganizer: boolean
   createdAt: string
-  user?: UserEmbedded
+  user?: User
 }

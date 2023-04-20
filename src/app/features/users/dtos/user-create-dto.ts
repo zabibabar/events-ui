@@ -1,3 +1,3 @@
-import { User } from '../interfaces/user'
+import { CurrentUser } from '../interfaces/user'
 
-export type UserCreateDto = Omit<User, 'id'>
+export type UserCreateDto = Omit<CurrentUser, 'id'>

@@ -1,11 +1,14 @@
 export interface User {
   id: string
-  externalId: string
   name: string
+  picture: string
+}
+
+export interface CurrentUser extends User {
+  externalId: string
   firstName: string
   lastName: string
   email: string
-  picture: string
   emailVerified: boolean
   locale: string
 }
