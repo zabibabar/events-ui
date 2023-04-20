@@ -18,7 +18,7 @@
       <ng-container *ngIf="!(isDesktop$ | async)!">
         <app-event-going-button [event]="event"></app-event-going-button>
         <button mat-flat-button [matMenuTriggerFor]="menu.menu" *ngIf="isCurrentGroupMemberOrganizer$ | async">
-          <mat-icon> expand_more </mat-icon> Edit Event
+          <mat-icon> expand_more </mat-icon> Manage Event
         </button>
         <app-event-organizer-card></app-event-organizer-card>
         <app-event-group-card></app-event-group-card>
@@ -50,7 +50,7 @@
   <div class="event-header__side" *ngIf="isDesktop$ | async">
     <app-event-going-button [event]="event"></app-event-going-button>
     <button mat-flat-button [matMenuTriggerFor]="menu.menu" *ngIf="isCurrentGroupMemberOrganizer$ | async">
-      <mat-icon> expand_more </mat-icon> Edit Event
+      <mat-icon> expand_more </mat-icon> Manage Event
     </button>
     <app-event-organizer-card></app-event-organizer-card>
     <app-event-group-card></app-event-group-card>

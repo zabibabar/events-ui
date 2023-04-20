@@ -8,6 +8,9 @@ import { EventCreateDto } from '../../dtos/event-create-dto'
 import { EventUpsertDialogData } from '../../interfaces/event-upsert-dialog-data'
 import { CloseUpsertEventFormDialog } from '../../store/event.actions'
 import { selectIsLoadingEventAction } from '../../store/event.selectors'
+import { formatDate } from '@angular/common'
+import { EventTimeValidator } from './event-time.validator'
+import { Event } from '../../interfaces/event'
 
 type EventUpsertFormType = FormGroup<{
   name: FormControl<string>
@@ -23,57 +26,63 @@ type EventUpsertFormType = FormGroup<{
   styleUrls: ['./event-upsert-form.component.scss']
 })
 export class EventUpsertFormComponent implements OnInit {
-  event = this.data.event
-  title = this.data.title
-  onSubmit = this.data.onSubmit
-  submitText = this.data.submitText
-
   eventUpsertForm: EventUpsertFormType
-
-  currentGroup$ = this.store.select(selectCurrentGroup)
   isSubmitting$ = this.store.select(selectIsLoadingEventAction)
 
   constructor(
     private fb: FormBuilder,
     private store: Store,
-    @Inject(MAT_DIALOG_DATA) private data: EventUpsertDialogData
+    @Inject(MAT_DIALOG_DATA) public data: EventUpsertDialogData
   ) {}
 
   ngOnInit(): void {
-    this.eventUpsertForm = this.fb.nonNullable.group({
-      name: ['', [Validators.required, Validators.maxLength(35)]],
-      description: [''],
-      timeStart: [new Date().toString(), Validators.required],
-      timeEnd: [new Date().toString(), Validators.required],
-      address: ['', Validators.required]
-    })
+    this.eventUpsertForm = this.fb.nonNullable.group(
+      {
+        name: ['', [Validators.required, Validators.maxLength(35)]],
+        description: [''],
+        timeStart: [this.getDateWithTime(new Date(), '19:00'), Validators.required],
+        timeEnd: [this.getDateWithTime(new Date(), '22:00'), Validators.required],
+        address: ['', Validators.required]
+      },
+      { validators: EventTimeValidator() }
+    )
 
-    if (this.event) this.eventUpsertForm?.patchValue(this.event)
+    if (this.data.event) this.patchEvent(this.data.event)
+  }
+
+  patchEvent(event: Event): void {
+    this.eventUpsertForm.patchValue({
+      ...event,
+      timeStart: this.getDateWithTime(event.timeStart),
+      timeEnd: this.getDateWithTime(event.timeEnd)
+    })
   }
 
   submit(): void {
-    this.currentGroup$.pipe(take(1)).subscribe((group) => {
-      if (!group) return
+    this.store
+      .select(selectCurrentGroup)
+      .pipe(take(1))
+      .subscribe((group) => {
+        if (!group) return
 
-      const formValue = this.getDirtyFields(this.eventUpsertForm)
-      const newEvent = {
-        ...formValue,
-        groupId: group.id,
-        timeStart: this.setHourTo(this.eventUpsertForm.get('timeStart')?.value as string, 19),
-        timeEnd: this.setHourTo(this.eventUpsertForm.get('timeEnd')?.value as string, 22)
-      }
+        const formValue = this.getDirtyFields(this.eventUpsertForm)
+        const newEvent = {
+          ...formValue,
+          groupId: group.id,
+          timeStart: new Date(this.eventUpsertForm.get('timeStart')?.value as string).toISOString(),
+          timeEnd: new Date(this.eventUpsertForm.get('timeEnd')?.value as string).toISOString()
+        }
 
-      this.onSubmit(newEvent)
-    })
-  }
-
-  setHourTo(date: Date | string, hour: number): string {
-    if (typeof date === 'string') date = new Date(date)
-    return new Date(date.setHours(hour)).toString()
+        this.data.onSubmit(newEvent)
+      })
   }
 
   onCancel(): void {
     this.store.dispatch(CloseUpsertEventFormDialog())
+  }
+
+  private getDateWithTime(date: string | Date, time = 'HH:mm'): string {
+    return formatDate(new Date(date), `yyyy-LL-ddT${time}`, 'en-US')
   }
 
   private getDirtyFields(formGroup: FormGroup): Partial<EventCreateDto> {
