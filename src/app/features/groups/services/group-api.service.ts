@@ -13,7 +13,7 @@ import { GroupRequestFilterOptions } from '../interfaces/group-request-filter-op
 export class GroupApiService {
   constructor(private httpClient: HttpClient) {}
 
-  getAllGroups(filterOptions: GroupRequestFilterOptions): Observable<Group[]> {
+  getGroups(filterOptions: GroupRequestFilterOptions): Observable<Group[]> {
     const params = new HttpParams({ fromObject: { ...filterOptions } })
     return this.httpClient.get<Group[]>('groups', { params })
   }

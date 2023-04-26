@@ -9,8 +9,9 @@ import { selectQueryParam, selectRouteParams } from 'src/app/core/store/router.s
 import { ToastService } from 'src/app/shared/toast'
 import { GroupApiService } from '../services/group-api.service'
 import * as GroupActions from './group.actions'
-import { selectCurrentGroup } from './group.selectors'
+import { selectCurrentGroup, selectCurrentPage, selectHasMoreGroups } from './group.selectors'
 import { EventApiService } from '../../events/services/event-api.service'
+import { GROUP_PAGE_SIZE } from '../constants/group-page-size'
 
 @Injectable()
 export class GroupApiEffects {
@@ -23,13 +24,15 @@ export class GroupApiEffects {
     private toast: ToastService
   ) {}
 
-  fetchAllGroups$ = createEffect(() => {
+  fetchGroupsByPage$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(GroupActions.FetchAllGroupsActions.fetchAllGroups),
-      exhaustMap(({ filterOptions }) =>
-        this.groupApiService.getAllGroups(filterOptions).pipe(
-          map((groups) => GroupActions.FetchAllGroupsActions.fetchAllGroupsSuccess({ groups })),
-          catchError((error) => of(GroupActions.FetchAllGroupsActions.fetchAllGroupsError({ error })))
+      ofType(GroupActions.FetchGroupsActions.fetchGroups),
+      concatLatestFrom(() => [this.store.select(selectHasMoreGroups), this.store.select(selectCurrentPage)]),
+      filter(([, hasMoreGroups]) => !!hasMoreGroups),
+      exhaustMap(([, , currentPage]) =>
+        this.groupApiService.getGroups({ skip: currentPage * GROUP_PAGE_SIZE, limit: GROUP_PAGE_SIZE }).pipe(
+          map((groups) => GroupActions.FetchGroupsActions.fetchGroupsSuccess({ groups })),
+          catchError((error) => of(GroupActions.FetchGroupsActions.fetchGroupsError({ error })))
         )
       )
     )

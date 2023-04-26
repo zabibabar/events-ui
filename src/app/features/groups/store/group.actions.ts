@@ -4,15 +4,14 @@ import { GroupCreateDto } from '../dtos/group-create-dto'
 import { GroupUpdateDto } from '../dtos/group-update-dto'
 import { Group } from '../interfaces/group'
 import { Member } from '../interfaces/member'
-import { GroupRequestFilterOptions } from '../interfaces/group-request-filter-options'
 import { EventCountResponseDTO } from '../../events/dtos/event-count-response.dto'
 
-export const FetchAllGroupsActions = createActionGroup({
+export const FetchGroupsActions = createActionGroup({
   source: 'Groups',
   events: {
-    'Fetch All Groups': props<{ filterOptions: GroupRequestFilterOptions }>(),
-    'Fetch All Groups Error': props<{ error: string }>(),
-    'Fetch All Groups Success': props<{ groups: Group[] }>()
+    'Fetch Groups': emptyProps(),
+    'Fetch Groups Error': props<{ error: string }>(),
+    'Fetch Groups Success': props<{ groups: Group[] }>()
   }
 })
 

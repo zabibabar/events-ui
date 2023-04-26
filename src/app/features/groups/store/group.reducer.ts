@@ -2,6 +2,7 @@ import { Action, ActionReducer, createReducer, on } from '@ngrx/store'
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity'
 import { Group } from '../interfaces/group'
 import * as GroupActions from './group.actions'
+import { GROUP_PAGE_SIZE } from '../constants/group-page-size'
 
 export const groupFeatureSelector = 'groups'
 
@@ -10,6 +11,8 @@ export interface GroupStoreState extends EntityState<Group> {
   error: string | null
   currentGroupUpcomingEventCount?: number
   currentGroupPastEventCount?: number
+  hasMoreGroups?: boolean
+  currentPage: number
 }
 
 export const adapter: EntityAdapter<Group> = createEntityAdapter<Group>({
@@ -18,18 +21,26 @@ export const adapter: EntityAdapter<Group> = createEntityAdapter<Group>({
 
 const initialState: GroupStoreState = adapter.getInitialState({
   loading: false,
-  error: null
+  error: null,
+  currentPage: 0
 })
 
 export const groupReducer: ActionReducer<GroupStoreState, Action> = createReducer(
   initialState,
-  on(GroupActions.FetchAllGroupsActions.fetchAllGroups, (state): GroupStoreState => ({ ...state, loading: true })),
+  on(GroupActions.FetchGroupsActions.fetchGroups, (state): GroupStoreState => ({ ...state, loading: true })),
   on(
-    GroupActions.FetchAllGroupsActions.fetchAllGroupsSuccess,
-    (state, { groups }): GroupStoreState => adapter.upsertMany(groups, { ...state, error: null, loading: false })
+    GroupActions.FetchGroupsActions.fetchGroupsSuccess,
+    (state, { groups }): GroupStoreState =>
+      adapter.upsertMany(groups, {
+        ...state,
+        error: null,
+        loading: false,
+        hasMoreGroups: groups.length === GROUP_PAGE_SIZE,
+        currentPage: state.currentPage + 1
+      })
   ),
   on(
-    GroupActions.FetchAllGroupsActions.fetchAllGroupsError,
+    GroupActions.FetchGroupsActions.fetchGroupsError,
     (state, { error }): GroupStoreState => ({ ...state, error, loading: false })
   ),
   on(GroupActions.FetchOneGroupActions.fetchOneGroup, (state): GroupStoreState => ({ ...state, loading: true })),
