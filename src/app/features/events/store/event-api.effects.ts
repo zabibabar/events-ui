@@ -8,8 +8,7 @@ import { EventApiService } from '../services/event-api.service'
 import { ToastService } from 'src/app/shared/toast'
 import { Router } from '@angular/router'
 import {
-  FetchEventsByCurrentGroupActions,
-  FetchCurrentEvent,
+  FetchPastEventsByCurrentGroupActions,
   FetchOneEventActions,
   CreateEventActions,
   UpdateEventActions,
@@ -17,8 +16,28 @@ import {
   UploadEventPictureActions,
   AddEventAttendeeActions,
   UpdateEventAttendeeActions,
-  FetchAllEventsActions
+  FetchEventsActions,
+  FetchNextEventsActions,
+  FetchUpcomingEventsActions,
+  FetchNextUpcomingEventsActions,
+  FetchPastEventsActions,
+  FetchNextPastEventsActions,
+  FetchInitialEventsByCurrentGroupActions,
+  FetchUpcomingEventsByCurrentGroupActions
 } from './event.actions'
+import {
+  selectCurrentPage,
+  selectCurrentPastPage,
+  selectCurrentPastPageForCurrentGroup,
+  selectCurrentUpcomingPage,
+  selectCurrentUpcomingPageForCurrentGroup,
+  selectHasMoreEvents,
+  selectHasMorePastEvents,
+  selectHasMorePastEventsForCurrentGroup,
+  selectHasMoreUpcomingEvents,
+  selectHasMoreUpcomingEventsForCurrentGroup
+} from './event.selectors'
+import { EVENT_PAGE_SIZE } from '../constants/event-page-size'
 
 @Injectable()
 export class EventApiEffects {
@@ -30,35 +49,156 @@ export class EventApiEffects {
     private router: Router
   ) {}
 
-  fetchAllEvents$ = createEffect(() => {
+  fetchEvents$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(FetchAllEventsActions.fetchAllEvents),
-      exhaustMap(({ filterOptions }) =>
-        this.eventApiService.getAllEvents(filterOptions).pipe(
-          map((events) => FetchAllEventsActions.fetchAllEventsSuccess({ events })),
-          catchError((error) => of(FetchAllEventsActions.fetchAllEventsError({ error })))
+      ofType(FetchEventsActions.fetchEvents),
+      exhaustMap(() =>
+        this.eventApiService.getEvents({ skip: 0, upcomingLimit: EVENT_PAGE_SIZE }).pipe(
+          map((events) => FetchEventsActions.fetchEventsSuccess({ events })),
+          catchError((error) => of(FetchEventsActions.fetchEventsError({ error })))
         )
       )
     )
   })
 
-  fetchEventsByCurrentGroup$ = createEffect(() => {
+  fetchNextEvents$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(FetchEventsByCurrentGroupActions.fetchEventsByCurrentGroup),
-      concatLatestFrom(() => this.store.select(selectRouteParams)),
-      filter(([, { groupId }]) => !!groupId),
-      exhaustMap(([{ filterOptions }, { groupId }]) =>
-        this.eventApiService.getEventsByGroup(groupId, filterOptions).pipe(
-          map((events) => FetchEventsByCurrentGroupActions.fetchEventsByCurrentGroupSuccess({ events })),
-          catchError((error) => of(FetchEventsByCurrentGroupActions.fetchEventsByCurrentGroupError({ error })))
+      ofType(FetchNextEventsActions.fetchNextEvents),
+      concatLatestFrom(() => [this.store.select(selectHasMoreEvents), this.store.select(selectCurrentPage)]),
+      filter(([, hasMoreUpcoming]) => hasMoreUpcoming),
+      exhaustMap(([, , currentPage]) =>
+        this.eventApiService.getEvents({ skip: currentPage * EVENT_PAGE_SIZE, upcomingLimit: EVENT_PAGE_SIZE }).pipe(
+          map((events) => FetchNextEventsActions.fetchNextEventsSuccess({ events })),
+          catchError((error) => of(FetchNextEventsActions.fetchNextEventsError({ error })))
         )
+      )
+    )
+  })
+
+  fetchUpcomingEvents$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(FetchUpcomingEventsActions.fetchUpcomingEvents),
+      exhaustMap(() =>
+        this.eventApiService.getEvents({ skip: 0, upcomingLimit: 4, isGoing: true }).pipe(
+          map((events) => FetchUpcomingEventsActions.fetchUpcomingEventsSuccess({ events })),
+          catchError((error) => of(FetchUpcomingEventsActions.fetchUpcomingEventsError({ error })))
+        )
+      )
+    )
+  })
+
+  fetchNextUpcomingEvents$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(FetchNextUpcomingEventsActions.fetchNextUpcomingEvents),
+      concatLatestFrom(() => [
+        this.store.select(selectHasMoreUpcomingEvents),
+        this.store.select(selectCurrentUpcomingPage)
+      ]),
+      filter(([, hasMoreUpcoming]) => hasMoreUpcoming),
+      exhaustMap(([, , currentPage]) =>
+        this.eventApiService
+          .getEvents({ skip: currentPage * EVENT_PAGE_SIZE, upcomingLimit: EVENT_PAGE_SIZE, isGoing: true })
+          .pipe(
+            map((events) => FetchNextUpcomingEventsActions.fetchNextUpcomingEventsSuccess({ events })),
+            catchError((error) => of(FetchNextUpcomingEventsActions.fetchNextUpcomingEventsError({ error })))
+          )
+      )
+    )
+  })
+
+  fetchPastEvents$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(FetchPastEventsActions.fetchPastEvents),
+      exhaustMap(() =>
+        this.eventApiService.getEvents({ skip: 0, pastLimit: EVENT_PAGE_SIZE, isGoing: true }).pipe(
+          map((events) => FetchPastEventsActions.fetchPastEventsSuccess({ events })),
+          catchError((error) => of(FetchPastEventsActions.fetchPastEventsError({ error })))
+        )
+      )
+    )
+  })
+
+  fetchNextPastEvents$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(FetchNextPastEventsActions.fetchNextPastEvents),
+      concatLatestFrom(() => [this.store.select(selectHasMorePastEvents), this.store.select(selectCurrentPastPage)]),
+      filter(([, hasMorePast]) => hasMorePast),
+      exhaustMap(([, , currentPage]) =>
+        this.eventApiService
+          .getEvents({ skip: currentPage * EVENT_PAGE_SIZE, pastLimit: EVENT_PAGE_SIZE, isGoing: true })
+          .pipe(
+            map((events) => FetchNextPastEventsActions.fetchNextPastEventsSuccess({ events })),
+            catchError((error) => of(FetchNextPastEventsActions.fetchNextPastEventsError({ error })))
+          )
+      )
+    )
+  })
+
+  fetchEventsByFirstLoadCurrentGroup$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(FetchInitialEventsByCurrentGroupActions.fetchInitialEventsByCurrentGroup),
+      concatLatestFrom(() => [this.store.select(selectRouteParams)]),
+      filter(([, { groupId }]) => !!groupId),
+      exhaustMap(([, { groupId }]) =>
+        this.eventApiService.getEventsByGroup(groupId, { upcomingLimit: 4, pastLimit: 1 }).pipe(
+          map((events) => FetchInitialEventsByCurrentGroupActions.fetchInitialEventsByCurrentGroupSuccess({ events })),
+          catchError((error) =>
+            of(FetchInitialEventsByCurrentGroupActions.fetchInitialEventsByCurrentGroupError({ error }))
+          )
+        )
+      )
+    )
+  })
+
+  fetchUpcomingEventsByCurrentGroup$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(FetchUpcomingEventsByCurrentGroupActions.fetchUpcomingEventsByCurrentGroup),
+      concatLatestFrom(() => [
+        this.store.select(selectCurrentUpcomingPageForCurrentGroup),
+        this.store.select(selectRouteParams),
+        this.store.select(selectHasMoreUpcomingEventsForCurrentGroup)
+      ]),
+      filter(([, , { groupId }, hasMoreUpcoming]) => !!groupId && hasMoreUpcoming),
+      exhaustMap(([, currentPage, { groupId }]) =>
+        this.eventApiService
+          .getEventsByGroup(groupId, { skip: currentPage * EVENT_PAGE_SIZE, upcomingLimit: EVENT_PAGE_SIZE })
+          .pipe(
+            map((events) =>
+              FetchUpcomingEventsByCurrentGroupActions.fetchUpcomingEventsByCurrentGroupSuccess({ events })
+            ),
+            catchError((error) =>
+              of(FetchUpcomingEventsByCurrentGroupActions.fetchUpcomingEventsByCurrentGroupError({ error }))
+            )
+          )
+      )
+    )
+  })
+
+  fetchPastEventsByCurrentGroup$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(FetchPastEventsByCurrentGroupActions.fetchPastEventsByCurrentGroup),
+      concatLatestFrom(() => [
+        this.store.select(selectCurrentPastPageForCurrentGroup),
+        this.store.select(selectRouteParams),
+        this.store.select(selectHasMorePastEventsForCurrentGroup)
+      ]),
+      filter(([, , { groupId }, hasMorePast]) => !!groupId && hasMorePast),
+      exhaustMap(([, currentPage, { groupId }]) =>
+        this.eventApiService
+          .getEventsByGroup(groupId, { skip: currentPage * EVENT_PAGE_SIZE, upcomingLimit: EVENT_PAGE_SIZE })
+          .pipe(
+            map((events) => FetchPastEventsByCurrentGroupActions.fetchPastEventsByCurrentGroupSuccess({ events })),
+            catchError((error) =>
+              of(FetchPastEventsByCurrentGroupActions.fetchPastEventsByCurrentGroupError({ error }))
+            )
+          )
       )
     )
   })
 
   fetchCurrentEvent$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(FetchCurrentEvent),
+      ofType(FetchOneEventActions.fetchCurrentEvent),
       concatLatestFrom(() => this.store.select(selectRouteParams)),
       filter(([, { eventId }]) => !!eventId),
       map(([, { eventId }]) => FetchOneEventActions.fetchOneEvent({ eventId }))

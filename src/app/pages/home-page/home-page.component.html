@@ -9,11 +9,14 @@
 
   <app-section class="home-page__section">
     <app-section-header>
-      <h1>Upcoming Events</h1>
+      <h1>Your Upcoming Events</h1>
       <a routerLink="/events">See all</a>
     </app-section-header>
     <app-event-list [events]="(events$ | async)!">
-      <div class="event-list--empty">No Upcoming events</div>
+      <div class="event-list--empty">
+        You have no upcoming events!
+        <a routerLink="/events">Find Events</a>
+      </div>
     </app-event-list>
   </app-section>
 </app-page-container>

@@ -15,7 +15,7 @@ import { EventCountResponseDTO } from '../dtos/event-count-response.dto'
 export class EventApiService {
   constructor(private httpClient: HttpClient) {}
 
-  getAllEvents(filterOptions: EventRequestFilterOptions): Observable<Event[]> {
+  getEvents(filterOptions: EventRequestFilterOptions): Observable<Event[]> {
     const params = new HttpParams({ fromObject: { ...filterOptions, currentDate: new Date().toISOString() } })
     return this.httpClient.get<Event[]>('events/user', { params })
   }

@@ -3,8 +3,10 @@ import { ActivatedRouteSnapshot, CanActivateChild } from '@angular/router'
 import { Actions, ofType } from '@ngrx/effects'
 import { Store } from '@ngrx/store'
 import { Observable, first, map } from 'rxjs'
-import { EventRequestFilterOptions } from 'src/app/features/events/interfaces/event-request-filter-options'
-import { FetchEventsByCurrentGroupActions } from 'src/app/features/events/store/event.actions'
+import {
+  FetchUpcomingEventsByCurrentGroupActions,
+  FetchPastEventsByCurrentGroupActions
+} from 'src/app/features/events/store/event.actions'
 
 @Injectable()
 export class GroupEventsPageGuard implements CanActivateChild {
@@ -12,14 +14,23 @@ export class GroupEventsPageGuard implements CanActivateChild {
 
   canActivateChild(route: ActivatedRouteSnapshot): Observable<boolean> {
     const isPastPage = route.data['past'] as boolean
-    const filterOptions: EventRequestFilterOptions = {}
 
-    if (isPastPage) filterOptions.pastLimit = 10
-    else filterOptions.upcomingLimit = 10
+    return isPastPage ? this.hasFetchedPastEvents() : this.hasFetchedUpcomingEvents()
+  }
 
-    this.store.dispatch(FetchEventsByCurrentGroupActions.fetchEventsByCurrentGroup({ filterOptions }))
+  hasFetchedUpcomingEvents(): Observable<boolean> {
+    this.store.dispatch(FetchUpcomingEventsByCurrentGroupActions.fetchUpcomingEventsByCurrentGroup())
     return this.actions$.pipe(
-      ofType(FetchEventsByCurrentGroupActions.fetchEventsByCurrentGroupSuccess),
+      ofType(FetchUpcomingEventsByCurrentGroupActions.fetchUpcomingEventsByCurrentGroupSuccess),
+      first(),
+      map(() => true)
+    )
+  }
+
+  hasFetchedPastEvents(): Observable<boolean> {
+    this.store.dispatch(FetchPastEventsByCurrentGroupActions.fetchPastEventsByCurrentGroup())
+    return this.actions$.pipe(
+      ofType(FetchPastEventsByCurrentGroupActions.fetchPastEventsByCurrentGroupSuccess),
       first(),
       map(() => true)
     )

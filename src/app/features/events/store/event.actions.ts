@@ -5,29 +5,92 @@ import { AttendeeUpdateDto } from '../dtos/attendee-update-dto'
 import { Event } from '../interfaces/event'
 import { EventUpdateDto } from '../dtos/event-update-dto'
 import { Attendee } from '../interfaces/attendee'
-import { EventRequestFilterOptions } from '../interfaces/event-request-filter-options'
 
-export const FetchAllEventsActions = createActionGroup({
+export const FetchEventsActions = createActionGroup({
   source: 'Events',
   events: {
-    'Fetch All Events': props<{ filterOptions: EventRequestFilterOptions }>(),
-    'Fetch All Events Error': props<{ error: string }>(),
-    'Fetch All Events Success': props<{ events: Event[] }>()
+    'Fetch Events': emptyProps(),
+    'Fetch Events Error': props<{ error: string }>(),
+    'Fetch Events Success': props<{ events: Event[] }>()
   }
 })
 
-export const FetchEventsByCurrentGroupActions = createActionGroup({
+export const FetchNextEventsActions = createActionGroup({
   source: 'Events',
   events: {
-    'Fetch Events By Current Group': props<{ filterOptions: EventRequestFilterOptions }>(),
-    'Fetch Events By Current Group Error': props<{ error: string }>(),
-    'Fetch Events By Current Group Success': props<{ events: Event[] }>()
+    'Fetch Next Events': emptyProps(),
+    'Fetch Next Events Error': props<{ error: string }>(),
+    'Fetch Next Events Success': props<{ events: Event[] }>()
+  }
+})
+
+export const FetchUpcomingEventsActions = createActionGroup({
+  source: 'Events',
+  events: {
+    'Fetch Upcoming Events': emptyProps(),
+    'Fetch Upcoming Events Error': props<{ error: string }>(),
+    'Fetch Upcoming Events Success': props<{ events: Event[] }>()
+  }
+})
+
+export const FetchNextUpcomingEventsActions = createActionGroup({
+  source: 'Events',
+  events: {
+    'Fetch Next Upcoming Events': emptyProps(),
+    'Fetch Next Upcoming Events Error': props<{ error: string }>(),
+    'Fetch Next Upcoming Events Success': props<{ events: Event[] }>()
+  }
+})
+
+export const FetchPastEventsActions = createActionGroup({
+  source: 'Events',
+  events: {
+    'Fetch Past Events': emptyProps(),
+    'Fetch Past Events Error': props<{ error: string }>(),
+    'Fetch Past Events Success': props<{ events: Event[] }>()
+  }
+})
+
+export const FetchNextPastEventsActions = createActionGroup({
+  source: 'Events',
+  events: {
+    'Fetch Next Past Events': emptyProps(),
+    'Fetch Next Past Events Error': props<{ error: string }>(),
+    'Fetch Next Past Events Success': props<{ events: Event[] }>()
+  }
+})
+
+export const FetchInitialEventsByCurrentGroupActions = createActionGroup({
+  source: 'Events',
+  events: {
+    'Fetch Initial Events By Current Group': emptyProps(),
+    'Fetch Initial Events By Current Group Error': props<{ error: string }>(),
+    'Fetch Initial Events By Current Group Success': props<{ events: Event[] }>()
+  }
+})
+
+export const FetchUpcomingEventsByCurrentGroupActions = createActionGroup({
+  source: 'Events',
+  events: {
+    'Fetch Upcoming Events By Current Group': emptyProps(),
+    'Fetch Upcoming Events By Current Group Error': props<{ error: string }>(),
+    'Fetch Upcoming Events By Current Group Success': props<{ events: Event[] }>()
+  }
+})
+
+export const FetchPastEventsByCurrentGroupActions = createActionGroup({
+  source: 'Events',
+  events: {
+    'Fetch Past Events By Current Group': emptyProps(),
+    'Fetch Past Events By Current Group Error': props<{ error: string }>(),
+    'Fetch Past Events By Current Group Success': props<{ events: Event[] }>()
   }
 })
 
 export const FetchOneEventActions = createActionGroup({
   source: 'Events',
   events: {
+    'Fetch Current Event': emptyProps(),
     'Fetch One Event': props<{ eventId: string }>(),
     'Fetch One Event Error': props<{ error: string }>(),
     'Fetch One Event Success': props<{ event: Event }>()
@@ -93,4 +156,3 @@ export const UploadEventPictureActions = createActionGroup({
 })
 
 export const CloseUpsertEventFormDialog = createAction('[Events] Close Upsert Event Form Dialog')
-export const FetchCurrentEvent = createAction('[Events] Fetch Current Event')

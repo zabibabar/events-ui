@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { Store } from '@ngrx/store'
-import { FetchAllEventsActions } from 'src/app/features/events/store/event.actions'
+import { FetchUpcomingEventsActions } from 'src/app/features/events/store/event.actions'
 
 @Component({
   selector: 'app-events-page',
@@ -11,6 +11,6 @@ export class EventsPageComponent implements OnInit {
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.store.dispatch(FetchAllEventsActions.fetchAllEvents({ filterOptions: { upcomingLimit: 10 } }))
+    this.store.dispatch(FetchUpcomingEventsActions.fetchUpcomingEvents())
   }
 }
