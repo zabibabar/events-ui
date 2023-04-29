@@ -8,7 +8,7 @@ import {
   UploadUserPictureActions
 } from './user.actions'
 import { User } from '../../interfaces/user'
-import { FetchOneGroupActions } from 'src/app/features/groups/store/group.actions'
+import { FetchGroupActions } from 'src/app/features/groups/store/group.actions'
 
 export const userFeatureSelector = 'users'
 
@@ -63,7 +63,7 @@ export const userReducer: ActionReducer<UserStoreState, Action> = createReducer(
       adapter.updateOne({ id, changes: { picture: imageUrl } }, { ...state, error: null, loading: false })
   ),
   on(
-    FetchOneGroupActions.fetchOneGroupSuccess,
+    FetchGroupActions.fetchGroupSuccess,
     (state, { group: { members } }): UserStoreState =>
       adapter.upsertMany(members.filter(({ user }) => !!user).map(({ user }) => user) as User[], state)
   )

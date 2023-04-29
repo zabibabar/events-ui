@@ -1,1 +1,1 @@
-export const GROUP_PAGE_SIZE = 25
+export const GROUP_PAGE_SIZE = 10

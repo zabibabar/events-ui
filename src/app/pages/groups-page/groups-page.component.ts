@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { Store } from '@ngrx/store'
-import { FetchAllGroupsActions } from 'src/app/features/groups/store/group.actions'
+import { FetchGroupsActions } from 'src/app/features/groups/store/group.actions'
 
 @Component({
   selector: 'app-groups-page',
@@ -11,6 +11,6 @@ export class GroupsPageComponent implements OnInit {
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.store.dispatch(FetchAllGroupsActions.fetchAllGroups({ filterOptions: { limit: 10 } }))
+    this.store.dispatch(FetchGroupsActions.fetchGroups())
   }
 }

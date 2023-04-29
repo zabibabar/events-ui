@@ -24,39 +24,44 @@ export class GroupApiEffects {
     private toast: ToastService
   ) {}
 
-  fetchGroupsByPage$ = createEffect(() => {
+  fetchGroups$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(GroupActions.FetchGroupsActions.fetchGroups),
-      concatLatestFrom(() => [this.store.select(selectHasMoreGroups), this.store.select(selectCurrentPage)]),
-      filter(([, hasMoreGroups]) => !!hasMoreGroups),
-      exhaustMap(([, , currentPage]) =>
-        this.groupApiService.getGroups({ skip: currentPage * GROUP_PAGE_SIZE, limit: GROUP_PAGE_SIZE }).pipe(
+      exhaustMap(() => {
+        return this.groupApiService.getGroups({ skip: 0, limit: 4 }).pipe(
           map((groups) => GroupActions.FetchGroupsActions.fetchGroupsSuccess({ groups })),
           catchError((error) => of(GroupActions.FetchGroupsActions.fetchGroupsError({ error })))
         )
-      )
+      })
     )
   })
 
-  fetchCurrentGroup$ = createEffect(() => {
+  fetchNextGroups$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(GroupActions.FetchCurrentGroup),
+      ofType(GroupActions.FetchNextGroupsActions.fetchNextGroups),
+      concatLatestFrom(() => [this.store.select(selectHasMoreGroups), this.store.select(selectCurrentPage)]),
+      filter(([, hasMoreGroups]) => hasMoreGroups),
+      exhaustMap(([, , currentPage]) => {
+        return this.groupApiService.getGroups({ skip: currentPage * GROUP_PAGE_SIZE, limit: GROUP_PAGE_SIZE }).pipe(
+          map((groups) => GroupActions.FetchNextGroupsActions.fetchNextGroupsSuccess({ groups })),
+          catchError((error) => of(GroupActions.FetchNextGroupsActions.fetchNextGroupsError({ error })))
+        )
+      })
+    )
+  })
+
+  fetchGroup$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(GroupActions.FetchGroupActions.fetchGroup),
       concatLatestFrom(() => this.store.select(selectRouteParams)),
       filter(([, { groupId }]) => !!groupId),
-      map(([, { groupId }]) => GroupActions.FetchOneGroupActions.fetchOneGroup({ groupId }))
-    )
-  })
-
-  fetchOneGroup$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(GroupActions.FetchOneGroupActions.fetchOneGroup),
-      exhaustMap(({ groupId }) =>
+      exhaustMap(([, { groupId }]) =>
         forkJoin([
           this.eventApiService.getEventCountByGroupId(groupId),
           this.groupApiService.getGroupById(groupId)
         ]).pipe(
-          map(([count, group]) => GroupActions.FetchOneGroupActions.fetchOneGroupSuccess({ group, count })),
-          catchError((error) => of(GroupActions.FetchOneGroupActions.fetchOneGroupError({ error })))
+          map(([count, group]) => GroupActions.FetchGroupActions.fetchGroupSuccess({ group, count })),
+          catchError((error) => of(GroupActions.FetchGroupActions.fetchGroupError({ error })))
         )
       )
     )
@@ -65,11 +70,14 @@ export class GroupApiEffects {
   addToGroupViaInviteCode$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(routerNavigatedAction),
-      filter((action) => action.payload.routerState.url.indexOf('join?inviteCode=') > -1),
+      filter((action) => action.payload.routerState.url.indexOf('groups/join?inviteCode=') > -1),
       concatLatestFrom(() => this.store.select(selectQueryParam('inviteCode'))),
       exhaustMap(([, inviteCode]) =>
         this.groupApiService.addToGroupViaInviteCode(inviteCode ?? '').pipe(
-          map((group) => GroupActions.AddToGroupViaInviteCodeActions.addToGroupViaInviteCodeSuccess({ group })),
+          concatLatestFrom((group) => this.eventApiService.getEventCountByGroupId(group.id)),
+          map(([group, count]) =>
+            GroupActions.AddToGroupViaInviteCodeActions.addToGroupViaInviteCodeSuccess({ group, count })
+          ),
           tap(() => this.toast.success('Added To Group Successfully!')),
           tap(({ group }) => this.router.navigate(['/groups', group.id])),
           catchError((error) =>

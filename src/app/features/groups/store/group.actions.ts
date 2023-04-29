@@ -15,12 +15,21 @@ export const FetchGroupsActions = createActionGroup({
   }
 })
 
-export const FetchOneGroupActions = createActionGroup({
+export const FetchNextGroupsActions = createActionGroup({
   source: 'Groups',
   events: {
-    'Fetch One Group': props<{ groupId: string }>(),
-    'Fetch One Group Error': props<{ error: string }>(),
-    'Fetch One Group Success': props<{ group: Group; count: EventCountResponseDTO }>()
+    'Fetch Next Groups': emptyProps(),
+    'Fetch Next Groups Error': props<{ error: string }>(),
+    'Fetch Next Groups Success': props<{ groups: Group[] }>()
+  }
+})
+
+export const FetchGroupActions = createActionGroup({
+  source: 'Groups',
+  events: {
+    'Fetch Group': emptyProps(),
+    'Fetch Group Error': props<{ error: string }>(),
+    'Fetch Group Success': props<{ group: Group; count: EventCountResponseDTO }>()
   }
 })
 
@@ -58,7 +67,7 @@ export const AddToGroupViaInviteCodeActions = createActionGroup({
   source: 'Groups',
   events: {
     'Add to Group Via Invite Code Error': props<{ error: string }>(),
-    'Add to Group Via Invite Code Success': props<{ group: Group }>()
+    'Add to Group Via Invite Code Success': props<{ group: Group; count: EventCountResponseDTO }>()
   }
 })
 
@@ -101,4 +110,3 @@ export const UpdateGroupMemberActions = createActionGroup({
 })
 
 export const CloseUpsertGroupFormDialog = createAction('[Groups] Close Upsert Group Form Dialog')
-export const FetchCurrentGroup = createAction('[Groups] Fetch Current Group')

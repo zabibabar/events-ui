@@ -11,7 +11,7 @@ export interface GroupStoreState extends EntityState<Group> {
   error: string | null
   currentGroupUpcomingEventCount?: number
   currentGroupPastEventCount?: number
-  hasMoreGroups?: boolean
+  hasMoreGroups: boolean
   currentPage: number
 }
 
@@ -22,30 +22,56 @@ export const adapter: EntityAdapter<Group> = createEntityAdapter<Group>({
 const initialState: GroupStoreState = adapter.getInitialState({
   loading: false,
   error: null,
+  hasMoreGroups: true,
   currentPage: 0
 })
 
 export const groupReducer: ActionReducer<GroupStoreState, Action> = createReducer(
   initialState,
-  on(GroupActions.FetchGroupsActions.fetchGroups, (state): GroupStoreState => ({ ...state, loading: true })),
+  on(
+    GroupActions.FetchGroupsActions.fetchGroups,
+    GroupActions.FetchNextGroupsActions.fetchNextGroups,
+    GroupActions.FetchGroupActions.fetchGroup,
+    GroupActions.CreateGroupActions.createGroup,
+    GroupActions.UpdateGroupActions.updateGroup,
+    GroupActions.DeleteGroupActions.deleteGroup,
+    GroupActions.UploadGroupPictureActions.uploadGroupPicture,
+    GroupActions.AddGroupMemberActions.addGroupMember,
+    GroupActions.RemoveGroupMemberActions.removeGroupMember,
+    GroupActions.UpdateGroupMemberActions.updateGroupMember,
+    (state): GroupStoreState => ({ ...state, loading: true })
+  ),
+  on(
+    GroupActions.FetchGroupsActions.fetchGroupsError,
+    GroupActions.FetchNextGroupsActions.fetchNextGroupsError,
+    GroupActions.FetchGroupActions.fetchGroupError,
+    GroupActions.CreateGroupActions.createGroupError,
+    GroupActions.UpdateGroupActions.updateGroupError,
+    GroupActions.DeleteGroupActions.deleteGroupError,
+    GroupActions.UploadGroupPictureActions.uploadGroupPictureError,
+    GroupActions.AddGroupMemberActions.addGroupMemberError,
+    GroupActions.RemoveGroupMemberActions.removeGroupMemberError,
+    GroupActions.UpdateGroupMemberActions.updateGroupMemberError,
+    (state): GroupStoreState => ({ ...state, loading: true })
+  ),
   on(
     GroupActions.FetchGroupsActions.fetchGroupsSuccess,
+    (state, { groups }): GroupStoreState => adapter.upsertMany(groups, { ...state, error: null, loading: false })
+  ),
+  on(
+    GroupActions.FetchNextGroupsActions.fetchNextGroupsSuccess,
     (state, { groups }): GroupStoreState =>
       adapter.upsertMany(groups, {
         ...state,
         error: null,
         loading: false,
         hasMoreGroups: groups.length === GROUP_PAGE_SIZE,
-        currentPage: state.currentPage + 1
+        currentPage: groups.length > 0 ? state.currentPage + 1 : state.currentPage
       })
   ),
   on(
-    GroupActions.FetchGroupsActions.fetchGroupsError,
-    (state, { error }): GroupStoreState => ({ ...state, error, loading: false })
-  ),
-  on(GroupActions.FetchOneGroupActions.fetchOneGroup, (state): GroupStoreState => ({ ...state, loading: true })),
-  on(
-    GroupActions.FetchOneGroupActions.fetchOneGroupSuccess,
+    GroupActions.FetchGroupActions.fetchGroupSuccess,
+    GroupActions.AddToGroupViaInviteCodeActions.addToGroupViaInviteCodeSuccess,
     (state, { group, count }): GroupStoreState =>
       adapter.upsertOne(group, {
         ...state,
@@ -56,48 +82,14 @@ export const groupReducer: ActionReducer<GroupStoreState, Action> = createReduce
       })
   ),
   on(
-    GroupActions.FetchOneGroupActions.fetchOneGroupError,
-    (state, { error }): GroupStoreState => ({ ...state, error, loading: false })
-  ),
-  on(
-    GroupActions.AddToGroupViaInviteCodeActions.addToGroupViaInviteCodeSuccess,
-    (state, { group }): GroupStoreState => adapter.upsertOne(group, { ...state, error: null, loading: false })
-  ),
-  on(
-    GroupActions.AddToGroupViaInviteCodeActions.addToGroupViaInviteCodeError,
-    (state, { error }): GroupStoreState => ({ ...state, error, loading: false })
-  ),
-  on(GroupActions.CreateGroupActions.createGroup, (state): GroupStoreState => ({ ...state, loading: true })),
-  on(
     GroupActions.CreateGroupActions.createGroupSuccess,
-    (state, { group }): GroupStoreState => adapter.upsertOne(group, { ...state, error: null, loading: false })
-  ),
-  on(
-    GroupActions.CreateGroupActions.createGroupError,
-    (state, { error }): GroupStoreState => ({ ...state, error, loading: false })
-  ),
-  on(GroupActions.UpdateGroupActions.updateGroup, (state): GroupStoreState => ({ ...state, loading: true })),
-  on(
     GroupActions.UpdateGroupActions.updateGroupSuccess,
     (state, { group }): GroupStoreState => adapter.upsertOne(group, { ...state, error: null, loading: false })
   ),
   on(
-    GroupActions.UpdateGroupActions.updateGroupError,
-    (state, { error }): GroupStoreState => ({ ...state, error, loading: false })
-  ),
-  on(GroupActions.DeleteGroupActions.deleteGroup, (state): GroupStoreState => ({ ...state, loading: true })),
-  on(
     GroupActions.DeleteGroupActions.deleteGroupSuccess,
     GroupActions.RemoveGroupMemberActions.removeGroupMemberSuccess,
     (state, { groupId }): GroupStoreState => adapter.removeOne(groupId, { ...state, error: null, loading: false })
-  ),
-  on(
-    GroupActions.DeleteGroupActions.deleteGroupError,
-    (state, { error }): GroupStoreState => ({ ...state, error, loading: false })
-  ),
-  on(
-    GroupActions.UploadGroupPictureActions.uploadGroupPicture,
-    (state): GroupStoreState => ({ ...state, loading: true })
   ),
   on(
     GroupActions.UploadGroupPictureActions.uploadGroupPictureSuccess,
@@ -105,38 +97,10 @@ export const groupReducer: ActionReducer<GroupStoreState, Action> = createReduce
       adapter.updateOne({ id, changes: { picture: imageUrl } }, { ...state, error: null, loading: false })
   ),
   on(
-    GroupActions.UploadGroupPictureActions.uploadGroupPictureError,
-    (state, { error }): GroupStoreState => ({ ...state, error, loading: false })
-  ),
-  on(GroupActions.AddGroupMemberActions.addGroupMember, (state): GroupStoreState => ({ ...state, loading: true })),
-  on(
     GroupActions.AddGroupMemberActions.addGroupMemberSuccess,
-    (state, { groupId: id, members }): GroupStoreState =>
-      adapter.updateOne({ id, changes: { members } }, { ...state, error: null, loading: false })
-  ),
-  on(
-    GroupActions.AddGroupMemberActions.addGroupMemberError,
-    (state, { error }): GroupStoreState => ({ ...state, error, loading: false })
-  ),
-  on(
-    GroupActions.UpdateGroupMemberActions.updateGroupMember,
-    (state): GroupStoreState => ({ ...state, loading: true })
-  ),
-  on(
     GroupActions.UpdateGroupMemberActions.updateGroupMemberSuccess,
+    GroupActions.RemoveGroupMemberActions.removeGroupMemberSuccess,
     (state, { groupId: id, members }): GroupStoreState =>
       adapter.updateOne({ id, changes: { members } }, { ...state, error: null, loading: false })
-  ),
-  on(
-    GroupActions.UpdateGroupMemberActions.updateGroupMemberError,
-    (state, { error }): GroupStoreState => ({ ...state, error, loading: false })
-  ),
-  on(
-    GroupActions.RemoveGroupMemberActions.removeGroupMember,
-    (state): GroupStoreState => ({ ...state, loading: true })
-  ),
-  on(
-    GroupActions.RemoveGroupMemberActions.removeGroupMemberError,
-    (state, { error }): GroupStoreState => ({ ...state, error, loading: false })
   )
 )
