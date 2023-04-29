@@ -6,8 +6,6 @@ export interface User {
 
 export interface CurrentUser extends User {
   externalId: string
-  firstName: string
-  lastName: string
   email: string
   emailVerified: boolean
   locale: string
