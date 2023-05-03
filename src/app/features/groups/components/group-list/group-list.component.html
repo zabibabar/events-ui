@@ -2,5 +2,10 @@
   <button mat-stroked-button color="primary" class="group-list__create-group" (click)="createGroup()">
     Start a New Group
   </button>
-  <app-group *ngFor="let group of groups$ | async; trackBy: groupTrackBy" [group]="group"></app-group>
+  <app-group *ngFor="let group of groups; trackBy: groupTrackBy" [group]="group"></app-group>
+</div>
+<div *ngIf="showMoreOption && !!(hasMoreGroups$ | async)" class="group-list__load">
+  <button mat-flat-button [loadingSpinner]="(loading$ | async)!" color="primary" (click)="fetchNextGroups()">
+    Load More
+  </button>
 </div>

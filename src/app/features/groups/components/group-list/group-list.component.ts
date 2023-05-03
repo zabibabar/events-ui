@@ -1,23 +1,22 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, Input } from '@angular/core'
 import { Store } from '@ngrx/store'
-import { Observable } from 'rxjs'
 import { Group } from '../../interfaces/group'
-import { selectAllGroups } from '../../store/group.selectors'
-import { CreateGroupActions } from '../../store/group.actions'
+import { CreateGroupActions, FetchNextGroupsActions } from '../../store/group.actions'
+import { selectHasMoreGroups, selectIsLoadingGroupAction } from '../../store/group.selectors'
 
 @Component({
   selector: 'app-group-list',
   templateUrl: './group-list.component.html',
   styleUrls: ['./group-list.component.scss']
 })
-export class GroupListComponent implements OnInit {
-  groups$: Observable<Group[]>
+export class GroupListComponent {
+  @Input() groups: Group[] = []
+  @Input() showMoreOption = false
+
+  hasMoreGroups$ = this.store.select(selectHasMoreGroups)
+  loading$ = this.store.select(selectIsLoadingGroupAction)
 
   constructor(private store: Store) {}
-
-  ngOnInit(): void {
-    this.groups$ = this.store.select(selectAllGroups)
-  }
 
   createGroup(): void {
     this.store.dispatch(CreateGroupActions.openCreateGroupDialog())
@@ -25,5 +24,9 @@ export class GroupListComponent implements OnInit {
 
   groupTrackBy(_: number, group: Group) {
     return group.id
+  }
+
+  fetchNextGroups(): void {
+    this.store.dispatch(FetchNextGroupsActions.fetchNextGroups())
   }
 }
