@@ -38,6 +38,7 @@ import {
   selectHasMoreUpcomingEventsForCurrentGroup
 } from './event.selectors'
 import { EVENT_PAGE_SIZE } from '../constants/event-page-size'
+import * as EventLimits from '../constants/event-limits'
 
 @Injectable()
 export class EventApiEffects {
@@ -134,18 +135,25 @@ export class EventApiEffects {
     )
   })
 
-  fetchEventsByFirstLoadCurrentGroup$ = createEffect(() => {
+  fetchInitialEventsByCurrentGroup$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(FetchInitialEventsByCurrentGroupActions.fetchInitialEventsByCurrentGroup),
       concatLatestFrom(() => [this.store.select(selectRouteParams)]),
       filter(([, { groupId }]) => !!groupId),
       exhaustMap(([, { groupId }]) =>
-        this.eventApiService.getEventsByGroup(groupId, { upcomingLimit: 4, pastLimit: 1 }).pipe(
-          map((events) => FetchInitialEventsByCurrentGroupActions.fetchInitialEventsByCurrentGroupSuccess({ events })),
-          catchError((error) =>
-            of(FetchInitialEventsByCurrentGroupActions.fetchInitialEventsByCurrentGroupError({ error }))
+        this.eventApiService
+          .getEventsByGroup(groupId, {
+            upcomingLimit: EventLimits.UPCOMING_EVENT_INITIAL_LOAD_FOR_CURRENT_GROUP,
+            pastLimit: EventLimits.PAST_EVENT_INITIAL_LOAD_FOR_CURRENT_GROUP
+          })
+          .pipe(
+            map((events) =>
+              FetchInitialEventsByCurrentGroupActions.fetchInitialEventsByCurrentGroupSuccess({ events })
+            ),
+            catchError((error) =>
+              of(FetchInitialEventsByCurrentGroupActions.fetchInitialEventsByCurrentGroupError({ error }))
+            )
           )
-        )
       )
     )
   })
@@ -185,7 +193,7 @@ export class EventApiEffects {
       filter(([, , { groupId }, hasMorePast]) => !!groupId && hasMorePast),
       exhaustMap(([, currentPage, { groupId }]) =>
         this.eventApiService
-          .getEventsByGroup(groupId, { skip: currentPage * EVENT_PAGE_SIZE, upcomingLimit: EVENT_PAGE_SIZE })
+          .getEventsByGroup(groupId, { skip: currentPage * EVENT_PAGE_SIZE, pastLimit: EVENT_PAGE_SIZE })
           .pipe(
             map((events) => FetchPastEventsByCurrentGroupActions.fetchPastEventsByCurrentGroupSuccess({ events })),
             catchError((error) =>
