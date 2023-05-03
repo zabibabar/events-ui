@@ -3,4 +3,15 @@
   gap: 1rem;
   grid-template-columns: repeat(auto-fill, minmax(min(100%, 264px), 1fr));
   grid-template-rows: auto;
+
+  &__load,
+  &__empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__load {
+    margin-top: 32px;
+  }
 }

@@ -1,4 +1,9 @@
 <div class="event-list">
   <app-event *ngFor="let event of events; trackBy: eventTrackBy" [event]="event"></app-event>
-  <ng-container *ngIf="events.length === 0"><ng-content select=".event-list--empty"></ng-content></ng-container>
+</div>
+<ng-container *ngIf="events.length === 0"><ng-content select=".event-list__empty"></ng-content></ng-container>
+<div *ngIf="showMoreOption" class="event-list__load">
+  <button mat-flat-button [loadingSpinner]="(loading$ | async)!" color="primary" (click)="fetchNextEvents()">
+    Load More
+  </button>
 </div>
