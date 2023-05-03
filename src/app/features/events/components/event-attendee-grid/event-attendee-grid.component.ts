@@ -13,10 +13,7 @@ export class EventAttendeeGridComponent {
   private readonly max = 8
   goingAttendees$: Observable<Attendee[]> = this.store.select(selectGoingAttendeesForCurrentEvent)
 
-  visibleAttendees$: Observable<Attendee[]> = this.goingAttendees$.pipe(
-    // map((a) => Array.from({ length: 9 }, () => a[0])),
-    map((a) => a.slice(0, this.max))
-  )
+  visibleAttendees$: Observable<Attendee[]> = this.goingAttendees$.pipe(map((a) => a.slice(0, this.max)))
 
   constructor(private store: Store) {}
 }

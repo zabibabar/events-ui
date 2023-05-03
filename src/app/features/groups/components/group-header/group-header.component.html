@@ -10,7 +10,7 @@
     <div class="group-header__details__name mat-headline-2">{{ group.name }}</div>
     <app-user-avatar-group
       class="group-header__details__members"
-      [users]="duplicateMembers(group.members)"
+      [users]="group.members"
       [max]="5"
       routerLink="members"
     ></app-user-avatar-group>

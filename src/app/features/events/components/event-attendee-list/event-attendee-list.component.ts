@@ -15,7 +15,6 @@ import {
 })
 export class EventAttendeeListComponent {
   goingAttendeeList$: Observable<Attendee[]> = this.store.select(selectGoingAttendeesForCurrentEvent)
-  // .pipe(map((a) => Array.from({ length: 9 }, () => a[0])))
   notGoingAttendeeList$: Observable<Attendee[]> = this.store.select(selectNotGoingAttendeesForCurrentEvent)
   attendeeCount$: Observable<number> = this.store.select(selectGoingAttendeesCountForCurrentEvent)
 

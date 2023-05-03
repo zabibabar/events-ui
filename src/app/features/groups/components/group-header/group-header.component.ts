@@ -2,7 +2,6 @@ import { Component } from '@angular/core'
 import { Store } from '@ngrx/store'
 import { NavLink } from 'src/app/core/types/nav-link'
 import { selectCurrentGroup, selectIsCurrentGroupMemberOrganizer } from '../../store/group.selectors'
-import { Member } from '../../interfaces/member'
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout'
 import { map } from 'rxjs'
 import { CreateEventActions } from 'src/app/features/events/store/event.actions'
@@ -27,9 +26,5 @@ export class GroupHeaderComponent {
 
   createEvent(): void {
     this.store.dispatch(CreateEventActions.openCreateEventDialog())
-  }
-
-  duplicateMembers(members: Member[]): Member[] {
-    return Array.from({ length: 10 }, () => members[0])
   }
 }
