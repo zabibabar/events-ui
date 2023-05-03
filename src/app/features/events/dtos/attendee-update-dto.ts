@@ -1,3 +1,3 @@
 import { Attendee } from '../interfaces/attendee'
 
-export type AttendeeUpdateDto = Partial<Omit<Attendee, 'id'>>
+export type AttendeeUpdateDto = Partial<Pick<Attendee, 'isGoing' | 'guests'>>

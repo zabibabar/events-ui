@@ -9,21 +9,27 @@ import { UploadImageComponent } from 'src/app/shared/upload-image/upload-image'
 import { EventUpsertFormComponent } from '../components/event-upsert-form/event-upsert-form.component'
 import { EventCreateDto } from '../dtos/event-create-dto'
 import { EventUpsertDialogData } from '../interfaces/event-upsert-dialog-data'
-import { selectEventById, selectIsLoadingEventAction } from './event.selectors'
+import { selectCurrentUserAsEventAttendee, selectEventById, selectIsLoadingEventAction } from './event.selectors'
 import { filter, map, tap } from 'rxjs'
 import {
   CreateEventActions,
   UpdateEventActions,
   CloseUpsertEventFormDialog,
   UploadEventPictureActions,
-  DeleteEventActions
+  DeleteEventActions,
+  UpdateEventAttendeeActions,
+  CloseUpsertAttendeeFormDialog
 } from './event.actions'
 import { DialogConfirmationComponent } from 'src/app/shared/dialog-confirmation/dialog-confirmation'
 import { Event } from '../interfaces/event'
+import { EventAttendeeUpsertFormComponent } from '../components/event-attendee-upsert-form/event-attendee-upsert-form.component'
+import { EventAttendeeUpsertDialogData } from '../interfaces/event-attendee-upsert-dialog-data'
+import { Attendee } from '../interfaces/attendee'
 
 @Injectable()
 export class EventUiEffects {
   private eventUpsertFormDialogRef: MatDialogRef<EventUpsertFormComponent>
+  private eventAttendeeUpsertFormDialogRef: MatDialogRef<EventAttendeeUpsertFormComponent>
   private eventImageUploadDialogRef: MatDialogRef<UploadImageComponent>
   private confirmationDialogRef: MatDialogRef<DialogConfirmationComponent>
 
@@ -90,6 +96,44 @@ export class EventUiEffects {
           UpdateEventActions.updateEventSuccess
         ),
         tap(() => this.eventUpsertFormDialogRef.close())
+      )
+    },
+    { dispatch: false }
+  )
+
+  openAttendeeUpdateFormDialog$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(UpdateEventAttendeeActions.openUpsertAttendeeDialog),
+        concatLatestFrom(({ eventId }) => this.store.select(selectCurrentUserAsEventAttendee({ eventId }))),
+        filter(([, attendee]) => attendee !== undefined),
+        tap(
+          ([{ eventId, attendeeId }, attendee]) =>
+            (this.eventAttendeeUpsertFormDialogRef = this.dialog.openForm<
+              EventAttendeeUpsertFormComponent,
+              EventAttendeeUpsertDialogData
+            >(EventAttendeeUpsertFormComponent, {
+              type: DialogType.FORM,
+              data: {
+                attendee: attendee as Attendee,
+                title: 'Edit RSVP',
+                submitText: 'Save Changes',
+                onSubmit: (changes) =>
+                  // eslint-disable-next-line @ngrx/no-dispatch-in-effects
+                  this.store.dispatch(UpdateEventAttendeeActions.updateEventAttendee({ eventId, attendeeId, changes }))
+              }
+            }))
+        )
+      )
+    },
+    { dispatch: false }
+  )
+
+  attendeeUpsertFormDialog$ = createEffect(
+    () => {
+      return this.actions$.pipe(
+        ofType(CloseUpsertAttendeeFormDialog, UpdateEventAttendeeActions.updateEventAttendeeSuccess),
+        tap(() => this.eventAttendeeUpsertFormDialogRef.close())
       )
     },
     { dispatch: false }

@@ -1,0 +1,31 @@
+<dialog-form>
+  <dialog-form-title>{{ data.title }}</dialog-form-title>
+
+  <form dialog-form-body class="event-attendee-upsert-form" [formGroup]="eventAttendeeUpsertForm">
+    <mat-form-field>
+      <mat-label>Are you Going?</mat-label>
+      <mat-select formControlName="isGoing">
+        <mat-option [value]="true"> Going </mat-option>
+        <mat-option [value]="false"> Not Going </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Guest Count</mat-label>
+      <input matInput type="number" min="0" max="5" formControlName="guests" />
+      <mat-hint>Max. 5 guests</mat-hint>
+    </mat-form-field>
+  </form>
+  <div dialog-form-footer>
+    <button mat-button (click)="onCancel()">Cancel</button>
+    <button
+      mat-flat-button
+      color="primary"
+      (click)="submit()"
+      [disabled]="eventAttendeeUpsertForm.invalid || eventAttendeeUpsertForm.pristine"
+      [loadingSpinner]="(isSubmitting$ | async)!"
+    >
+      {{ data.submitText }}
+    </button>
+  </div>
+</dialog-form>

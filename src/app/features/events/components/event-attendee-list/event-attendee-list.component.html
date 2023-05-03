@@ -1,10 +1,10 @@
 <app-section class="event-attendee-list">
   <app-section-header
-    ><div class="mat-headline-6">Attendees ({{ attendeeCount$ | async }})</div>
+    ><div class="mat-headline-6">Attendees ({{ goingAttendeeCount$ | async }})</div>
   </app-section-header>
   <card>
     <mat-tab-group>
-      <mat-tab *ngIf="goingAttendeeList$ | async as going" [label]="'Going (' + going.length + ')'">
+      <mat-tab *ngIf="goingAttendeeList$ | async as going" [label]="'Going (' + (goingAttendeeCount$ | async) + ')'">
         <div class="event-attendee-list__list">
           <app-event-attendee-list-item
             *ngFor="let attendee of going"
@@ -14,7 +14,7 @@
       </mat-tab>
       <mat-tab
         *ngIf="notGoingAttendeeList$ | async as notGoing"
-        [label]="'Not Going (' + notGoing.length + ')'"
+        [label]="'Not Going (' + (notGoingAttendeeCount$ | async) + ')'"
         [disabled]="notGoing.length === 0"
       >
         <div class="event-attendee-list__list">

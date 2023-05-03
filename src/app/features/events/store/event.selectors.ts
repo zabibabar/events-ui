@@ -66,7 +66,14 @@ export const selectGoingAttendeesForEvent = ({ eventId }: { eventId: string }) =
 
 export const selectGoingAttendeesCountForCurrentEvent = createSelector(
   selectCurrentEvent,
-  (event: Event | undefined) => event?.goingAttendeesCount ?? 0
+  (event: Event | undefined) =>
+    event?.attendees.reduce((acc, { isGoing, guests }) => acc + (isGoing ? guests + 1 : 0), 0) ?? 0
+)
+
+export const selectNotGoingAttendeesCountForCurrentEvent = createSelector(
+  selectCurrentEvent,
+  (event: Event | undefined) =>
+    event?.attendees.reduce((acc, { isGoing, guests }) => acc + (!isGoing ? guests + 1 : 0), 0) ?? 0
 )
 
 export const selectOrganizersForCurrentEvent = createSelector(

@@ -139,6 +139,7 @@ export const AddEventAttendeeActions = createActionGroup({
 export const UpdateEventAttendeeActions = createActionGroup({
   source: 'Events',
   events: {
+    'Open Upsert Attendee Dialog': props<{ eventId: string; attendeeId: string }>(),
     'Update Event Attendee': props<{ eventId: string; attendeeId: string; changes: AttendeeUpdateDto }>(),
     'Update Event Attendee Error': props<{ error: string }>(),
     'Update Event Attendee Success': props<{ eventId: string; attendees: Attendee[] }>()
@@ -156,3 +157,4 @@ export const UploadEventPictureActions = createActionGroup({
 })
 
 export const CloseUpsertEventFormDialog = createAction('[Events] Close Upsert Event Form Dialog')
+export const CloseUpsertAttendeeFormDialog = createAction('[Events] Close Upsert Attendee Form Dialog')

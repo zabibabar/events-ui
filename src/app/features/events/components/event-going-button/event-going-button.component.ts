@@ -44,4 +44,10 @@ export class EventGoingButtonComponent implements OnInit {
       })
     )
   }
+
+  updateRsvp(attendeeId: string): void {
+    this.store.dispatch(
+      UpdateEventAttendeeActions.openUpsertAttendeeDialog({ eventId: this.event.id, attendeeId: attendeeId })
+    )
+  }
 }

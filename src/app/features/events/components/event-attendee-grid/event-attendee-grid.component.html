@@ -1,6 +1,6 @@
 <app-section class="event-attendee-grid" *ngIf="visibleAttendees$ | async as attendees">
   <app-section-header>
-    <div class="mat-headline-6">Attendees ({{ attendees.length }})</div>
+    <div class="mat-headline-6">Attendees ({{ goingAttendeesCount$ | async }})</div>
     <a routerLink="../attendees">See all</a>
   </app-section-header>
   <div class="event-attendee-grid__grid">
@@ -8,6 +8,9 @@
       <ng-container *ngIf="a">
         <img class="event-attendee-grid__grid__item__image" [src]="a.user?.picture" [alt]="a.user?.name" />
         <div class="event-attendee-grid__grid__item__name mat-body-1">{{ a.user?.name }}</div>
+        <div *ngIf="a.guests > 0" class="event-attendee-grid__grid__item__guests mat-caption">
+          +{{ a.guests }} guest{{ a.guests > 1 ? 's' : '' }}
+        </div>
       </ng-container>
     </div>
   </div>

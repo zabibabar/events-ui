@@ -24,16 +24,16 @@
     </button>
 
     <mat-menu #goingMenu="matMenu">
-      <button mat-menu-item (click)="changeGoingStatus(attendee.id, false)">
-        <mat-icon>close</mat-icon>
-        <span>Change to Not Going</span>
+      <button mat-menu-item (click)="updateRsvp(attendee.id)">
+        <mat-icon>edit</mat-icon>
+        <span>Edit RSVP</span>
       </button>
     </mat-menu>
 
     <mat-menu #notGoingMenu="matMenu">
       <button mat-menu-item (click)="changeGoingStatus(attendee.id, true)">
         <mat-icon>check</mat-icon>
-        <span>Change to Going</span>
+        <span>Attend</span>
       </button>
     </mat-menu>
   </ng-container>

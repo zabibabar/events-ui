@@ -5,7 +5,8 @@ import { Attendee } from '../../interfaces/attendee'
 import {
   selectGoingAttendeesForCurrentEvent,
   selectNotGoingAttendeesForCurrentEvent,
-  selectGoingAttendeesCountForCurrentEvent
+  selectGoingAttendeesCountForCurrentEvent,
+  selectNotGoingAttendeesCountForCurrentEvent
 } from '../../store/event.selectors'
 
 @Component({
@@ -16,7 +17,8 @@ import {
 export class EventAttendeeListComponent {
   goingAttendeeList$: Observable<Attendee[]> = this.store.select(selectGoingAttendeesForCurrentEvent)
   notGoingAttendeeList$: Observable<Attendee[]> = this.store.select(selectNotGoingAttendeesForCurrentEvent)
-  attendeeCount$: Observable<number> = this.store.select(selectGoingAttendeesCountForCurrentEvent)
+  goingAttendeeCount$: Observable<number> = this.store.select(selectGoingAttendeesCountForCurrentEvent)
+  notGoingAttendeeCount$: Observable<number> = this.store.select(selectNotGoingAttendeesCountForCurrentEvent)
 
   constructor(private store: Store) {}
 }

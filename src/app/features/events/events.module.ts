@@ -41,6 +41,8 @@ import { EventOrganizerCardComponent } from './components/event-organizer-card/e
 import { MatChipsModule } from '@angular/material/chips'
 import { LoadingSpinnerModule } from 'src/app/shared/loading-spinner/loading-spinner.module'
 import { EventUiEffects } from './store/event-ui.effects'
+import { EventAttendeeUpsertFormComponent } from './components/event-attendee-upsert-form/event-attendee-upsert-form.component'
+import { MatSelectModule } from '@angular/material/select'
 
 @NgModule({
   imports: [
@@ -60,6 +62,7 @@ import { EventUiEffects } from './store/event-ui.effects'
     MatTabsModule,
     MatButtonToggleModule,
     MatChipsModule,
+    MatSelectModule,
     FormsModule,
     DialogFormModule,
     DialogModule,
@@ -85,7 +88,8 @@ import { EventUiEffects } from './store/event-ui.effects'
     EventAttendeeListComponent,
     EventAttendeeListItemComponent,
     EventGroupCardComponent,
-    EventOrganizerCardComponent
+    EventOrganizerCardComponent,
+    EventAttendeeUpsertFormComponent
   ],
   exports: [
     EventListComponent,

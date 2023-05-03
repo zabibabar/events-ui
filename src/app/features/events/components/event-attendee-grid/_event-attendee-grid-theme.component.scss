@@ -4,9 +4,14 @@
 @mixin color($theme) {
   $color-config: mat.get-color-config($theme);
   $background-palette: map.get($color-config, 'background');
+  $foreground-palette: map.get($color-config, 'foreground');
 
   .event-attendee-grid__grid__item {
     background-color: mat.get-color-from-palette($background-palette, 'card');
+
+    &__guests {
+      color: mat.get-color-from-palette($foreground-palette, secondary-text);
+    }
   }
 }
 

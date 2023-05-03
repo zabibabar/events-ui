@@ -2,7 +2,10 @@ import { Component } from '@angular/core'
 import { Store } from '@ngrx/store'
 import { map, Observable } from 'rxjs'
 import { Attendee } from '../../interfaces/attendee'
-import { selectGoingAttendeesForCurrentEvent } from '../../store/event.selectors'
+import {
+  selectGoingAttendeesForCurrentEvent,
+  selectNotGoingAttendeesCountForCurrentEvent
+} from '../../store/event.selectors'
 
 @Component({
   selector: 'app-event-attendee-grid',
@@ -12,6 +15,7 @@ import { selectGoingAttendeesForCurrentEvent } from '../../store/event.selectors
 export class EventAttendeeGridComponent {
   private readonly max = 8
   goingAttendees$: Observable<Attendee[]> = this.store.select(selectGoingAttendeesForCurrentEvent)
+  goingAttendeesCount$: Observable<number> = this.store.select(selectNotGoingAttendeesCountForCurrentEvent)
 
   visibleAttendees$: Observable<Attendee[]> = this.goingAttendees$.pipe(map((a) => a.slice(0, this.max)))
 

@@ -82,7 +82,7 @@ export const eventReducer: ActionReducer<EventStoreState, Action> = createReduce
     EventActions.AddEventAttendeeActions.addEventAttendeeError,
     EventActions.UpdateEventAttendeeActions.updateEventAttendeeError,
     EventActions.UploadEventPictureActions.uploadEventPictureError,
-    (state): EventStoreState => ({ ...state, loading: true })
+    (state): EventStoreState => ({ ...state, loading: false })
   ),
   on(
     EventActions.FetchEventsActions.fetchEventsSuccess,
