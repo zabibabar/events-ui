@@ -11,7 +11,7 @@ import { selectIsLoadingEventAction } from '../../store/event.selectors'
 })
 export class EventListComponent {
   @Input() events: Event[] = []
-  @Input() showMoreOption = true
+  @Input() showMoreOption = false
   @Output() next = new EventEmitter<void>()
 
   loading$ = this.store.select(selectIsLoadingEventAction)
