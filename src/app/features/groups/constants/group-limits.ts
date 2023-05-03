@@ -1,0 +1,1 @@
+export const GROUPS_FOR_CURRENT_USER = 4

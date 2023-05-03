@@ -5,12 +5,13 @@ import { selectCurrentUser } from '../../users/store/user/user.selectors'
 import { Group } from '../interfaces/group'
 import { adapter, groupFeatureSelector, GroupStoreState } from './group.reducer'
 
-const { selectEntities, selectAll } = adapter.getSelectors()
+const { selectEntities, selectAll, selectTotal } = adapter.getSelectors()
 
 export const selectGroupState = createFeatureSelector<GroupStoreState>(groupFeatureSelector)
 
 export const selectGroupEntities = createSelector(selectGroupState, selectEntities)
 export const selectAllGroups = createSelector(selectGroupState, selectAll)
+export const selectGroupsTotal = createSelector(selectGroupState, selectTotal)
 export const selectIsLoadingGroupAction = createSelector(selectGroupState, (state) => state.loading)
 export const selectHasMoreGroups = createSelector(selectGroupState, (state) => state.hasMoreGroups)
 export const selectCurrentPage = createSelector(selectGroupState, (state) => state.currentPage)
@@ -57,3 +58,8 @@ export const selectIsCurrentGroupMemberOrganizer = createSelector(
 )
 
 export const selectCurrentGroupDescription = createSelector(selectCurrentGroup, (group) => group?.description ?? '')
+
+export const selectGroups = (props: { limit: number }) =>
+  createSelector(selectAllGroups, (groups) => {
+    return groups.slice(0, props.limit)
+  })

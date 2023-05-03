@@ -2,5 +2,7 @@
   <div class="event-header">
     <h1>Events</h1>
   </div>
-  <app-event-list></app-event-list>
+  <app-event-list [events]="(events$ | async)!" [showMoreOption]="(hasMoreEvents$ | async)!" (next)="fetchNextEvents()">
+    <div class="event-list__empty">You have no upcoming events!</div>
+  </app-event-list>
 </app-page-container>

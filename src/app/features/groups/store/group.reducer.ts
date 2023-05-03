@@ -3,6 +3,7 @@ import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity'
 import { Group } from '../interfaces/group'
 import * as GroupActions from './group.actions'
 import { GROUP_PAGE_SIZE } from '../constants/group-page-size'
+import * as GroupLimits from '../constants/group-limits'
 
 export const groupFeatureSelector = 'groups'
 
@@ -56,7 +57,13 @@ export const groupReducer: ActionReducer<GroupStoreState, Action> = createReduce
   ),
   on(
     GroupActions.FetchGroupsActions.fetchGroupsSuccess,
-    (state, { groups }): GroupStoreState => adapter.upsertMany(groups, { ...state, error: null, loading: false })
+    (state, { groups }): GroupStoreState =>
+      adapter.upsertMany(groups, {
+        ...state,
+        error: null,
+        loading: false,
+        hasMoreGroups: groups.length === GroupLimits.GROUPS_FOR_CURRENT_USER
+      })
   ),
   on(
     GroupActions.FetchNextGroupsActions.fetchNextGroupsSuccess,
@@ -66,7 +73,7 @@ export const groupReducer: ActionReducer<GroupStoreState, Action> = createReduce
         error: null,
         loading: false,
         hasMoreGroups: groups.length === GROUP_PAGE_SIZE,
-        currentPage: groups.length > 0 ? state.currentPage + 1 : state.currentPage
+        currentPage: groups.length === 0 && state.currentPage !== 0 ? state.currentPage : state.currentPage + 1
       })
   ),
   on(

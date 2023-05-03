@@ -39,6 +39,7 @@ import {
 } from './event.selectors'
 import { EVENT_PAGE_SIZE } from '../constants/event-page-size'
 import * as EventLimits from '../constants/event-limits'
+import { HomePageLoaded } from 'src/app/core/store/app.actions'
 
 @Injectable()
 export class EventApiEffects {
@@ -49,6 +50,13 @@ export class EventApiEffects {
     private toast: ToastService,
     private router: Router
   ) {}
+
+  homePageLoaded$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(HomePageLoaded),
+      map(() => FetchEventsActions.fetchEvents())
+    )
+  })
 
   fetchEvents$ = createEffect(() => {
     return this.actions$.pipe(
@@ -80,10 +88,12 @@ export class EventApiEffects {
     return this.actions$.pipe(
       ofType(FetchUpcomingEventsActions.fetchUpcomingEvents),
       exhaustMap(() =>
-        this.eventApiService.getEvents({ skip: 0, upcomingLimit: 4, isGoing: true }).pipe(
-          map((events) => FetchUpcomingEventsActions.fetchUpcomingEventsSuccess({ events })),
-          catchError((error) => of(FetchUpcomingEventsActions.fetchUpcomingEventsError({ error })))
-        )
+        this.eventApiService
+          .getEvents({ skip: 0, upcomingLimit: EventLimits.UPCOMING_EVENTS_FOR_CURRENT_USER, isGoing: true })
+          .pipe(
+            map((events) => FetchUpcomingEventsActions.fetchUpcomingEventsSuccess({ events })),
+            catchError((error) => of(FetchUpcomingEventsActions.fetchUpcomingEventsError({ error })))
+          )
       )
     )
   })
@@ -143,8 +153,8 @@ export class EventApiEffects {
       exhaustMap(([, { groupId }]) =>
         this.eventApiService
           .getEventsByGroup(groupId, {
-            upcomingLimit: EventLimits.UPCOMING_EVENT_INITIAL_LOAD_FOR_CURRENT_GROUP,
-            pastLimit: EventLimits.PAST_EVENT_INITIAL_LOAD_FOR_CURRENT_GROUP
+            upcomingLimit: EventLimits.UPCOMING_EVENTS_INITIAL_LOAD_FOR_CURRENT_GROUP,
+            pastLimit: EventLimits.PAST_EVENTS_INITIAL_LOAD_FOR_CURRENT_GROUP
           })
           .pipe(
             map((events) =>

@@ -2,6 +2,7 @@ import { Action, ActionReducer, createReducer, on } from '@ngrx/store'
 import { createEntityAdapter, EntityAdapter, EntityState } from '@ngrx/entity'
 import { Event } from '../interfaces/event'
 import * as EventActions from './event.actions'
+import * as GroupActions from '../../groups/store/group.actions'
 import { EVENT_PAGE_SIZE } from '../constants/event-page-size'
 
 export const eventFeatureSelector = 'events'
@@ -15,6 +16,7 @@ export interface EventStoreState extends EntityState<Event> {
   currentUpcomingPage: number
   hasMorePastEvents: boolean
   currentPastPage: number
+  hasLoadedInitialEventsForGroup: boolean
   hasMoreUpcomingEventsForCurrentGroup: boolean
   currentUpcomingPageForCurrentGroup: number
   hasMorePastEventsForCurrentGroup: boolean
@@ -35,6 +37,7 @@ const initialState: EventStoreState = adapter.getInitialState({
   currentUpcomingPage: 0,
   hasMorePastEvents: true,
   currentPastPage: 0,
+  hasLoadedInitialEventsForGroup: false,
   hasMoreUpcomingEventsForCurrentGroup: true,
   currentUpcomingPageForCurrentGroup: 0,
   hasMorePastEventsForCurrentGroup: true,
@@ -86,7 +89,8 @@ export const eventReducer: ActionReducer<EventStoreState, Action> = createReduce
     EventActions.FetchUpcomingEventsActions.fetchUpcomingEventsSuccess,
     EventActions.FetchPastEventsActions.fetchPastEventsSuccess,
     EventActions.FetchInitialEventsByCurrentGroupActions.fetchInitialEventsByCurrentGroupSuccess,
-    (state, { events }): EventStoreState => adapter.upsertMany(events, { ...state, error: null, loading: false })
+    (state, { events }): EventStoreState =>
+      adapter.upsertMany(events, { ...state, error: null, loading: false, hasLoadedInitialEventsForGroup: true })
   ),
   on(
     EventActions.FetchNextEventsActions.fetchNextEventsSuccess,
@@ -96,7 +100,7 @@ export const eventReducer: ActionReducer<EventStoreState, Action> = createReduce
         error: null,
         loading: false,
         hasMoreEvents: events.length === EVENT_PAGE_SIZE,
-        currentPage: events.length > 0 ? state.currentPage + 1 : state.currentPage
+        currentPage: events.length === 0 && state.currentPage !== 0 ? state.currentPage : state.currentPage + 1
       })
   ),
   on(
@@ -107,7 +111,10 @@ export const eventReducer: ActionReducer<EventStoreState, Action> = createReduce
         error: null,
         loading: false,
         hasMoreUpcomingEvents: events.length === EVENT_PAGE_SIZE,
-        currentUpcomingPage: events.length > 0 ? state.currentUpcomingPage + 1 : state.currentUpcomingPage
+        currentUpcomingPage:
+          events.length === 0 && state.currentUpcomingPage !== 0
+            ? state.currentUpcomingPage
+            : state.currentUpcomingPage + 1
       })
   ),
   on(
@@ -118,7 +125,8 @@ export const eventReducer: ActionReducer<EventStoreState, Action> = createReduce
         error: null,
         loading: false,
         hasMorePastEvents: events.length === EVENT_PAGE_SIZE,
-        currentPastPage: events.length > 0 ? state.currentPastPage + 1 : state.currentPastPage
+        currentPastPage:
+          events.length === 0 && state.currentPastPage !== 0 ? state.currentPastPage : state.currentPastPage + 1
       })
   ),
   on(
@@ -130,7 +138,9 @@ export const eventReducer: ActionReducer<EventStoreState, Action> = createReduce
         loading: false,
         hasMoreUpcomingEventsForCurrentGroup: events.length === EVENT_PAGE_SIZE,
         currentUpcomingPageForCurrentGroup:
-          events.length > 0 ? state.currentUpcomingPageForCurrentGroup + 1 : state.currentUpcomingPageForCurrentGroup
+          events.length === 0 && state.currentUpcomingPageForCurrentGroup !== 0
+            ? state.currentUpcomingPageForCurrentGroup
+            : state.currentUpcomingPageForCurrentGroup + 1
       })
   ),
   on(
@@ -142,7 +152,9 @@ export const eventReducer: ActionReducer<EventStoreState, Action> = createReduce
         loading: false,
         hasMorePastEventsForCurrentGroup: events.length === EVENT_PAGE_SIZE,
         currentPastPageForCurrentGroup:
-          events.length > 0 ? state.currentPastPageForCurrentGroup + 1 : state.currentPastPageForCurrentGroup
+          events.length === 0 && state.currentPastPageForCurrentGroup !== 0
+            ? state.currentPastPageForCurrentGroup
+            : state.currentPastPageForCurrentGroup + 1
       })
   ),
   on(
@@ -169,5 +181,17 @@ export const eventReducer: ActionReducer<EventStoreState, Action> = createReduce
     EventActions.UpdateEventAttendeeActions.updateEventAttendeeSuccess,
     (state, { eventId: id, attendees }): EventStoreState =>
       adapter.updateOne({ id, changes: { attendees } }, { ...state, error: null, loading: false })
+  ),
+  on(
+    GroupActions.FetchGroupActions.fetchGroupSuccess,
+    GroupActions.AddToGroupViaInviteCodeActions.addToGroupViaInviteCodeSuccess,
+    (state): EventStoreState => ({
+      ...state,
+      hasLoadedInitialEventsForGroup: false,
+      hasMoreUpcomingEventsForCurrentGroup: true,
+      currentUpcomingPageForCurrentGroup: 0,
+      hasMorePastEventsForCurrentGroup: true,
+      currentPastPageForCurrentGroup: 0
+    })
   )
 )

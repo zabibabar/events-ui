@@ -12,6 +12,8 @@ import * as GroupActions from './group.actions'
 import { selectCurrentGroup, selectCurrentPage, selectHasMoreGroups } from './group.selectors'
 import { EventApiService } from '../../events/services/event-api.service'
 import { GROUP_PAGE_SIZE } from '../constants/group-page-size'
+import * as GroupLimits from '../constants/group-limits'
+import { HomePageLoaded } from 'src/app/core/store/app.actions'
 
 @Injectable()
 export class GroupApiEffects {
@@ -24,11 +26,18 @@ export class GroupApiEffects {
     private toast: ToastService
   ) {}
 
+  homePageLoaded$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(HomePageLoaded),
+      map(() => GroupActions.FetchGroupsActions.fetchGroups())
+    )
+  })
+
   fetchGroups$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(GroupActions.FetchGroupsActions.fetchGroups),
       exhaustMap(() => {
-        return this.groupApiService.getGroups({ skip: 0, limit: 4 }).pipe(
+        return this.groupApiService.getGroups({ skip: 0, limit: GroupLimits.GROUPS_FOR_CURRENT_USER }).pipe(
           map((groups) => GroupActions.FetchGroupsActions.fetchGroupsSuccess({ groups })),
           catchError((error) => of(GroupActions.FetchGroupsActions.fetchGroupsError({ error })))
         )

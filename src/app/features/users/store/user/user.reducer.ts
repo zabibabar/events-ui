@@ -8,7 +8,7 @@ import {
   UploadUserPictureActions
 } from './user.actions'
 import { User } from '../../interfaces/user'
-import { FetchGroupActions } from 'src/app/features/groups/store/group.actions'
+import { AddToGroupViaInviteCodeActions, FetchGroupActions } from 'src/app/features/groups/store/group.actions'
 
 export const userFeatureSelector = 'users'
 
@@ -64,6 +64,7 @@ export const userReducer: ActionReducer<UserStoreState, Action> = createReducer(
   ),
   on(
     FetchGroupActions.fetchGroupSuccess,
+    AddToGroupViaInviteCodeActions.addToGroupViaInviteCodeSuccess,
     (state, { group: { members } }): UserStoreState =>
       adapter.upsertMany(members.filter(({ user }) => !!user).map(({ user }) => user) as User[], state)
   )

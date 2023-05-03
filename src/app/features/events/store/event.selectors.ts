@@ -23,6 +23,10 @@ export const selectCurrentUpcomingPage = createSelector(selectEventState, (state
 export const selectHasMorePastEvents = createSelector(selectEventState, (state) => state.hasMorePastEvents)
 export const selectCurrentPastPage = createSelector(selectEventState, (state) => state.currentPastPage)
 
+export const selectHasLoadedInitialEventsForGroup = createSelector(
+  selectEventState,
+  (state) => state.hasLoadedInitialEventsForGroup
+)
 export const selectHasMoreUpcomingEventsForCurrentGroup = createSelector(
   selectEventState,
   (state) => state.hasMoreUpcomingEventsForCurrentGroup
@@ -89,7 +93,7 @@ const selectEventsByCurrentGroup = createSelector(selectAllEvents, selectRoutePa
   events.filter(({ groupId: gId }) => gId === groupId)
 )
 
-export const selectUpcomingEventsByCurrentGroup = (props: { limit: number }) =>
+export const selectUpcomingEventsByCurrentGroup = (props: { limit?: number }) =>
   createSelector(selectEventsByCurrentGroup, (events) => {
     const currentDate = new Date().getTime()
     return events
@@ -98,7 +102,7 @@ export const selectUpcomingEventsByCurrentGroup = (props: { limit: number }) =>
       .slice(0, props.limit)
   })
 
-export const selectPastEventsByCurrentGroup = (props: { limit: number }) =>
+export const selectPastEventsByCurrentGroup = (props: { limit?: number }) =>
   createSelector(selectEventsByCurrentGroup, (events) => {
     const currentDate = new Date().getTime()
     return events
@@ -107,7 +111,7 @@ export const selectPastEventsByCurrentGroup = (props: { limit: number }) =>
       .slice(0, props.limit)
   })
 
-export const selectUpcomingEventsByCurrentUser = (props: { limit: number; isGoing: boolean }) =>
+export const selectUpcomingEventsByCurrentUser = (props: { limit?: number; isGoing: boolean }) =>
   createSelector(selectCurrentUserId, selectAllEvents, (userId, events) => {
     const currentDate = new Date().getTime()
     let upcomingEvents = events.filter(({ timeEnd }) => new Date(timeEnd).getTime() > currentDate)

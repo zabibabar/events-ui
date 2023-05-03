@@ -4,7 +4,7 @@
       <h1>Your Groups</h1>
       <a routerLink="/groups">See all</a>
     </app-section-header>
-    <app-group-list></app-group-list>
+    <app-group-list [groups]="(groups$ | async)!"></app-group-list>
   </app-section>
 
   <app-section class="home-page__section">
@@ -13,10 +13,7 @@
       <a routerLink="/events">See all</a>
     </app-section-header>
     <app-event-list [events]="(events$ | async)!">
-      <div class="event-list--empty">
-        You have no upcoming events!
-        <a routerLink="/events">Find Events</a>
-      </div>
+      <div class="event-list__empty">You have no upcoming events!</div>
     </app-event-list>
   </app-section>
 </app-page-container>

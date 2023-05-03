@@ -2,6 +2,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout'
 import { Component } from '@angular/core'
 import { Store } from '@ngrx/store'
 import { Observable, map } from 'rxjs'
+import * as EventLimits from 'src/app/features/events/constants/event-limits'
 import { Event } from 'src/app/features/events/interfaces/event'
 import {
   selectPastEventsByCurrentGroup,
@@ -24,8 +25,12 @@ import {
 })
 export class GroupHomePageComponent {
   currentGroup$: Observable<Group | undefined> = this.store.select(selectCurrentGroup)
-  pastEvents$: Observable<Event[]> = this.store.select(selectPastEventsByCurrentGroup({ limit: 1 }))
-  upcomingEvents$: Observable<Event[]> = this.store.select(selectUpcomingEventsByCurrentGroup({ limit: 3 }))
+  pastEvents$: Observable<Event[]> = this.store.select(
+    selectPastEventsByCurrentGroup({ limit: EventLimits.PAST_EVENTS_INITIAL_LOAD_FOR_CURRENT_GROUP })
+  )
+  upcomingEvents$: Observable<Event[]> = this.store.select(
+    selectUpcomingEventsByCurrentGroup({ limit: EventLimits.UPCOMING_EVENTS_INITIAL_LOAD_FOR_CURRENT_GROUP })
+  )
   groupMembers$: Observable<Member[]> = this.store.select(selectMembersForCurrentGroup)
   groupOrganizers$: Observable<Member[]> = this.store.select(selectOrganizersForCurrentGroup)
   upcomingEventCount$: Observable<number | undefined> = this.store.select(selectUpcomingEventCountForCurrentGroup)

@@ -11,7 +11,7 @@
         <a routerLink="../events">See all</a>
       </app-section-header>
       <app-event-list [events]="(upcomingEvents$ | async)!">
-        <div class="event-list--empty">No Upcoming events</div>
+        <div class="event-list__empty">No Upcoming events</div>
       </app-event-list>
     </app-section>
 
@@ -21,7 +21,7 @@
         <a routerLink="../events/past">See all</a>
       </app-section-header>
       <app-event-list [events]="(pastEvents$ | async)!">
-        <div class="event-list--empty">No Past events</div>
+        <div class="event-list__empty">No Past events</div>
       </app-event-list>
     </app-section>
   </div>
