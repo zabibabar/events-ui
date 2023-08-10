@@ -24,7 +24,7 @@ export class GroupMemberListComponent implements OnInit {
   }
 
   private getFilterMembersList(): Observable<Member[]> {
-    const searchTerm$ = this.filter.valueChanges.pipe(
+    const searchTerm$: Observable<string> = this.filter.valueChanges.pipe(
       startWith(''),
       map((x) => x.trim())
     )

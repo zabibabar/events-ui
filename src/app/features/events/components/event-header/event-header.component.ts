@@ -14,7 +14,8 @@ import { map } from 'rxjs'
 export class EventHeaderComponent {
   links: NavLink[] = [
     { label: 'Details', link: 'home' },
-    { label: 'Attendees', link: 'attendees' }
+    { label: 'Attendees', link: 'attendees' },
+    { label: 'Tasks', link: 'tasks' }
   ]
 
   event$ = this.store.select(selectCurrentEvent)

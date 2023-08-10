@@ -24,6 +24,10 @@ const routes: Routes = [
           import('../event-attendees-page/event-attendees-page.module').then((m) => m.EventAttendeesPageModule)
       },
       {
+        path: 'tasks',
+        loadChildren: () => import('../event-tasks-page/event-tasks-page.module').then((m) => m.EventTasksPageModule)
+      },
+      {
         path: '**',
         redirectTo: 'home'
       }

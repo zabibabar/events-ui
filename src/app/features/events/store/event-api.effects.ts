@@ -242,7 +242,7 @@ export class EventApiEffects {
         this.eventApiService.createEvent(event).pipe(
           map((event) => CreateEventActions.createEventSuccess({ event })),
           tap(() => this.toast.success('Event Created Successfully!')),
-          tap(({ event }) => this.router.navigate(['events', event.id])),
+          tap(({ event }) => this.router.navigate(['groups', event.groupId, 'events', event.id])),
           catchError((error) => of(CreateEventActions.createEventError({ error })))
         )
       )
