@@ -4,29 +4,15 @@
     <div class="task__details__description mat-caption">{{ task.description }}</div>
   </div>
   <app-user-avatar-group
+    class="task__users"
     *ngIf="(assignedUsers$ | async)!.length > 0; else noAssigned"
     [users]="(assignedUsers$ | async)!"
   ></app-user-avatar-group>
-  <div class="task__buttons">
-    <button
-      *ngIf="isCurrentUserAssigned$ | async; else assignedUser"
-      class="task__button"
-      mat-icon-button
-      color="warn"
-      (click)="unassignTask()"
-    >
-      <mat-icon>cancel</mat-icon>
-    </button>
-    <ng-template #assignedUser>
-      <button class="task__button" mat-icon-button color="primary" (click)="assignTask()">
-        <mat-icon>back_hand</mat-icon>
-      </button>
-    </ng-template>
-    <button class="task__button" mat-icon-button (click)="editTask()"><mat-icon>edit</mat-icon></button>
-    <button class="task__button" mat-icon-button (click)="deleteTask()"><mat-icon>delete</mat-icon></button>
-  </div>
+  <button class="task__buttons" mat-button [matMenuTriggerFor]="menu.menu"><mat-icon>more_vert</mat-icon>More</button>
 </div>
 
 <ng-template #noAssigned>
-  <div class="task__users--empty mat-caption">Up for grabs</div>
+  <div class="task__users task__users--empty mat-caption">Up for grabs</div>
 </ng-template>
+
+<app-task-options-menu #menu="taskOptionsMenu" [task]="task"></app-task-options-menu>

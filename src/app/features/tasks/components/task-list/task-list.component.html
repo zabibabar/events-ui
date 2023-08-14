@@ -3,11 +3,11 @@
     <div class="mat-headline-6 task-list__header__title">{{ taskList.name }}</div>
     <div class="mat-subtitle-1 task-list__header__count">({{ (tasks$ | async)?.length }})</div>
     <div class="flex-spacer"></div>
-    <button mat-icon-button (click)="editTaskList()"><mat-icon>edit</mat-icon></button>
-    <button mat-icon-button (click)="deleteTaskList()"><mat-icon>delete</mat-icon></button>
     <button mat-icon-button (click)="addNewTask()"><mat-icon>add</mat-icon></button>
+    <button mat-icon-button [matMenuTriggerFor]="menu.menu"><mat-icon>more_vert</mat-icon></button>
   </div>
   <div class="task-list">
     <app-task *ngFor="let task of tasks$ | async" [task]="task" [eventId]="taskList.eventId"></app-task>
   </div>
 </div>
+<app-task-list-options-menu #menu="taskListOptionsMenu" [taskList]="taskList"></app-task-list-options-menu>

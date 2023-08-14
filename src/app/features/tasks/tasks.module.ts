@@ -21,6 +21,8 @@ import { TaskUiEffects } from './store/task-ui.effects'
 import { TaskApiEffects } from './store/task-api.effects'
 import { LoadingSpinnerModule } from 'src/app/shared/loading-spinner/loading-spinner.module'
 import { MatDialogModule } from '@angular/material/dialog'
+import { TaskOptionsMenuComponent } from './components/task-options-menu/task-options-menu.component'
+import { TaskListOptionsMenuComponent } from './components/task-list-options-menu/task-list-options-menu.component'
 
 @NgModule({
   imports: [
@@ -35,6 +37,7 @@ import { MatDialogModule } from '@angular/material/dialog'
     DialogFormModule,
     LoadingSpinnerModule,
     MatDialogModule,
+    MatMenuModule,
     UsersModule,
     StoreModule.forFeature(taskListFeatureSelector, taskListReducer),
     StoreModule.forFeature(taskFeatureSelector, taskReducer),
@@ -46,7 +49,9 @@ import { MatDialogModule } from '@angular/material/dialog'
     TaskUpsertFormComponent,
     TaskListUpsertFormComponent,
     TaskUpsertFormComponent,
-    TaskComponent
+    TaskComponent,
+    TaskListOptionsMenuComponent,
+    TaskOptionsMenuComponent
   ],
   exports: [TaskListComponent, TaskListUpsertFormComponent]
 })

@@ -1,27 +1,26 @@
-import { Component, Input, OnInit } from '@angular/core'
-import { Task } from '../../interfaces/task.interface'
+import { Component, Input, OnInit, ViewChild } from '@angular/core'
+import { MatMenu } from '@angular/material/menu'
 import { Store } from '@ngrx/store'
+import { Task } from '../../interfaces/task.interface'
+import { AssignTaskActions, UnassignTaskActions, UpdateTaskActions, RemoveTaskActions } from '../../store/task.actions'
 import { Observable } from 'rxjs'
-import { AssignTaskActions, RemoveTaskActions, UnassignTaskActions, UpdateTaskActions } from '../../store/task.actions'
-import { selectIsCurrentUserAssigned, selectTaskAssignments } from '../../store/task.selectors'
-import { TaskAssignment } from '../../interfaces/task-assignment.interface'
+import { selectIsCurrentUserAssigned } from '../../store/task.selectors'
 
 @Component({
-  selector: 'app-task',
-  templateUrl: './task.component.html',
-  styleUrls: ['./task.component.scss']
+  selector: 'app-task-options-menu',
+  templateUrl: './task-options-menu.component.html',
+  styleUrls: ['./task-options-menu.component.scss'],
+  exportAs: 'taskOptionsMenu'
 })
-export class TaskComponent implements OnInit {
+export class TaskOptionsMenuComponent implements OnInit {
+  @ViewChild(MatMenu, { static: true }) menu: MatMenu
   @Input() task: Task
   @Input() eventId: string
-
-  assignedUsers$: Observable<TaskAssignment[]>
   isCurrentUserAssigned$: Observable<boolean>
 
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.assignedUsers$ = this.store.select(selectTaskAssignments({ taskId: this.task.id }))
     this.isCurrentUserAssigned$ = this.store.select(selectIsCurrentUserAssigned({ taskId: this.task.id }))
   }
 
