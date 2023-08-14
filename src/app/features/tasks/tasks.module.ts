@@ -3,15 +3,24 @@ import { CommonModule } from '@angular/common'
 import { HttpClientModule } from '@angular/common/http'
 import { EffectsModule } from '@ngrx/effects'
 import { StoreModule } from '@ngrx/store'
-import { DialogModule } from '@angular/cdk/dialog'
 import { ReactiveFormsModule } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatIconModule } from '@angular/material/icon'
 import { MatInputModule } from '@angular/material/input'
 import { MatMenuModule } from '@angular/material/menu'
-import { DialogFormModule } from 'src/app/shared/dialog-form/dialog-form.module';
+import { DialogFormModule } from 'src/app/shared/dialog-form/dialog-form.module'
 import { TaskListComponent } from './components/task-list/task-list.component'
+import { TaskListUpsertFormComponent } from './components/task-list-upsert-form/task-list-upsert-form.component'
+import { TaskUpsertFormComponent } from './components/task-upsert-form/task-upsert-form.component'
+import { TaskComponent } from './components/task/task.component'
+import { UsersModule } from '../users/users.module'
+import { taskListFeatureSelector, taskListReducer } from './store/task-list.reducer'
+import { taskFeatureSelector, taskReducer } from './store/task.reducer'
+import { TaskUiEffects } from './store/task-ui.effects'
+import { TaskApiEffects } from './store/task-api.effects'
+import { LoadingSpinnerModule } from 'src/app/shared/loading-spinner/loading-spinner.module'
+import { MatDialogModule } from '@angular/material/dialog'
 
 @NgModule({
   imports: [
@@ -24,12 +33,21 @@ import { TaskListComponent } from './components/task-list/task-list.component'
     MatFormFieldModule,
     MatInputModule,
     DialogFormModule,
-    DialogModule
-    // StoreModule.forFeature(),
-    // EffectsModule.forFeature()
+    LoadingSpinnerModule,
+    MatDialogModule,
+    UsersModule,
+    StoreModule.forFeature(taskListFeatureSelector, taskListReducer),
+    StoreModule.forFeature(taskFeatureSelector, taskReducer),
+    EffectsModule.forFeature([TaskUiEffects, TaskApiEffects])
   ],
   declarations: [
-    TaskListComponent
-  ]
+    TaskListComponent,
+    TaskListUpsertFormComponent,
+    TaskUpsertFormComponent,
+    TaskListUpsertFormComponent,
+    TaskUpsertFormComponent,
+    TaskComponent
+  ],
+  exports: [TaskListComponent, TaskListUpsertFormComponent]
 })
 export class TasksModule {}

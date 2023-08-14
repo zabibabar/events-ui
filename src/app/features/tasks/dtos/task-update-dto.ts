@@ -1,3 +1,3 @@
-import { Task } from '../interfaces/task.interface'
+import { TaskApi } from '../interfaces/task-api.interface'
 
-export type TaskUpdateDto = Omit<Task, 'id' | 'assignedTo'>
+export type TaskUpdateDto = Partial<Omit<TaskApi, 'id' | 'assignedTo'>>

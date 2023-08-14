@@ -73,7 +73,7 @@ export class TaskApiEffects {
       ofType(TaskActions.AddTaskActions.addTask),
       mergeMap(({ eventId, taskListId, task }) =>
         this.taskApiService.addTask(eventId, taskListId, task).pipe(
-          map((tasks) => TaskActions.AddTaskActions.addTaskSuccess({ eventId, taskListId, tasks })),
+          map((tasks) => TaskActions.AddTaskActions.addTaskSuccess({ taskListId, tasks })),
           tap(() => this.toast.success('Task Added Successfully!')),
           catchError((error) => of(TaskActions.AddTaskActions.addTaskError({ error })))
         )
@@ -86,7 +86,7 @@ export class TaskApiEffects {
       ofType(TaskActions.UpdateTaskActions.updateTask),
       mergeMap(({ eventId, taskListId, taskId, task }) =>
         this.taskApiService.updateTask(eventId, taskListId, taskId, task).pipe(
-          map((tasks) => TaskActions.UpdateTaskActions.updateTaskSuccess({ eventId, taskListId, tasks })),
+          map((tasks) => TaskActions.UpdateTaskActions.updateTaskSuccess({ taskListId, tasks })),
           tap(() => this.toast.success('Task Member Updated Successfully!')),
           catchError((error) => of(TaskActions.UpdateTaskActions.updateTaskError({ error })))
         )
@@ -99,7 +99,7 @@ export class TaskApiEffects {
       ofType(TaskActions.RemoveTaskActions.removeTask),
       mergeMap(({ eventId, taskListId, taskId }) =>
         this.taskApiService.removeTask(eventId, taskListId, taskId).pipe(
-          map(() => TaskActions.RemoveTaskActions.removeTaskSuccess({ eventId, taskListId, taskId })),
+          map(() => TaskActions.RemoveTaskActions.removeTaskSuccess({ taskId })),
           tap(() => this.toast.success('Removed Task Successfully!')),
           catchError((error) => of(TaskActions.RemoveTaskActions.removeTaskError({ error })))
         )
@@ -112,8 +112,7 @@ export class TaskApiEffects {
       ofType(TaskActions.AssignTaskActions.assignTask),
       mergeMap(({ eventId, taskListId, taskId }) =>
         this.taskApiService.assignTask(eventId, taskListId, taskId).pipe(
-          map((tasks) => TaskActions.AssignTaskActions.assignTaskSuccess({ eventId, taskListId, tasks })),
-          tap(() => this.toast.success('Task Member Updated Successfully!')),
+          map((tasks) => TaskActions.AssignTaskActions.assignTaskSuccess({ taskListId, tasks })),
           catchError((error) => of(TaskActions.AssignTaskActions.assignTaskError({ error })))
         )
       )
@@ -125,8 +124,7 @@ export class TaskApiEffects {
       ofType(TaskActions.UnassignTaskActions.unassignTask),
       mergeMap(({ eventId, taskListId, taskId }) =>
         this.taskApiService.unassignTask(eventId, taskListId, taskId).pipe(
-          map((tasks) => TaskActions.UnassignTaskActions.unassignTaskSuccess({ eventId, taskListId, tasks })),
-          tap(() => this.toast.success('Task Member Updated Successfully!')),
+          map((tasks) => TaskActions.UnassignTaskActions.unassignTaskSuccess({ taskListId, tasks })),
           catchError((error) => of(TaskActions.UnassignTaskActions.unassignTaskError({ error })))
         )
       )

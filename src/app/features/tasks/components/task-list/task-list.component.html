@@ -1,1 +1,13 @@
-<p>task-list works!</p>
+<div *ngIf="taskList">
+  <div class="task-list__header">
+    <div class="mat-headline-6 task-list__header__title">{{ taskList.name }}</div>
+    <div class="mat-subtitle-1 task-list__header__count">({{ (tasks$ | async)?.length }})</div>
+    <div class="flex-spacer"></div>
+    <button mat-icon-button (click)="editTaskList()"><mat-icon>edit</mat-icon></button>
+    <button mat-icon-button (click)="deleteTaskList()"><mat-icon>delete</mat-icon></button>
+    <button mat-icon-button (click)="addNewTask()"><mat-icon>add</mat-icon></button>
+  </div>
+  <div class="task-list">
+    <app-task *ngFor="let task of tasks$ | async" [task]="task" [eventId]="taskList.eventId"></app-task>
+  </div>
+</div>

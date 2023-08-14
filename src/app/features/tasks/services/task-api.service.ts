@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { Observable } from 'rxjs'
-import { TaskList } from '../interfaces/task-list.interface'
-import { Task } from '../interfaces/task.interface'
+import { TaskApi } from '../interfaces/task-api.interface'
 import { TaskCreateDto } from '../dtos/task-create-dto'
 import { TaskUpdateDto } from '../dtos/task-update-dto'
 import { TaskListCreateDto } from '../dtos/task-list-create-dto'
+import { TaskListApi } from '../interfaces/task-list-api.interface'
+import { TaskListUpdateDto } from '../dtos/task-list-update-dto'
 
 @Injectable({
   providedIn: 'root'
@@ -13,39 +14,41 @@ import { TaskListCreateDto } from '../dtos/task-list-create-dto'
 export class TaskApiService {
   constructor(private httpClient: HttpClient) {}
 
-  getAllTaskLists(eventId: string): Observable<TaskList[]> {
-    return this.httpClient.get<TaskList[]>(`events/${eventId}/task-lists`)
+  getAllTaskLists(eventId: string): Observable<TaskListApi[]> {
+    return this.httpClient.get<TaskListApi[]>(`events/${eventId}/task-lists`)
   }
 
-  createTaskList(eventId: string, body: TaskListCreateDto): Observable<TaskList> {
-    return this.httpClient.post<TaskList>(`events/${eventId}/task-lists`, body)
+  createTaskList(eventId: string, body: TaskListCreateDto): Observable<TaskListApi> {
+    return this.httpClient.post<TaskListApi>(`events/${eventId}/task-lists`, body)
   }
 
-  updateTaskList(eventId: string, taskListId: string, body: TaskUpdateDto): Observable<TaskList> {
-    return this.httpClient.patch<TaskList>(`events/${eventId}/task-lists/${taskListId}`, body)
+  updateTaskList(eventId: string, taskListId: string, body: TaskListUpdateDto): Observable<TaskListApi> {
+    return this.httpClient.patch<TaskListApi>(`events/${eventId}/task-lists/${taskListId}`, body)
   }
 
   deleteTaskList(eventId: string, taskListId: string): Observable<void> {
     return this.httpClient.delete<void>(`events/${eventId}/task-lists/${taskListId}`)
   }
 
-  addTask(eventId: string, taskListId: string, body: TaskCreateDto): Observable<Task[]> {
-    return this.httpClient.post<Task[]>(`events/${eventId}/task-lists/${taskListId}`, body)
+  addTask(eventId: string, taskListId: string, body: TaskCreateDto): Observable<TaskApi[]> {
+    return this.httpClient.post<TaskApi[]>(`events/${eventId}/task-lists/${taskListId}/tasks`, body)
   }
 
-  updateTask(eventId: string, taskListId: string, taskId: string, body: TaskUpdateDto): Observable<Task[]> {
-    return this.httpClient.patch<Task[]>(`events/${eventId}/task-lists/${taskListId}/task/${taskId}`, body)
+  updateTask(eventId: string, taskListId: string, taskId: string, body: TaskUpdateDto): Observable<TaskApi[]> {
+    return this.httpClient.patch<TaskApi[]>(`events/${eventId}/task-lists/${taskListId}/tasks/${taskId}`, body)
   }
 
-  removeTask(eventId: string, taskListId: string, taskId: string): Observable<Task[]> {
-    return this.httpClient.delete<Task[]>(`events/${eventId}/task-lists/${taskListId}/task/${taskId}`)
+  removeTask(eventId: string, taskListId: string, taskId: string): Observable<TaskApi[]> {
+    return this.httpClient.delete<TaskApi[]>(`events/${eventId}/task-lists/${taskListId}/tasks/${taskId}`)
   }
 
-  assignTask(eventId: string, taskListId: string, taskId: string, notes?: string): Observable<Task[]> {
-    return this.httpClient.post<Task[]>(`events/${eventId}/task-lists/${taskListId}/task/${taskId}/assign`, { notes })
+  assignTask(eventId: string, taskListId: string, taskId: string, notes?: string): Observable<TaskApi[]> {
+    return this.httpClient.post<TaskApi[]>(`events/${eventId}/task-lists/${taskListId}/tasks/${taskId}/assign`, {
+      notes
+    })
   }
 
-  unassignTask(eventId: string, taskListId: string, taskId: string): Observable<Task[]> {
-    return this.httpClient.delete<Task[]>(`events/${eventId}/task-lists/${taskListId}/task/${taskId}/assign`)
+  unassignTask(eventId: string, taskListId: string, taskId: string): Observable<TaskApi[]> {
+    return this.httpClient.delete<TaskApi[]>(`events/${eventId}/task-lists/${taskListId}/tasks/${taskId}/assign`)
   }
 }

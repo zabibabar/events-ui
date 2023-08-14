@@ -1,3 +1,3 @@
-import { Task } from '../interfaces/task.interface'
+import { TaskApi } from '../interfaces/task-api.interface'
 
-export type TaskCreateDto = Omit<Task, 'id' | 'assignedTo'>
+export type TaskCreateDto = Omit<TaskApi, 'id' | 'assignedTo'>

@@ -11,7 +11,8 @@
     @if $is-dark {
       background-color: mat.get-color-from-palette($background-palette, 'background');
     } @else {
-      background-color: rgba($color: mat.get-color-from-palette($primary-palette, 'default'), $alpha: 0.03);
+      background-color: mat.get-color-from-palette($background-palette, 'background');
+      // background-color: rgba($color: mat.get-color-from-palette($primary-palette, 'default'), $alpha: 0.03);
     }
   }
 }

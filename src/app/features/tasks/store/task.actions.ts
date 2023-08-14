@@ -1,27 +1,27 @@
-import { createAction, createActionGroup, emptyProps, props } from '@ngrx/store'
-import { TaskList } from '../interfaces/task-list.interface'
+import { createAction, createActionGroup, props } from '@ngrx/store'
 import { TaskListCreateDto } from '../dtos/task-list-create-dto'
 import { TaskListUpdateDto } from '../dtos/task-list-update-dto'
 import { TaskCreateDto } from '../dtos/task-create-dto'
-import { Task } from '../interfaces/task.interface'
 import { TaskUpdateDto } from '../dtos/task-update-dto'
+import { TaskApi } from '../interfaces/task-api.interface'
+import { TaskListApi } from '../interfaces/task-list-api.interface'
 
 export const FetchAllTaskListActions = createActionGroup({
   source: 'TaskList',
   events: {
     'Fetch All Task List': props<{ eventId: string }>(),
     'Fetch All Task List Error': props<{ error: string }>(),
-    'Fetch All Task List Success': props<{ taskLists: TaskList[] }>()
+    'Fetch All Task List Success': props<{ taskLists: TaskListApi[] }>()
   }
 })
 
 export const CreateTaskListActions = createActionGroup({
   source: 'TaskList',
   events: {
-    'Open Create Task List Dialog': emptyProps(),
+    'Open Create Task List Dialog': props<{ eventId: string }>(),
     'Create Task List': props<{ eventId: string; taskList: TaskListCreateDto }>(),
     'Create Task List Error': props<{ error: string }>(),
-    'Create Task List Success': props<{ taskList: TaskList }>()
+    'Create Task List Success': props<{ taskList: TaskListApi }>()
   }
 })
 
@@ -31,7 +31,7 @@ export const UpdateTaskListActions = createActionGroup({
     'Open Update Task List Dialog': props<{ taskListId: string }>(),
     'Update Task List': props<{ eventId: string; taskListId: string; taskList: TaskListUpdateDto }>(),
     'Update Task List Error': props<{ error: string }>(),
-    'Update Task List Success': props<{ taskList: TaskList }>()
+    'Update Task List Success': props<{ taskList: TaskListApi }>()
   }
 })
 
@@ -48,10 +48,10 @@ export const DeleteTaskListActions = createActionGroup({
 export const AddTaskActions = createActionGroup({
   source: 'Task',
   events: {
-    'Open Add Task Dialog': props<{ eventId: string; taskListId: string }>(),
+    'Open Add Task Dialog': props<{ eventId: string; taskListId: string; taskListName: string }>(),
     'Add Task': props<{ eventId: string; taskListId: string; task: TaskCreateDto }>(),
     'Add Task Error': props<{ error: string }>(),
-    'Add Task Success': props<{ eventId: string; taskListId: string; tasks: Task[] }>()
+    'Add Task Success': props<{ taskListId: string; tasks: TaskApi[] }>()
   }
 })
 
@@ -61,7 +61,7 @@ export const UpdateTaskActions = createActionGroup({
     'Open Update Task Dialog': props<{ eventId: string; taskListId: string; taskId: string }>(),
     'Update Task': props<{ eventId: string; taskListId: string; taskId: string; task: TaskUpdateDto }>(),
     'Update Task Error': props<{ error: string }>(),
-    'Update Task Success': props<{ eventId: string; taskListId: string; tasks: Task[] }>()
+    'Update Task Success': props<{ taskListId: string; tasks: TaskApi[] }>()
   }
 })
 
@@ -71,7 +71,7 @@ export const RemoveTaskActions = createActionGroup({
     'Open Remove Task Dialog': props<{ eventId: string; taskListId: string; taskId: string }>(),
     'Remove Task': props<{ eventId: string; taskListId: string; taskId: string }>(),
     'Remove Task Error': props<{ error: string }>(),
-    'Remove Task Success': props<{ eventId: string; taskListId: string; taskId: string }>()
+    'Remove Task Success': props<{ taskId: string }>()
   }
 })
 
@@ -80,7 +80,7 @@ export const AssignTaskActions = createActionGroup({
   events: {
     'Assign Task': props<{ eventId: string; taskListId: string; taskId: string }>(),
     'Assign Task Error': props<{ error: string }>(),
-    'Assign Task Success': props<{ eventId: string; taskListId: string; tasks: Task[] }>()
+    'Assign Task Success': props<{ taskListId: string; tasks: TaskApi[] }>()
   }
 })
 
@@ -89,8 +89,9 @@ export const UnassignTaskActions = createActionGroup({
   events: {
     'Unassign Task': props<{ eventId: string; taskListId: string; taskId: string }>(),
     'Unassign Task Error': props<{ error: string }>(),
-    'Unassign Task Success': props<{ eventId: string; taskListId: string; tasks: Task[] }>()
+    'Unassign Task Success': props<{ taskListId: string; tasks: TaskApi[] }>()
   }
 })
 
-export const CloseUpsertGroupFormDialog = createAction('[TaskList] Close Upsert Task List Form Dialog')
+export const CloseUpsertTaskListFormDialog = createAction('[TaskList] Close Upsert Task List Form Dialog')
+export const CloseUpsertTaskFormDialog = createAction('[Task] Close Upsert Task Form Dialog')

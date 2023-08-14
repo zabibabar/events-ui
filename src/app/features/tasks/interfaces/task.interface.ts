@@ -1,8 +1,5 @@
-import { TaskAssignment } from './task-assignment.interface'
+import { TaskApi } from './task-api.interface'
 
-export interface Task {
-  id: string
-  name: string
-  assignedTo: TaskAssignment[]
-  description?: string
+export interface Task extends TaskApi {
+  taskListId: string
 }

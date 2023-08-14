@@ -1,0 +1,11 @@
+.event-tasks-page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 24px;
+
+  &__header {
+    display: flex;
+    gap: 8px;
+  }
+}

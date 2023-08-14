@@ -1,0 +1,27 @@
+<dialog-form>
+  <dialog-form-title>{{ data.title }}</dialog-form-title>
+
+  <form dialog-form-body class="task-list-upsert-form" [formGroup]="taskListUpsertForm">
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Description</mat-label>
+      <textarea matInput formControlName="description"></textarea>
+    </mat-form-field>
+  </form>
+  <div dialog-form-footer>
+    <button mat-button (click)="onCancel()">Cancel</button>
+    <button
+      mat-flat-button
+      color="primary"
+      (click)="submit()"
+      [disabled]="taskListUpsertForm.invalid || taskListUpsertForm.pristine"
+      [loadingSpinner]="(isSubmitting$ | async)!"
+    >
+      {{ data.submitText }}
+    </button>
+  </div>
+</dialog-form>
