@@ -2,7 +2,6 @@
   <div class="event-tasks-page__header">
     <div class="mat-headline-5">Tasks</div>
     <div class="flex-spacer"></div>
-    <button mat-button><mat-icon>edit</mat-icon>Edit</button>
     <button mat-button (click)="addNewTaskList(eventId)"><mat-icon>add</mat-icon>Add Task List</button>
   </div>
   <app-task-list *ngFor="let taskList of taskLists$ | async" [taskList]="taskList"></app-task-list>

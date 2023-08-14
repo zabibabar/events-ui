@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core'
 import { MatDialogRef } from '@angular/material/dialog'
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects'
 import { Store } from '@ngrx/store'
-import { map, tap, filter, switchMap } from 'rxjs/operators'
+import { map, tap, filter } from 'rxjs/operators'
 import { DialogType } from 'src/app/shared/dialog/dialog-type.enum'
 import { DialogService } from 'src/app/shared/dialog/dialog.service'
 import {
@@ -67,9 +67,9 @@ export class TaskUiEffects {
     () => {
       return this.actions$.pipe(
         ofType(UpdateTaskListActions.openUpdateTaskListDialog),
-        switchMap(({ taskListId }) => this.store.select(selectTaskListById({ taskListId }))),
-        filter((taskList) => !!taskList),
-        map((taskList) => taskList as TaskList),
+        concatLatestFrom(({ taskListId }) => this.store.select(selectTaskListById({ taskListId }))),
+        filter(([, taskList]) => !!taskList),
+        map(([, taskList]) => taskList as TaskList),
         tap(
           (taskList) =>
             (this.taskListUpsertFormDialogRef = this.dialog.openForm<
@@ -98,21 +98,15 @@ export class TaskUiEffects {
     { dispatch: false }
   )
 
-  $ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(UpdateTaskListActions.updateTaskListSuccess, CreateTaskListActions.createTaskListSuccess),
-      map(() => CloseUpsertTaskListFormDialog())
-    )
-  })
-
   closeTaskListUpsertFormDialog$ = createEffect(
     () => {
       return this.actions$.pipe(
-        ofType(CloseUpsertTaskListFormDialog),
-        tap((action) => console.log(action.type)),
-        tap(() => console.log(this.taskListUpsertFormDialogRef.getState())),
-        tap(() => this.taskListUpsertFormDialogRef.close()),
-        tap(() => console.log(this.taskListUpsertFormDialogRef.getState()))
+        ofType(
+          CloseUpsertTaskListFormDialog,
+          UpdateTaskListActions.updateTaskListSuccess,
+          CreateTaskListActions.createTaskListSuccess
+        ),
+        tap(() => this.taskListUpsertFormDialogRef.close())
       )
     },
     { dispatch: false }
@@ -217,8 +211,8 @@ export class TaskUiEffects {
           this.confirmationDialogRef = this.dialog.openConfirmationDialog({
             type: 'error',
             title: `You are about to delete ${task.name}?`,
-            message: 'You will not be able to assign this task anymore!',
-            primaryCTA: 'Delete Task',
+            message: 'You will not be able to view events in this task anymore!',
+            primaryCTA: 'Remove Task',
             onSubmit: () => this.store.dispatch(RemoveTaskActions.removeTask({ taskId: task.id, taskListId, eventId })),
             isLoading$: this.store.select(selectIsLoadingTaskAction)
           })

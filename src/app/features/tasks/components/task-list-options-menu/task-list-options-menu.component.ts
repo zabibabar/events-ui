@@ -2,7 +2,7 @@ import { Component, Input, ViewChild } from '@angular/core'
 import { MatMenu } from '@angular/material/menu'
 import { Store } from '@ngrx/store'
 import { TaskList } from '../../interfaces/task-list.interface'
-import { DeleteTaskListActions, UpdateTaskListActions, AddTaskActions } from '../../store/task.actions'
+import { DeleteTaskListActions, UpdateTaskListActions } from '../../store/task.actions'
 
 @Component({
   selector: 'app-task-list-options-menu',
