@@ -24,10 +24,6 @@ const initialState: TaskStoreState = adapter.getInitialState({
 export const taskReducer: ActionReducer<TaskStoreState, Action> = createReducer(
   initialState,
   on(
-    TaskActions.FetchAllTaskListActions.fetchAllTaskList,
-    TaskActions.CreateTaskListActions.createTaskList,
-    TaskActions.UpdateTaskListActions.updateTaskList,
-    TaskActions.DeleteTaskListActions.deleteTaskList,
     TaskActions.UpdateTaskActions.updateTask,
     TaskActions.AddTaskActions.addTask,
     TaskActions.UpdateTaskActions.updateTask,
@@ -37,10 +33,6 @@ export const taskReducer: ActionReducer<TaskStoreState, Action> = createReducer(
     (state): TaskStoreState => ({ ...state, loading: true })
   ),
   on(
-    TaskActions.FetchAllTaskListActions.fetchAllTaskListError,
-    TaskActions.CreateTaskListActions.createTaskListError,
-    TaskActions.UpdateTaskListActions.updateTaskListError,
-    TaskActions.DeleteTaskListActions.deleteTaskListError,
     TaskActions.UpdateTaskActions.updateTaskError,
     TaskActions.AddTaskActions.addTaskError,
     TaskActions.UpdateTaskActions.updateTaskError,
