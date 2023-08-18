@@ -5,7 +5,7 @@
   $color-config: mat.get-color-config($theme);
   $foreground-palette: map.get($color-config, 'foreground');
 
-  .post__header__count {
+  .post__main__header__details__date {
     color: mat.get-color-from-palette($foreground-palette, secondary-text);
   }
 }

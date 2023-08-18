@@ -13,6 +13,7 @@
 @use '../../app/features/groups/components/group-member-grid/_group-member-grid-theme.component' as group-member-grid;
 @use '../../app/features/users/components/user-avatar-group/_user-avatar-group-theme.component' as user-avatar-group;
 @use '../../app/features/groups/components/group-member-list/_group-member-list-theme.component' as group-member-list;
+@use '../../app/features/posts/components/post/_post-theme.component' as post;
 @use '../../app/core/components/toolbar/_toolbar-theme.component' as toolbar;
 @use '../../app/shared/toast/toast-theme.component' as toast;
 @use '../../app/shared/card/card-theme.component' as card;
@@ -36,6 +37,7 @@
   @include group-member-grid.theme($theme, $typography-config);
   @include group-member-list.theme($theme, $typography-config);
   @include user-avatar-group.theme($theme, $typography-config);
+  @include post.theme($theme, $typography-config);
   @include toolbar.theme($theme, $typography-config);
   @include toast.theme($theme, $typography-config);
   @include upload-image.theme($theme, $typography-config);

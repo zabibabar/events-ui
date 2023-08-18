@@ -1,0 +1,21 @@
+.comment {
+  margin-bottom: 16px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  background-color: #fafafa;
+
+  &__header {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+
+    &__image {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+    }
+  }
+}

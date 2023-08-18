@@ -11,11 +11,11 @@ type CommentUpsertFormType = FormGroup<{
 }>
 
 @Component({
-  selector: 'app-post-comment-upsert-form',
-  templateUrl: './post-comment-upsert-form.component.html',
-  styleUrls: ['./post-comment-upsert-form.component.scss']
+  selector: 'app-comment-upsert-form',
+  templateUrl: './comment-upsert-form.component.html',
+  styleUrls: ['./comment-upsert-form.component.scss']
 })
-export class PostCommentUpsertFormComponent {
+export class CommentUpsertFormComponent {
   commentUpsertForm: CommentUpsertFormType
   isSubmitting$ = this.store.select(selectIsLoadingPostAction)
 

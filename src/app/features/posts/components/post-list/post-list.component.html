@@ -1,0 +1,8 @@
+<div>
+  <div class="post-list__header">
+    <div class="mat-headline-6 post-list__header__title">Join the Discussion</div>
+  </div>
+  <div class="post-list">
+    <app-post *ngFor="let post of posts$ | async" [post]="post"></app-post>
+  </div>
+</div>

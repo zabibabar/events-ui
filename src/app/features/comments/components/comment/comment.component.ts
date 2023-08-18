@@ -1,21 +1,20 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { PostComment } from '../../interfaces/post-comment.interface'
+import { Comment } from '../../interfaces/comment.interface'
 import { Store } from '@ngrx/store'
 import {
   LikeCommentActions,
   UnlikeCommentActions,
   UpdateCommentActions,
   RemoveCommentActions
-} from '../../store/post.actions'
+} from '../../store/comment.actions'
 
 @Component({
-  selector: 'app-post-comment',
-  templateUrl: './post-comment.component.html',
-  styleUrls: ['./post-comment.component.scss']
+  selector: 'app-comment',
+  templateUrl: './comment.component.html',
+  styleUrls: ['./comment.component.scss']
 })
-export class PostCommentComponent implements OnInit {
-  @Input() comment: PostComment
-  @Input() eventId: string
+export class CommentComponent implements OnInit {
+  @Input() comment: Comment
 
   constructor(private store: Store) {}
 

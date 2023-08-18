@@ -5,7 +5,6 @@ import { Store } from '@ngrx/store'
 import { PostUpsertDialogData } from 'src/app/features/posts/types/post-upsert-dialog-data'
 import { CloseUpsertPostFormDialog } from 'src/app/features/posts/store/post.actions'
 import { selectIsLoadingPostAction } from 'src/app/features/posts/store/post.selectors'
-import { getDirtyFields } from 'src/app/shared/get-dirty-fields'
 
 type PostUpsertFormType = FormGroup<{
   body: FormControl<string>
@@ -42,6 +41,6 @@ export class PostUpsertFormComponent implements OnInit {
     const newPost = this.postUpsertForm.getRawValue()
 
     // if (this.data.type === 'create') this.data.onSubmit(newPost)
-    if (this.data.type === 'update') this.data.onSubmit(getDirtyFields(this.postUpsertForm))
+    // if (this.data.type === 'update') this.data.onSubmit(getDirtyFields(this.postUpsertForm))
   }
 }

@@ -13,14 +13,12 @@ import { DialogFormModule } from 'src/app/shared/dialog-form/dialog-form.module'
 import { MatDialogModule } from '@angular/material/dialog'
 import { LoadingSpinnerModule } from 'src/app/shared/loading-spinner/loading-spinner.module'
 import { UsersModule } from '../users/users.module'
-import { PostOptionsMenuComponent } from './components/post-options-menu/post-options-menu.component'
-import { PostUpsertFormComponent } from './components/post-upsert-form/post-upsert-form.component'
-import { PostComponent } from './components/post/post.component'
-import { PostApiEffects } from './store/post-api.effects'
-import { PostListComponent } from './components/post-list/post-list.component'
 import { MatDividerModule } from '@angular/material/divider'
-import { postFeatureSelector, postReducer } from './store/post.reducer'
-import { CommentsModule } from '../comments/comments.module'
+import { CommentOptionsMenuComponent } from './components/comment-options-menu/comment-options-menu.component'
+import { CommentUpsertFormComponent } from './components/comment-upsert-form/comment-upsert-form.component'
+import { CommentComponent } from './components/comment/comment.component'
+import { CommentApiEffects } from './store/comment-api.effects'
+import { commentFeatureSelector, commentReducer } from './store/comment.reducer'
 
 @NgModule({
   imports: [
@@ -38,11 +36,10 @@ import { CommentsModule } from '../comments/comments.module'
     MatMenuModule,
     MatDividerModule,
     UsersModule,
-    CommentsModule,
-    StoreModule.forFeature(postFeatureSelector, postReducer),
-    EffectsModule.forFeature([PostApiEffects])
+    StoreModule.forFeature(commentFeatureSelector, commentReducer),
+    EffectsModule.forFeature([CommentApiEffects])
   ],
-  declarations: [PostComponent, PostUpsertFormComponent, PostOptionsMenuComponent, PostListComponent],
-  exports: [PostListComponent]
+  declarations: [CommentOptionsMenuComponent, CommentComponent, CommentUpsertFormComponent],
+  exports: [CommentComponent]
 })
-export class PostsModule {}
+export class CommentsModule {}

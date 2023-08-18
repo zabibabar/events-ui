@@ -1,0 +1,15 @@
+<div class="comment">
+  <div class="comment__header">
+    <img class="comment__header__image" [src]="comment.user.picture" alt="{{ comment.user.name }}'s picture" />
+    <div class="comment__header__details">
+      <div class="comment__header__details__name mat-body-1">{{ comment.user.name }}</div>
+      <div class="comment__header__details__date mat-caption">12 mins ago</div>
+    </div>
+  </div>
+
+  <div class="comment__body">{{ comment.body }}</div>
+
+  <div class="comment__footer">
+    <button mat-button color="primary"><mat-icon>favorite</mat-icon>43</button>
+  </div>
+</div>
